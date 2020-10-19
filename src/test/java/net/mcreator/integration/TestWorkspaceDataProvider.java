@@ -286,7 +286,6 @@ public class TestWorkspaceDataProvider {
 				entities.add(entry2);
 			}
 			biome.spawnEntries = entities;
-			biome.minHeight = 2;
 			List<String> biomeDictTypes = new ArrayList<>();
 			if (!emptyLists) {
 				biomeDictTypes.add(ListUtils.getRandomItem(random, ElementUtil.loadBiomeDictionaryTypes()));
@@ -315,15 +314,6 @@ public class TestWorkspaceDataProvider {
 				biomeDefaultFeatures.add(ListUtils.getRandomItem(random, ElementUtil.loadDefaultFeatures()));
 			}
 			biome.defaultFeatures = biomeDefaultFeatures;
-			biome.spawnVines = _true;
-			biome.treeVines = new MItemBlock(modElement.getWorkspace(),
-					ListUtils.getRandomItem(random, ElementUtil.loadBlocks(modElement.getWorkspace())).getName());
-			biome.treeStem = new MItemBlock(modElement.getWorkspace(),
-					ListUtils.getRandomItem(random, ElementUtil.loadBlocks(modElement.getWorkspace())).getName());
-			biome.treeBranch = new MItemBlock(modElement.getWorkspace(),
-					ListUtils.getRandomItem(random, ElementUtil.loadBlocks(modElement.getWorkspace())).getName());
-			biome.treeFruits = new MItemBlock(modElement.getWorkspace(),
-					ListUtils.getRandomItem(random, ElementUtil.loadBlocks(modElement.getWorkspace())).getName());
 			biome.spawnBiome = !_true;
 			return biome;
 		case FLUID:
@@ -358,6 +348,19 @@ public class TestWorkspaceDataProvider {
 			fluid.frequencyOnChunks = 13;
 			fluid.generateCondition = emptyLists ? null : new Procedure("condition1");
 			return fluid;
+		case TREE:
+			Tree tree = new Tree(modElement);
+			tree.treeStem = new MItemBlock(modElement.getWorkspace(),
+					ListUtils.getRandomItem(random, ElementUtil.loadBlocks(modElement.getWorkspace())).getName());
+			tree.treeBranch = new MItemBlock(modElement.getWorkspace(),
+					ListUtils.getRandomItem(random, ElementUtil.loadBlocks(modElement.getWorkspace())).getName());
+			tree.foliageRadiusRandom = 01;
+			tree.foliageRadius = 10;
+			tree.foliageHeight = 19;
+			tree.randomHeight = 1;
+			tree.minHeight = 10;
+			tree.maxWaterDepth = 2;
+			return tree;
 		case FOOD:
 			Food food = new Food(modElement);
 			food.name = modElement.getName();

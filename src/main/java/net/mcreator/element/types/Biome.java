@@ -33,7 +33,6 @@ import java.util.List;
 @SuppressWarnings("unused") public class Biome extends GeneratableElement {
 
 	public final transient int TREES_VANILLA;
-	public final transient int TREES_CUSTOM;
 
 	public String name;
 	public MItemBlock groundBlock;
@@ -41,12 +40,6 @@ import java.util.List;
 
 	public int treeType;
 	public String vanillaTreeType;
-	public int minHeight;
-	public boolean spawnVines;
-	public MItemBlock treeVines;
-	public MItemBlock treeStem;
-	public MItemBlock treeBranch;
-	public MItemBlock treeFruits;
 
 	public Color airColor;
 	public Color grassColor;
@@ -103,7 +96,6 @@ import java.util.List;
 
 		// RESTORE CONSTANTS (FOR GSON)
 		TREES_VANILLA = 0;
-		TREES_CUSTOM = 1;
 
 		// DEFAULT VALUES
 		name = "";
@@ -132,7 +124,7 @@ import java.util.List;
 	@Override public BufferedImage generateModElementPicture() {
 		return MinecraftImageGenerator.Preview
 				.generateBiomePreviewPicture(getModElement().getWorkspace(), airColor, grassColor, waterColor,
-						groundBlock, undergroundBlock, treesPerChunk, treeType, treeStem, treeBranch);
+						groundBlock, undergroundBlock, treesPerChunk, treeType, null, null);
 	}
 
 }
