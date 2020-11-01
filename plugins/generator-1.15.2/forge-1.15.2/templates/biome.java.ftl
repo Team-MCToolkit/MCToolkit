@@ -180,6 +180,8 @@ import net.minecraft.block.material.Material;
 			addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.${treeSpawn.shape}.withConfiguration(DefaultBiomeFeatures.PINE_TREE_CONFIG).withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(${treeSpawn.count},(float) ${treeSpawn.extraChance}f, ${treeSpawn.extraCount}))));
 			<#elseif tree.toString().equals("SPRUCE")>
 			addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.${treeSpawn.shape}.withConfiguration(DefaultBiomeFeatures.SPRUCE_TREE_CONFIG).withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(${treeSpawn.count},(float) ${treeSpawn.extraChance}f, ${treeSpawn.extraCount}))));
+			<#else>
+			addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.${treeSpawn.shape}.withConfiguration(${tree}.CustomTree.${tree?upper_case}_CONFIG).withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(${treeSpawn.count},(float) ${treeSpawn.extraChance}f, ${treeSpawn.extraCount}))));
 			</#if>
 			</#list>
 

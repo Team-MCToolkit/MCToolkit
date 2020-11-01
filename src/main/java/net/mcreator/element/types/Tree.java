@@ -39,12 +39,4 @@ public class Tree extends GeneratableElement {
 	public Tree(ModElement element) {
 		super(element);
 	}
-	private Tree(){
-		this(null);
-	}
-
-	@Override public BufferedImage generateModElementPicture() {
-		return MinecraftImageGenerator.Preview
-				.generateBiomePreviewPicture(getModElement().getWorkspace(), treeStem, treeBranch);
-	}
 }

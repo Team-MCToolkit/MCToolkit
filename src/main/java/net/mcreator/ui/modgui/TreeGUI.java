@@ -36,15 +36,6 @@ import java.awt.*;
 
 public class TreeGUI extends ModElementGUI<Tree> {
 
-	private TextureHolder texture;
-
-	private final JSpinner light = new JSpinner(new SpinnerNumberModel(9, 0, 15, 1));
-	private final JSpinner mx = new JSpinner(new SpinnerNumberModel(0, -100, 100, 0.1));
-	private final JSpinner my = new JSpinner(new SpinnerNumberModel(0, -100, 100, 0.1));
-	private final JSpinner mz = new JSpinner(new SpinnerNumberModel(0, -100, 100, 0.1));
-	private final JSpinner Mx = new JSpinner(new SpinnerNumberModel(1, -100, 100, 0.1));
-	private final JSpinner My = new JSpinner(new SpinnerNumberModel(1, -100, 100, 0.1));
-	private final JSpinner Mz = new JSpinner(new SpinnerNumberModel(1, -100, 100, 0.1));
 	private final JSpinner minHeight = new JSpinner(new SpinnerNumberModel(7, 0, 256, 1));
 	private final JSpinner randomHeight = new JSpinner(new SpinnerNumberModel(0, 0, 256, 1));
 	private final JSpinner foliageHeight = new JSpinner(new SpinnerNumberModel(5, 0, 1000, 1));
