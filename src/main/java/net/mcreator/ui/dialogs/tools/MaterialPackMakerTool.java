@@ -100,11 +100,12 @@ public class MaterialPackMakerTool {
 			Color color, double factor) {
 		MItemBlock gem = OrePackMakerTool.addOrePackToWorkspace(mcreator, workspace, name, type, color, factor);
 		ToolPackMakerTool.addToolPackToWorkspace(mcreator, workspace, name, gem, color, factor);
-		ArmorPackMakerTool.addArmorPackToWorkspace(mcreator, workspace, name, gem, color, factor);
+		ArmorPackMakerTool.addArmorPackToWorkspace(mcreator, workspace, name, "", gem, color, factor);
 	}
 
 	public static BasicAction getAction(ActionRegistry actionRegistry) {
-		return new BasicAction(actionRegistry, "Create material pack...", e -> open(actionRegistry.getMCreator())) {
+		return new BasicAction(actionRegistry, L10N.t("action.pack_tools.material"),
+				e -> open(actionRegistry.getMCreator())) {
 			@Override public boolean isEnabled() {
 				GeneratorConfiguration gc = actionRegistry.getMCreator().getWorkspace().getGenerator()
 						.getGeneratorConfiguration();

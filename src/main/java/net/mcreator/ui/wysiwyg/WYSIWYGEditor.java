@@ -30,6 +30,7 @@ import net.mcreator.ui.component.TransparentToolBar;
 import net.mcreator.ui.component.util.ComponentUtils;
 import net.mcreator.ui.component.util.PanelUtils;
 import net.mcreator.ui.component.zoompane.JZoomPane;
+import net.mcreator.ui.dialogs.GeneralTextureSelector;
 import net.mcreator.ui.dialogs.TextureImportDialogs;
 import net.mcreator.ui.dialogs.wysiwyg.*;
 import net.mcreator.ui.help.HelpUtils;
@@ -398,7 +399,7 @@ public class WYSIWYGEditor extends JPanel {
 			importmobtexture.setOpaque(false);
 			importmobtexture.setMargin(new Insets(0, 0, 0, 0));
 			importmobtexture.addActionListener(e -> {
-				TextureImportDialogs.importOtherTextures(mcreator);
+				TextureImportDialogs.importTexturesGeneral(mcreator, GeneralTextureSelector.TextureType.OTHER);
 				overlayBaseTexture.removeAllItems();
 				overlayBaseTexture.addItem("");
 				mcreator.getWorkspace().getFolderManager().getOtherTexturesList()
@@ -445,21 +446,23 @@ public class WYSIWYGEditor extends JPanel {
 		if (list.getSelectedValue() != null) {
 			GUIComponent component = list.getSelectedValue();
 			if (component instanceof Label) {
-				new LabelDialog(this, (Label) component);
+				component = new LabelDialog(this, (Label) component).getEditingComponent();
 			} else if (component instanceof Button) {
-				new ButtonDialog(this, (Button) component);
+				component = new ButtonDialog(this, (Button) component).getEditingComponent();
 			} else if (component instanceof TextField) {
-				new TextFieldDialog(this, (TextField) component);
+				component = new TextFieldDialog(this, (TextField) component).getEditingComponent();
 			} else if (component instanceof InputSlot) {
-				new InputSlotDialog(this, (InputSlot) component);
+				component = new InputSlotDialog(this, (InputSlot) component).getEditingComponent();
 			} else if (component instanceof OutputSlot) {
-				new OutputSlotDialog(this, (OutputSlot) component);
+				component = new OutputSlotDialog(this, (OutputSlot) component).getEditingComponent();
 			} else if (component instanceof Image) {
-				new ImageDialog(this, (Image) component);
+				component = new ImageDialog(this, (Image) component).getEditingComponent();
 			} else {
 				JOptionPane.showMessageDialog(mcreator, "This component can only be repositioned or removed!",
 						"Edit component", JOptionPane.WARNING_MESSAGE);
 			}
+
+			list.setSelectedValue(component, true);
 		}
 	}
 
