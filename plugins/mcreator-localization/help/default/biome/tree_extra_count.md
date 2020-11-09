@@ -1,1 +1,0 @@
-Additional trees to spawn (used with the extra chance)

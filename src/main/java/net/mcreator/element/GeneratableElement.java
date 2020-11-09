@@ -40,7 +40,11 @@ public abstract class GeneratableElement {
 
 	private transient ModElement element;
 
+<<<<<<< HEAD
 	public static final transient int formatVersion = 15;
+=======
+	public static final transient int formatVersion = 13;
+>>>>>>> parent of 356debb... Merge branch 'new-tree-selector' into tree-mod-element
 
 	public GeneratableElement(ModElement element) {
 		if (element != null)

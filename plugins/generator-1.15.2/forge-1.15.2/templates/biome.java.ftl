@@ -154,6 +154,7 @@ import net.minecraft.block.material.Material;
       		addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(DefaultBiomeFeatures.RED_MUSHROOM_CONFIG).withPlacement(Placement.CHANCE_HEIGHTMAP_DOUBLE.configure(new ChanceConfig(${data.mushroomsPerChunk}))));
 			</#if>
 
+<<<<<<< HEAD
 			<#list data.treeSpawns as treeSpawn>
 			<#assign tree = generator.map(treeSpawn.tree.getUnmappedValue(), "trees", 1)>
 			<#if tree.toString().equals("ACACIA")>
@@ -186,10 +187,25 @@ import net.minecraft.block.material.Material;
 			</#list>
 
 			<#if data.customTree>
+=======
+			<#if (data.treesPerChunk > 0)>
+				<#if data.treeType == data.TREES_CUSTOM>
+>>>>>>> parent of 356debb... Merge branch 'new-tree-selector' into tree-mod-element
 				addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, new CustomTreeFeature()
-						.withConfiguration((new BaseTreeFeatureConfig.Builder(new SimpleBlockStateProvider(${mappedBlockToBlockStateCode(data.treeStem)}), new SimpleBlockStateProvider(${mappedBlockToBlockStateCode(data.treeBranch)}))).baseHeight(${data.minHeight}).setSapling((net.minecraftforge.common.IPlantable)Blocks.OAK_SAPLING).build())
-						.withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(${data.treesPerChunk}, (float) ${data.extraChance}F, ${data.extraCount}))));
+						.withConfiguration((new BaseTreeFeatureConfig.Builder(new SimpleBlockStateProvider(${mappedBlockToBlockStateCode(data.treeStem)}), new SimpleBlockStateProvider(${mappedBlockToBlockStateCode(data.treeBranch)}))).baseHeight(${data.minHeight}).setSapling((net.minecraftforge.common.IPlantable)Blocks.JUNGLE_SAPLING).build())
+						.withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(${data.treesPerChunk}, 0.1F, 1))));
+            	<#elseif data.vanillaTreeType == "Big trees">
+				addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_SELECTOR.withConfiguration(new MultipleRandomFeatureConfig(ImmutableList.of(Feature.FANCY_TREE.withConfiguration(DefaultBiomeFeatures.FANCY_TREE_CONFIG).withChance(0.1F)), Feature.NORMAL_TREE.withConfiguration(DefaultBiomeFeatures.JUNGLE_TREE_CONFIG))).withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(${data.treesPerChunk}, 0.1F, 1))));
+            	<#elseif data.vanillaTreeType == "Savanna trees">
+				addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_SELECTOR.withConfiguration(new MultipleRandomFeatureConfig(ImmutableList.of(Feature.ACACIA_TREE.withConfiguration(DefaultBiomeFeatures.ACACIA_TREE_CONFIG).withChance(0.8F)), Feature.NORMAL_TREE.withConfiguration(DefaultBiomeFeatures.OAK_TREE_CONFIG))).withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(${data.treesPerChunk}, 0.1F, 1))));
+				<#elseif data.vanillaTreeType == "Mega pine trees">
+				addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_SELECTOR.withConfiguration(new MultipleRandomFeatureConfig(ImmutableList.of(Feature.MEGA_SPRUCE_TREE.withConfiguration(DefaultBiomeFeatures.MEGA_PINE_TREE_CONFIG).withChance(0.30769232F)), Feature.NORMAL_TREE.withConfiguration(DefaultBiomeFeatures.SPRUCE_TREE_CONFIG))).withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(${data.treesPerChunk}, 0.1F, 1))));
+            	<#elseif data.vanillaTreeType == "Mega spruce trees">
+				addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_SELECTOR.withConfiguration(new MultipleRandomFeatureConfig(ImmutableList.of(Feature.MEGA_SPRUCE_TREE.withConfiguration(DefaultBiomeFeatures.MEGA_SPRUCE_TREE_CONFIG).withChance(0.33333334F)), Feature.NORMAL_TREE.withConfiguration(DefaultBiomeFeatures.SPRUCE_TREE_CONFIG))).withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(${data.treesPerChunk}, 0.1F, 1))));
+            	<#elseif data.vanillaTreeType == "Birch trees">
+				addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.NORMAL_TREE.withConfiguration(DefaultBiomeFeatures.field_230129_h_).withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(${data.treesPerChunk}, 0.1F, 1))));
 				</#if>
+			</#if>
 
 			<#if (data.bigMushroomsChunk > 0)>
 			addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_BOOLEAN_SELECTOR.withConfiguration(new TwoFeatureChoiceConfig(Feature.HUGE_RED_MUSHROOM.withConfiguration(DefaultBiomeFeatures.BIG_RED_MUSHROOM), Feature.HUGE_BROWN_MUSHROOM.withConfiguration(DefaultBiomeFeatures.BIG_BROWN_MUSHROOM))).withPlacement(Placement.COUNT_HEIGHTMAP.configure(new FrequencyConfig(${data.bigMushroomsChunk}))));

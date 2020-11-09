@@ -104,12 +104,15 @@ public class ElementUtil {
 		return retval;
 	}
 
+<<<<<<< HEAD
 	public static List<DataListEntry> loadAllTrees(Workspace workspace) {
 		List<DataListEntry> retval = getCustomElementsOfType(workspace, ModElementType.BaseType.TREE);
 		retval.addAll(DataListLoader.loadDataList("trees"));
 		return retval;
 	}
 
+=======
+>>>>>>> parent of 356debb... Merge branch 'new-tree-selector' into tree-mod-element
 	public static List<DataListEntry> loadMaterials() {
 		return DataListLoader.loadDataList("materials");
 	}

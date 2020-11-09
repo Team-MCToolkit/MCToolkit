@@ -230,6 +230,7 @@ public class TestWorkspaceDataProvider {
 					ListUtils.getRandomItem(random, ElementUtil.loadBlocks(modElement.getWorkspace())).getName());
 			biome.undergroundBlock = new MItemBlock(modElement.getWorkspace(),
 					ListUtils.getRandomItem(random, ElementUtil.loadBlocks(modElement.getWorkspace())).getName());
+			biome.vanillaTreeType = "Mega spruce trees";
 			biome.airColor = Color.red;
 			if (!emptyLists) {
 				biome.grassColor = Color.green;
@@ -237,26 +238,7 @@ public class TestWorkspaceDataProvider {
 				biome.waterColor = Color.blue;
 				biome.waterFogColor = Color.cyan;
 			}
-				
-			biome.customTree = _true;
-				
-			biome.treeVines = new MItemBlock(modElement.getWorkspace(),
-					ListUtils.getRandomItem(random, ElementUtil.loadBlocks(modElement.getWorkspace())).getName());
-			biome.treeStem = new MItemBlock(modElement.getWorkspace(),
-					ListUtils.getRandomItem(random, ElementUtil.loadBlocks(modElement.getWorkspace())).getName());
-			biome.treeBranch = new MItemBlock(modElement.getWorkspace(),
-					ListUtils.getRandomItem(random, ElementUtil.loadBlocks(modElement.getWorkspace())).getName());
-			biome.treeFruits = new MItemBlock(modElement.getWorkspace(),
-					ListUtils.getRandomItem(random, ElementUtil.loadBlocks(modElement.getWorkspace())).getName());
-				
-			if(biome.customTree) {
-				biome.spawnVines = _true;
-				biome.treesPerChunk = 10;
-				biome.minHeight = 2;
-				biome.extraChance = 0.5;
-				biome.extraCount = 10;
-			}
-
+			biome.treesPerChunk = new int[] { 0, 5, 10, 16 }[valueIndex];
 			biome.grassPerChunk = new int[] { 0, 5, 10, 16 }[valueIndex] + 1;
 			biome.seagrassPerChunk = new int[] { 0, 5, 10, 16 }[valueIndex] + 2;
 			biome.flowersPerChunk = new int[] { 0, 5, 10, 16 }[valueIndex] + 3;
@@ -292,25 +274,6 @@ public class TestWorkspaceDataProvider {
 						ListUtils.getRandomItem(random, ElementUtil.loadAllBiomes(modElement.getWorkspace())));
 			} else {
 				biome.parent = new BiomeEntry(modElement.getWorkspace(), "No parent");
-			}
-
-			List<Biome.TreeSpawn> trees = new ArrayList<>();
-			if (!emptyLists) {
-				Biome.TreeSpawn entry1 = new Biome.TreeSpawn();
-				entry1.tree = new TreeEntry(modElement.getWorkspace(),
-						ListUtils.getRandomItem(random, ElementUtil.loadAllTrees()));
-				entry1.count = 10;
-				entry1.extraChance = 0.5d;
-				entry1.extraCount = 3;
-				trees.add(entry1);
-
-				Biome.TreeSpawn entry2 = new Biome.TreeSpawn();
-				entry2.tree = new TreeEntry(modElement.getWorkspace(),
-						ListUtils.getRandomItem(random, ElementUtil.loadAllTrees()));
-				entry2.count = 4;
-				entry2.extraChance = 1;
-				entry2.extraCount = 0;
-				trees.add(entry2);
 			}
 
 			List<Biome.SpawnEntry> entities = new ArrayList<>();
@@ -872,6 +835,7 @@ public class TestWorkspaceDataProvider {
 			plant.texture = "test";
 			plant.textureBottom = "test2";
 			plant.itemTexture = emptyLists ? "" : "itest";
+			plant.particleTexture = emptyLists ? "" : "test3";
 			plant.plantType = new String[] { "normal", "growapable", "double", "normal" }[valueIndex];
 			plant.growapableSpawnType = ListUtils
 					.getRandomItem(new String[] { "Plains", "Desert", "Beach", "Cave", "Water", "Nether", "Crop" });
@@ -1204,6 +1168,7 @@ public class TestWorkspaceDataProvider {
 				block.particleCondition = new Procedure("condition4");
 			}
 			block.itemTexture = emptyLists ? "" : "itest";
+			block.particleTexture = emptyLists ? "" : "test7";
 			block.texture = "test";
 			block.textureTop = "test2";
 			block.textureLeft = "test3";
