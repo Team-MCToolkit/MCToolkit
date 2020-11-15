@@ -1,0 +1,16 @@
+{
+  "pack_info": "test",
+  "name": {
+    "length": 25
+  },
+  "color": true,
+  "power": {
+    "value": 1.0,
+    "min": 1.0,
+    "max": 10,
+    "stepSize": 1.0
+  },
+  "itembase": true,
+  "mod_elements": [
+  ]
+}
