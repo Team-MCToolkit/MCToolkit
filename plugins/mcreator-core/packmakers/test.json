@@ -1,5 +1,4 @@
 {
-  "pack_info": "test",
   "name": {
     "length": 25
   },
@@ -10,7 +9,27 @@
     "max": 10,
     "stepSize": 1.0
   },
-  "itembase": true,
+  "itemBase": true,
+  "textures":[
+    {
+      "textures":[
+        "log_1"
+      ],
+      "name": "texture"
+    }
+  ],
+  "items": [
+    {
+      "elementType": "item",
+      "name": {
+        "name": "bla",
+        "useTextField": true,
+        "location": "before"
+      },
+      "texture": "texture"
+    }
+  ],
   "mod_elements": [
+    "ITEM"
   ]
 }

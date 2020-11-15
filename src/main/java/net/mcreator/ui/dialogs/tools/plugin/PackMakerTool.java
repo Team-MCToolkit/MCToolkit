@@ -19,6 +19,8 @@
 package net.mcreator.ui.dialogs.tools.plugin;
 
 import net.mcreator.element.GeneratableElement;
+import net.mcreator.element.types.Item;
+import net.mcreator.ui.dialogs.tools.plugin.elements.Items;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -27,22 +29,17 @@ import java.util.List;
 public class PackMakerTool {
 
 	public String packID;
-	private String packInfo;
-
 	private NameField name;
 	private boolean color;
 	@Nullable private PowerSpinner power;
 	private boolean itemBase;
 
 	@Nullable private List<Texture> textures;
-	private List<GeneratableElement> mod_elements;
+	@Nullable private List<Items> items;
+	private List<String> mod_elements;
 
 	public String getPackID() {
 		return packID;
-	}
-
-	public String getPackInfo() {
-		return packInfo;
 	}
 
 	public NameField getName() {
@@ -65,7 +62,11 @@ public class PackMakerTool {
 		return textures;
 	}
 
-	public List<GeneratableElement> getModElements() {
+	@Nullable public List<Items> getItems() {
+		return items;
+	}
+
+	public List<String> getModElements() {
 		return mod_elements;
 	}
 

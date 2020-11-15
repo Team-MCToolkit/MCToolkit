@@ -36,7 +36,7 @@ import java.util.*;
 import java.util.regex.Pattern;
 
 public class PackMakerToolLoader {
-	private static final Logger LOG = LogManager.getLogger("Pack Maker Tool manager");
+	protected static final Logger LOG = LogManager.getLogger("Pack Maker Tool loader");
 
 	public static PackMakerToolLoader INSTANCE;
 
