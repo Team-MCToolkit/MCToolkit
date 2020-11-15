@@ -1,6 +1,6 @@
 /*
- * MCreator (https://mcreator.net/)
- * Copyright (C) 2020 Pylo and contributors
+ * MCToolkit (https://mctoolkit.net/)
+ * Copyright (C) 2020 MCToolkit and contributors
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +15,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-
 package net.mcreator.ui.dialogs.tools.plugin.elements;
 
 import javax.annotation.Nullable;

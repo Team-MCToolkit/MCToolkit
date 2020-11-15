@@ -10,8 +10,8 @@
       "max": 10,
       "stepSize": 1.0
     },
-    "itemBase": true,
-}
+    "itemBase": true
+},
   "textures":[
     {
       "textures":[
@@ -20,6 +20,13 @@
       ],
       "type": "item",
       "name": "myTexture"
+    },
+    {
+      "textures":[
+        "bedrock"
+      ],
+      "type": "block",
+      "name": "custom_bedrock"
     }
   ],
   "items": [
@@ -33,7 +40,37 @@
       "texture": "myTexture"
     }
   ],
+  "blocks": [
+    {
+      "elementType": "block",
+      "name": {
+        "name": "Block",
+        "useTextField": true,
+        "location": "after"
+      },
+      "texture": "custom_bedrock",
+      "renderType": 11,
+      "customModelName": "Single texture",
+      "material": "ROCK",
+      "soundOnStep": "STONE",
+      "hardness": 2.0,
+      "resistance": 3.0,
+      "destroyTool": "pickaxe",
+      "breakHarvestLevel": 1,
+      "flammability": 30,
+      "spawnWorldTypes": [
+        "Surface",
+        "Nether"
+      ],
+      "minGenerateHeight": 1,
+      "maxGenerateHeight": 60,
+      "frequencyPerChunks": 11,
+      "frequencyOnChunk": 7,
+      "dropAmount": 2
+    }
+  ],
   "mod_elements": [
-    "ITEM"
+    "ITEM",
+    "BLOCK"
   ]
 }

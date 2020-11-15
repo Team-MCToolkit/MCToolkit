@@ -18,6 +18,7 @@
 
 package net.mcreator.ui.dialogs.tools.plugin;
 
+import net.mcreator.ui.dialogs.tools.plugin.elements.Blocks;
 import net.mcreator.ui.dialogs.tools.plugin.elements.Items;
 
 import javax.annotation.Nullable;
@@ -30,6 +31,7 @@ public class PackMakerTool {
 
 	@Nullable private List<Texture> textures;
 	@Nullable private List<Items> items;
+	@Nullable private List<Blocks> blocks;
 	private List<String> mod_elements;
 
 	public String getPackID() {
@@ -42,6 +44,10 @@ public class PackMakerTool {
 
 	@Nullable public List<Items> getItems() {
 		return items;
+	}
+
+	@Nullable public List<Blocks> getBlocks() {
+		return blocks;
 	}
 
 	public List<String> getModElements() {
