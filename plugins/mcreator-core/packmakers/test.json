@@ -1,15 +1,17 @@
 {
-  "name": {
-    "length": 25
-  },
-  "color": true,
-  "power": {
-    "value": 1.0,
-    "min": 1.0,
-    "max": 10,
-    "stepSize": 1.0
-  },
-  "itemBase": true,
+  "ui": {
+    "name": {
+      "length": 25
+    },
+    "color": true,
+    "power": {
+      "value": 1.0,
+      "min": 1.0,
+      "max": 10,
+      "stepSize": 1.0
+    },
+    "itemBase": true,
+}
   "textures":[
     {
       "textures":[

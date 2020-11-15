@@ -66,33 +66,33 @@ public class CustomPackMakerTool {
 		dialog.add("North", PanelUtils.centerInPanel(L10N.label("dialog.tools." + pmt.getPackID() + "_info")));
 
 		int i = 1;
-		if (pmt.getColor())
+		if (pmt.getUI().getColor())
 			i++;
-		if (pmt.getPower() != null)
+		if (pmt.getUI().getPower() != null)
 			i++;
-		if (pmt.getBase())
+		if (pmt.getUI().getBase())
 			i = i + 2;
 		JPanel props = new JPanel(new GridLayout(i, 2, 5, 5));
 		JColor color = new JColor(mcreator, false);
 		JSpinner power = new JSpinner(
-				new SpinnerNumberModel(pmt.getPower().getValue(), pmt.getPower().getMin(), pmt.getPower().getMax(),
-						pmt.getPower().getStepSize()));;
+				new SpinnerNumberModel(pmt.getUI().getPower().getValue(), pmt.getUI().getPower().getMin(), pmt.getUI().getPower().getMax(),
+						pmt.getUI().getPower().getStepSize()));;
 		MCItemHolder base = new MCItemHolder(mcreator, ElementUtil::loadBlocksAndItems);;
 
-		VTextField name = new VTextField(pmt.getName().getLength());
+		VTextField name = new VTextField(pmt.getUI().getName().getLength());
 		name.enableRealtimeValidation();
 		props.add(L10N.label("dialog.tools." + pmt.getPackID() + "_info"));
 		props.add(name);
 
-		if (pmt.getColor() && !pmt.getBase()) {
-			props.add(L10N.label("dialog.tools." + pmt.getColor() + "_color_accent"));
+		if (pmt.getUI().getColor() && !pmt.getUI().getBase()) {
+			props.add(L10N.label("dialog.tools." + pmt.getUI().getColor() + "_color_accent"));
 			props.add(color);
 		}
-		if (pmt.getPower() != null) {
+		if (pmt.getUI().getPower() != null) {
 			props.add(L10N.label("dialog.tools." + pmt.getPackID() + "_power_factor"));
 			props.add(power);
 		}
-		if (pmt.getBase()) {
+		if (pmt.getUI().getBase()) {
 			props.add(L10N.label("dialog.tools." + pmt.getPackID() + "_color_accent"));
 			props.add(color);
 

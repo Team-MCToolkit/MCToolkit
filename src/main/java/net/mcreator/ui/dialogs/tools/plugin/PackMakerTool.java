@@ -18,21 +18,15 @@
 
 package net.mcreator.ui.dialogs.tools.plugin;
 
-import net.mcreator.element.GeneratableElement;
-import net.mcreator.element.types.Item;
 import net.mcreator.ui.dialogs.tools.plugin.elements.Items;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.List;
 
 public class PackMakerTool {
 
-	public String packID;
-	private NameField name;
-	private boolean color;
-	@Nullable private PowerSpinner power;
-	private boolean itemBase;
+	transient public String packID;
+	private UI ui;
 
 	@Nullable private List<Texture> textures;
 	@Nullable private List<Items> items;
@@ -40,22 +34,6 @@ public class PackMakerTool {
 
 	public String getPackID() {
 		return packID;
-	}
-
-	public NameField getName() {
-		return name;
-	}
-
-	@Nullable public boolean getColor() {
-		return color;
-	}
-
-	@Nullable public PowerSpinner getPower() {
-		return power;
-	}
-
-	@Nullable public boolean getBase() {
-		return itemBase;
 	}
 
 	@Nullable public List<Texture> getTextures() {
@@ -70,33 +48,60 @@ public class PackMakerTool {
 		return mod_elements;
 	}
 
-	public class NameField{
+	public UI getUI() {
+		return ui;
+	}
+
+	public class UI {
+		private NameField name;
+		private boolean color;
+		@Nullable private PowerSpinner power;
+		private boolean itemBase;
+
+		public NameField getName() {
+			return name;
+		}
+
+		@Nullable public boolean getColor() {
+			return color;
+		}
+
+		@Nullable public PowerSpinner getPower() {
+			return power;
+		}
+
+		@Nullable public boolean getBase() {
+			return itemBase;
+		}
+
+		public class NameField{
 		private short length;
+
 		public short getLength() {
 			return length;
 		}
 	}
+		public class PowerSpinner{
+			private double value;
+			private double min;
+			private double max;
+			private double stepSize;
 
-	public class PowerSpinner{
-		private double value;
-		private double min;
-		private double max;
-		private double stepSize;
+			public double getValue() {
+				return value;
+			}
 
-		public double getValue() {
-			return value;
-		}
+			public double getMin() {
+				return min;
+			}
 
-		public double getMin() {
-			return min;
-		}
+			public double getMax() {
+				return max;
+			}
 
-		public double getMax() {
-			return max;
-		}
-
-		public double getStepSize() {
-			return stepSize;
+			public double getStepSize() {
+				return stepSize;
+			}
 		}
 	}
 
