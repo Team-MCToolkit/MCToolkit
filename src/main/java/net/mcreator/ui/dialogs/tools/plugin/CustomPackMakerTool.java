@@ -25,8 +25,11 @@ import net.mcreator.element.types.Food;
 import net.mcreator.element.types.Item;
 import net.mcreator.generator.GeneratorConfiguration;
 import net.mcreator.generator.GeneratorStats;
+import net.mcreator.io.FileIO;
+import net.mcreator.io.ResourcePointer;
 import net.mcreator.minecraft.ElementUtil;
 import net.mcreator.minecraft.MCItem;
+import net.mcreator.minecraft.RegistryNameFixer;
 import net.mcreator.ui.MCreator;
 import net.mcreator.ui.action.ActionRegistry;
 import net.mcreator.ui.action.BasicAction;
@@ -34,11 +37,14 @@ import net.mcreator.ui.component.JColor;
 import net.mcreator.ui.component.util.PanelUtils;
 import net.mcreator.ui.dialogs.MCreatorDialog;
 import net.mcreator.ui.dialogs.tools.plugin.elements.Items;
+import net.mcreator.ui.init.ImageMakerTexturesCache;
 import net.mcreator.ui.init.L10N;
 import net.mcreator.ui.minecraft.MCItemHolder;
 import net.mcreator.ui.validation.Validator;
 import net.mcreator.ui.validation.component.VTextField;
 import net.mcreator.ui.validation.validators.ModElementNameValidator;
+import net.mcreator.ui.views.ArmorImageMakerView;
+import net.mcreator.util.ListUtils;
 import net.mcreator.util.StringUtils;
 import net.mcreator.util.image.ImageUtils;
 import net.mcreator.workspace.Workspace;
@@ -47,6 +53,8 @@ import net.mcreator.workspace.elements.ModElement;
 import javax.annotation.Nullable;
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
+import java.util.Locale;
 
 public class CustomPackMakerTool {
 
@@ -133,7 +141,44 @@ public class CustomPackMakerTool {
 
 	private static void addPackToWorkspace(MCreator mcreator, Workspace workspace, PackMakerTool pmt, String name, @Nullable Color color,
 			@Nullable double factor, @Nullable MItemBlock base) {
-		for()
+		for(PackMakerTool.Texture texture : pmt.getTextures()){
+			if(!texture.getType().equals("armor")) {
+				ImageIcon image = ImageUtils.colorize(ImageMakerTexturesCache.CACHE.get(new ResourcePointer(
+								"templates/textures/texturemaker/" + ListUtils.getRandomItem(Arrays.asList(texture.getTextures().toArray())) + ".png")),
+						color, true);
+				String textureName = (texture.getName()).toLowerCase(Locale.ENGLISH);
+				switch (texture.getType()) {
+				case "item":
+					FileIO.writeImageToPNGFile(ImageUtils.toBufferedImage(image.getImage()),
+							mcreator.getWorkspace().getFolderManager()
+									.getItemTextureFile(RegistryNameFixer.fix(textureName)));
+					break;
+				case "block":
+					FileIO.writeImageToPNGFile(ImageUtils.toBufferedImage(image.getImage()),
+							mcreator.getWorkspace().getFolderManager()
+									.getBlockTextureFile(RegistryNameFixer.fix(textureName)));
+					break;
+				case "entity":
+					FileIO.writeImageToPNGFile(ImageUtils.toBufferedImage(image.getImage()),
+							mcreator.getWorkspace().getFolderManager()
+									.getEntityTextureFile(RegistryNameFixer.fix(textureName)));
+					break;
+				case "painting":
+					FileIO.writeImageToPNGFile(ImageUtils.toBufferedImage(image.getImage()),
+							mcreator.getWorkspace().getFolderManager()
+									.getPaintingTextureFile(RegistryNameFixer.fix(textureName)));
+					break;
+				case "other":
+					FileIO.writeImageToPNGFile(ImageUtils.toBufferedImage(image.getImage()),
+							mcreator.getWorkspace().getFolderManager()
+									.getOtherTextureFile(RegistryNameFixer.fix(textureName)));
+					break;
+				}
+			} else {
+				ArmorImageMakerView
+						.generateArmorImages(workspace, name.toLowerCase(Locale.ENGLISH), "", texture.getArmorType(), color, true);
+			}
+		}
 
 
 		for(Items item : pmt.getItems()){
@@ -141,9 +186,9 @@ public class CustomPackMakerTool {
 			String itemName = "";
 			//"default" uses the name of the text field only
 			if (item.getName().useTextField()){
-				if(item.getName().getLocation().equals("before"))
+				if(item.getName().getLocation().equals("after"))
 					itemName = name + " " + item.getName().getName();
-				else if(item.getName().getLocation().equals("after"))
+				else if(item.getName().getLocation().equals("before"))
 					itemName = item.getName().getName() + " " + name;
 			} else
 				itemName = item.getName().getName();

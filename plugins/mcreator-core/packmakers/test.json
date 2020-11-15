@@ -13,9 +13,11 @@
   "textures":[
     {
       "textures":[
-        "log_1"
+        "apple_base",
+        "ball3"
       ],
-      "name": "texture"
+      "type": "item",
+      "name": "myTexture"
     }
   ],
   "items": [
@@ -26,7 +28,7 @@
         "useTextField": true,
         "location": "before"
       },
-      "texture": "texture"
+      "texture": "myTexture"
     }
   ],
   "mod_elements": [

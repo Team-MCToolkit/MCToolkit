@@ -102,6 +102,8 @@ public class PackMakerTool {
 
 	public class Texture{
 		private List<String> textures;
+		private String type;
+		@Nullable private String armorType;
 		private String name;
 
 		public List<String> getTextures() {
@@ -110,6 +112,14 @@ public class PackMakerTool {
 
 		public String getName() {
 			return name;
+		}
+
+		public String getType() {
+			return type;
+		}
+
+		@Nullable public String getArmorType() {
+			return armorType;
 		}
 	}
 }
