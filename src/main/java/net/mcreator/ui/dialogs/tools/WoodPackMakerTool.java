@@ -37,6 +37,7 @@ import net.mcreator.ui.action.BasicAction;
 import net.mcreator.ui.component.JColor;
 import net.mcreator.ui.component.util.PanelUtils;
 import net.mcreator.ui.dialogs.MCreatorDialog;
+import net.mcreator.ui.dialogs.tools.util.RecipeUtils;
 import net.mcreator.ui.init.ImageMakerTexturesCache;
 import net.mcreator.ui.init.L10N;
 import net.mcreator.ui.init.UIRES;
@@ -348,78 +349,15 @@ public class WoodPackMakerTool {
 		mcreator.getWorkspace().getGenerator().generateElement(planksRecipe);
 		mcreator.getWorkspace().getModElementManager().storeModElement(planksRecipe);
 
-		Recipe stairsRecipe = (Recipe) ModElementTypeRegistry.REGISTRY.get(ModElementType.RECIPE)
-				.getModElement(mcreator, new ModElement(workspace, name + "StairsRecipe", ModElementType.RECIPE), false)
-				.getElementFromGUI();
-		stairsRecipe.recipeSlots[0] = new MItemBlock(workspace, "CUSTOM:" + planksBlock.getModElement().getName());
-		stairsRecipe.recipeSlots[3] = new MItemBlock(workspace, "CUSTOM:" + planksBlock.getModElement().getName());
-		stairsRecipe.recipeSlots[4] = new MItemBlock(workspace, "CUSTOM:" + planksBlock.getModElement().getName());
-		stairsRecipe.recipeSlots[6] = new MItemBlock(workspace, "CUSTOM:" + planksBlock.getModElement().getName());
-		stairsRecipe.recipeSlots[7] = new MItemBlock(workspace, "CUSTOM:" + planksBlock.getModElement().getName());
-		stairsRecipe.recipeSlots[8] = new MItemBlock(workspace, "CUSTOM:" + planksBlock.getModElement().getName());
-		stairsRecipe.recipeReturnStack = new MItemBlock(workspace, "CUSTOM:" + name + "Stairs");
-		stairsRecipe.recipeRetstackSize = 4;
-		mcreator.getWorkspace().getModElementManager().storeModElementPicture(stairsRecipe);
-		mcreator.getWorkspace().addModElement(stairsRecipe.getModElement());
-		mcreator.getWorkspace().getGenerator().generateElement(stairsRecipe);
-		mcreator.getWorkspace().getModElementManager().storeModElement(stairsRecipe);
+		RecipeUtils.stairsRecipe(mcreator, workspace, planksBlock, name);
 
-		Recipe slabRecipe = (Recipe) ModElementTypeRegistry.REGISTRY.get(ModElementType.RECIPE)
-				.getModElement(mcreator, new ModElement(workspace, name + "SlabRecipe", ModElementType.RECIPE), false)
-				.getElementFromGUI();
-		slabRecipe.recipeSlots[6] = new MItemBlock(workspace, "CUSTOM:" + planksBlock.getModElement().getName());
-		slabRecipe.recipeSlots[7] = new MItemBlock(workspace, "CUSTOM:" + planksBlock.getModElement().getName());
-		slabRecipe.recipeSlots[8] = new MItemBlock(workspace, "CUSTOM:" + planksBlock.getModElement().getName());
-		slabRecipe.recipeReturnStack = new MItemBlock(workspace, "CUSTOM:" + name + "Slab");
-		slabRecipe.recipeRetstackSize = 6;
-		mcreator.getWorkspace().getModElementManager().storeModElementPicture(slabRecipe);
-		mcreator.getWorkspace().addModElement(slabRecipe.getModElement());
-		mcreator.getWorkspace().getGenerator().generateElement(slabRecipe);
-		mcreator.getWorkspace().getModElementManager().storeModElement(slabRecipe);
+		RecipeUtils.slabRecipe(mcreator, workspace, planksBlock, name);
 
-		Recipe fenceRecipe = (Recipe) ModElementTypeRegistry.REGISTRY.get(ModElementType.RECIPE)
-				.getModElement(mcreator, new ModElement(workspace, name + "FenceRecipe", ModElementType.RECIPE), false)
-				.getElementFromGUI();
-		fenceRecipe.recipeSlots[3] = new MItemBlock(workspace, "CUSTOM:" + planksBlock.getModElement().getName());
-		fenceRecipe.recipeSlots[4] = new MItemBlock(workspace, "Items.STICK");
-		fenceRecipe.recipeSlots[5] = new MItemBlock(workspace, "CUSTOM:" + planksBlock.getModElement().getName());
-		fenceRecipe.recipeSlots[6] = new MItemBlock(workspace, "CUSTOM:" + planksBlock.getModElement().getName());
-		fenceRecipe.recipeSlots[7] = new MItemBlock(workspace, "Items.STICK");
-		fenceRecipe.recipeSlots[8] = new MItemBlock(workspace, "CUSTOM:" + planksBlock.getModElement().getName());
-		fenceRecipe.recipeReturnStack = new MItemBlock(workspace, "CUSTOM:" + name + "Fence");
-		fenceRecipe.recipeRetstackSize = 3;
-		mcreator.getWorkspace().getModElementManager().storeModElementPicture(fenceRecipe);
-		mcreator.getWorkspace().addModElement(fenceRecipe.getModElement());
-		mcreator.getWorkspace().getGenerator().generateElement(fenceRecipe);
-		mcreator.getWorkspace().getModElementManager().storeModElement(fenceRecipe);
+		RecipeUtils.fenceRecipe(mcreator, workspace, planksBlock, name);
 
-		Recipe fenceGateRecipe = (Recipe) ModElementTypeRegistry.REGISTRY.get(ModElementType.RECIPE)
-				.getModElement(mcreator, new ModElement(workspace, name + "FenceGateRecipe", ModElementType.RECIPE),
-						false).getElementFromGUI();
-		fenceGateRecipe.recipeSlots[3] = new MItemBlock(workspace, "Items.STICK");
-		fenceGateRecipe.recipeSlots[4] = new MItemBlock(workspace, "CUSTOM:" + planksBlock.getModElement().getName());
-		fenceGateRecipe.recipeSlots[5] = new MItemBlock(workspace, "Items.STICK");
-		fenceGateRecipe.recipeSlots[6] = new MItemBlock(workspace, "Items.STICK");
-		fenceGateRecipe.recipeSlots[7] = new MItemBlock(workspace, "CUSTOM:" + planksBlock.getModElement().getName());
-		fenceGateRecipe.recipeSlots[8] = new MItemBlock(workspace, "Items.STICK");
-		fenceGateRecipe.recipeReturnStack = new MItemBlock(workspace, "CUSTOM:" + name + "FenceGate");
-		fenceGateRecipe.recipeRetstackSize = 1;
-		mcreator.getWorkspace().getModElementManager().storeModElementPicture(fenceGateRecipe);
-		mcreator.getWorkspace().addModElement(fenceGateRecipe.getModElement());
-		mcreator.getWorkspace().getGenerator().generateElement(fenceGateRecipe);
-		mcreator.getWorkspace().getModElementManager().storeModElement(fenceGateRecipe);
+		RecipeUtils.fenceGateRecipe(mcreator, workspace, planksBlock, name);
 
-		Recipe stickRecipe = (Recipe) ModElementTypeRegistry.REGISTRY.get(ModElementType.RECIPE)
-				.getModElement(mcreator, new ModElement(workspace, name + "StickRecipe", ModElementType.RECIPE), false)
-				.getElementFromGUI();
-		stickRecipe.recipeSlots[0] = new MItemBlock(workspace, "CUSTOM:" + planksBlock.getModElement().getName());
-		stickRecipe.recipeSlots[3] = new MItemBlock(workspace, "CUSTOM:" + planksBlock.getModElement().getName());
-		stickRecipe.recipeReturnStack = new MItemBlock(workspace, "Items.STICK");
-		stickRecipe.recipeRetstackSize = 4;
-		mcreator.getWorkspace().getModElementManager().storeModElementPicture(stickRecipe);
-		mcreator.getWorkspace().addModElement(stickRecipe.getModElement());
-		mcreator.getWorkspace().getGenerator().generateElement(stickRecipe);
-		mcreator.getWorkspace().getModElementManager().storeModElement(stickRecipe);
+		RecipeUtils.stickRecipe(mcreator, workspace, planksBlock, name);
 	}
 
 	public static BasicAction getAction(ActionRegistry actionRegistry) {
