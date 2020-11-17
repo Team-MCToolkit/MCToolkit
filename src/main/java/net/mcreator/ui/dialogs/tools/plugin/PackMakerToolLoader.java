@@ -61,7 +61,7 @@ public class PackMakerToolLoader {
 				if (packMaker != null) {
 					packMaker.packID = FilenameUtils.getBaseName(packMakerTool);
 					packMakersList.add(packMaker);
-					LOG.debug("Loaded " + packMaker.getPackID() + "pack maker tool");
+					LOG.debug("Loaded " + packMaker.packID + "pack maker tool");
 					}
 			} catch (Exception e) {
 				LOG.error("Failed to load pack maker tool: " + packMakerTool, e);

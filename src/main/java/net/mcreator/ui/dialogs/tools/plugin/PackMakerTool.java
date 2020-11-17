@@ -20,6 +20,7 @@ package net.mcreator.ui.dialogs.tools.plugin;
 
 import net.mcreator.ui.dialogs.tools.plugin.elements.Blocks;
 import net.mcreator.ui.dialogs.tools.plugin.elements.Items;
+import net.mcreator.ui.dialogs.tools.plugin.elements.Recipes;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -27,110 +28,35 @@ import java.util.List;
 public class PackMakerTool {
 
 	transient public String packID;
-	private UI ui;
+	public UI ui;
 
-	@Nullable private List<Texture> textures;
-	@Nullable private List<Items> items;
-	@Nullable private List<Blocks> blocks;
-	private List<String> mod_elements;
-
-	public String getPackID() {
-		return packID;
-	}
-
-	@Nullable public List<Texture> getTextures() {
-		return textures;
-	}
-
-	@Nullable public List<Items> getItems() {
-		return items;
-	}
-
-	@Nullable public List<Blocks> getBlocks() {
-		return blocks;
-	}
-
-	public List<String> getModElements() {
-		return mod_elements;
-	}
-
-	public UI getUI() {
-		return ui;
-	}
+	@Nullable public List<Texture> textures;
+	@Nullable public List<Items> items;
+	@Nullable public List<Blocks> blocks;
+	@Nullable public List<Recipes> recipes;
+	public List<String> mod_elements;
 
 	public class UI {
-		private NameField name;
-		private boolean color;
-		@Nullable private PowerSpinner power;
-		private boolean itemBase;
-
-		public NameField getName() {
-			return name;
-		}
-
-		@Nullable public boolean getColor() {
-			return color;
-		}
-
-		@Nullable public PowerSpinner getPower() {
-			return power;
-		}
-
-		@Nullable public boolean getBase() {
-			return itemBase;
-		}
+		public NameField name;
+		public boolean color;
+		@Nullable public PowerSpinner power;
+		public boolean itemBase;
 
 		public class NameField{
-		private short length;
-
-		public short getLength() {
-			return length;
-		}
+			public short length;
 	}
 		public class PowerSpinner{
-			private double value;
-			private double min;
-			private double max;
-			private double stepSize;
-
-			public double getValue() {
-				return value;
-			}
-
-			public double getMin() {
-				return min;
-			}
-
-			public double getMax() {
-				return max;
-			}
-
-			public double getStepSize() {
-				return stepSize;
-			}
+			public double value;
+			public double min;
+			public double max;
+			public double stepSize;
 		}
 	}
 
 	public class Texture{
-		private List<String> textures;
-		private String type;
-		@Nullable private String armorType;
-		private String name;
-
-		public List<String> getTextures() {
-			return textures;
-		}
-
-		public String getName() {
-			return name;
-		}
-
-		public String getType() {
-			return type;
-		}
-
-		@Nullable public String getArmorType() {
-			return armorType;
-		}
+		public List<String> textures;
+		public String type;
+		@Nullable public String armorType;
+		public String name;
 	}
 }

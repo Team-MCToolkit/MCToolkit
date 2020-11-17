@@ -26,6 +26,7 @@ import net.mcreator.element.parts.StepSound;
 import net.mcreator.element.types.Block;
 import net.mcreator.element.types.Food;
 import net.mcreator.element.types.Item;
+import net.mcreator.element.types.Recipe;
 import net.mcreator.generator.GeneratorConfiguration;
 import net.mcreator.generator.GeneratorStats;
 import net.mcreator.io.FileIO;
@@ -40,6 +41,8 @@ import net.mcreator.ui.component.util.PanelUtils;
 import net.mcreator.ui.dialogs.MCreatorDialog;
 import net.mcreator.ui.dialogs.tools.plugin.elements.Blocks;
 import net.mcreator.ui.dialogs.tools.plugin.elements.Items;
+import net.mcreator.ui.dialogs.tools.plugin.elements.Recipes;
+import net.mcreator.ui.dialogs.tools.util.RecipeUtils;
 import net.mcreator.ui.init.ImageMakerTexturesCache;
 import net.mcreator.ui.init.L10N;
 import net.mcreator.ui.minecraft.MCItemHolder;
@@ -62,44 +65,44 @@ import java.util.Locale;
 public class CustomPackMakerTool {
 
 	public static void open(MCreator mcreator, PackMakerTool pmt) {
-		MCreatorDialog dialog = new MCreatorDialog(mcreator, L10N.t("dialog.tools." + pmt.getPackID() + "_title"),
+		MCreatorDialog dialog = new MCreatorDialog(mcreator, L10N.t("dialog.tools." + pmt.packID + "_title"),
 				true);
 		dialog.setLayout(new BorderLayout(10, 10));
 
-		dialog.add("North", PanelUtils.centerInPanel(L10N.label("dialog.tools." + pmt.getPackID() + "_info")));
+		dialog.add("North", PanelUtils.centerInPanel(L10N.label("dialog.tools." + pmt.packID + "_info")));
 
 		int i = 1;
-		if (pmt.getUI().getColor())
+		if (pmt.ui.color)
 			i++;
-		if (pmt.getUI().getPower() != null)
+		if (pmt.ui.power != null)
 			i++;
-		if (pmt.getUI().getBase())
+		if (pmt.ui.itemBase)
 			i = i + 2;
 		JPanel props = new JPanel(new GridLayout(i, 2, 5, 5));
 		JColor color = new JColor(mcreator, false);
 		JSpinner power = new JSpinner(
-				new SpinnerNumberModel(pmt.getUI().getPower().getValue(), pmt.getUI().getPower().getMin(), pmt.getUI().getPower().getMax(),
-						pmt.getUI().getPower().getStepSize()));
+				new SpinnerNumberModel(pmt.ui.power.value, pmt.ui.power.min, pmt.ui.power.max,
+						pmt.ui.power.stepSize));
 		MCItemHolder base = new MCItemHolder(mcreator, ElementUtil::loadBlocksAndItems);
 
-		VTextField name = new VTextField(pmt.getUI().getName().getLength());
+		VTextField name = new VTextField(pmt.ui.name.length);
 		name.enableRealtimeValidation();
-		props.add(L10N.label("dialog.tools." + pmt.getPackID() + "_info"));
+		props.add(L10N.label("dialog.tools." + pmt.packID + "_info"));
 		props.add(name);
 
-		if (pmt.getUI().getColor() && !pmt.getUI().getBase()) {
-			props.add(L10N.label("dialog.tools." + pmt.getUI().getColor() + "_color_accent"));
+		if (pmt.ui.color && !pmt.ui.itemBase) {
+			props.add(L10N.label("dialog.tools." + pmt.ui.color + "_color_accent"));
 			props.add(color);
 		}
-		if (pmt.getUI().getPower() != null) {
-			props.add(L10N.label("dialog.tools." + pmt.getPackID() + "_power_factor"));
+		if (pmt.ui.power != null) {
+			props.add(L10N.label("dialog.tools." + pmt.packID + "_power_factor"));
 			props.add(power);
 		}
-		if (pmt.getUI().getBase()) {
-			props.add(L10N.label("dialog.tools." + pmt.getPackID() + "_color_accent"));
+		if (pmt.ui.itemBase) {
+			props.add(L10N.label("dialog.tools." + pmt.packID + "_color_accent"));
 			props.add(color);
 
-			props.add(L10N.label("dialog.tools." + pmt.getPackID() + "_base_item"));
+			props.add(L10N.label("dialog.tools." + pmt.packID + "_base_item"));
 			props.add(PanelUtils.centerInPanel(base));
 
 			base.setBlockSelectedListener(e -> {
@@ -118,7 +121,7 @@ public class CustomPackMakerTool {
 		}
 
 		dialog.add("Center", PanelUtils.centerInPanel(props));
-		JButton ok = L10N.button("dialog.tools." + pmt.getPackID() + "_create");
+		JButton ok = L10N.button("dialog.tools." + pmt.packID + "_create");
 		JButton cancel = L10N.button(UIManager.getString("OptionPane.cancelButtonText"));
 		cancel.addActionListener(e -> dialog.setVisible(false));
 		dialog.add("South", PanelUtils.join(ok, cancel));
@@ -145,14 +148,14 @@ public class CustomPackMakerTool {
 	private static void addPackToWorkspace(MCreator mcreator, Workspace workspace, PackMakerTool pmt, String name, @Nullable Color color,
 			double factor, @Nullable MItemBlock base) {
 
-		if (pmt.getTextures() != null) {
-			for(PackMakerTool.Texture texture : pmt.getTextures()){
-				if(!texture.getType().equals("armor")) {
+		if (pmt.textures != null) {
+			for(PackMakerTool.Texture texture : pmt.textures){
+				if(!texture.type.equals("armor")) {
 					ImageIcon image = ImageUtils.colorize(ImageMakerTexturesCache.CACHE.get(new ResourcePointer(
-									"templates/textures/texturemaker/" + ListUtils.getRandomItem(Arrays.asList(texture.getTextures().toArray())) + ".png")),
+									"templates/textures/texturemaker/" + ListUtils.getRandomItem(Arrays.asList(texture.textures.toArray())) + ".png")),
 							color, true);
-					String textureName = (texture.getName()).toLowerCase(Locale.ENGLISH);
-					switch (texture.getType()) {
+					String textureName = (texture.name).toLowerCase(Locale.ENGLISH);
+					switch (texture.type) {
 					case "item":
 						FileIO.writeImageToPNGFile(ImageUtils.toBufferedImage(image.getImage()),
 								mcreator.getWorkspace().getFolderManager()
@@ -181,32 +184,32 @@ public class CustomPackMakerTool {
 					}
 				} else {
 					ArmorImageMakerView
-							.generateArmorImages(workspace, name.toLowerCase(Locale.ENGLISH), "", texture.getArmorType(), color, true);
+							.generateArmorImages(workspace, name.toLowerCase(Locale.ENGLISH), "", texture.armorType, color, true);
 				}
 			}
 		}
 
-		if (pmt.getItems() != null) {
-			for(Items item : pmt.getItems()){
+		if (pmt.items != null) {
+			for(Items item : pmt.items){
 
 				String itemName = "";
 				//"default" uses the name of the text field only
-				if (item.getName().useTextField()){
-					if(item.getName().getLocation().equals("after"))
-						itemName = name + " " + item.getName().getName();
-					else if(item.getName().getLocation().equals("before"))
-						itemName = item.getName().getName() + " " + name;
+				if (item.name.useTextField){
+					if(item.name.location.equals("after"))
+						itemName = name + " " + item.name.name;
+					else if(item.name.location.equals("before"))
+						itemName = item.name.name + " " + name;
 				} else
-					itemName = item.getName().getName();
+					itemName = item.name.name;
 
 				//Create the mod element
-				switch(item.getElementType()){
+				switch(item.elementType){
 				case "item":
 					Item itemElement = (Item) ModElementTypeRegistry.REGISTRY.get(ModElementType.ITEM)
 							.getModElement(mcreator, new ModElement(workspace, itemName.replace(" ", ""), ModElementType.ITEM), false)
 							.getElementFromGUI();
 					itemElement.name = itemName;
-					itemElement.texture = item.getTexture();
+					itemElement.texture = item.texture;
 					mcreator.getWorkspace().getModElementManager().storeModElementPicture(itemElement);
 					mcreator.getWorkspace().addModElement(itemElement.getModElement());
 					mcreator.getWorkspace().getGenerator().generateElement(itemElement);
@@ -217,29 +220,29 @@ public class CustomPackMakerTool {
 							.getModElement(mcreator, new ModElement(workspace, itemName, ModElementType.FOOD), false)
 							.getElementFromGUI();
 					foodElement.name = itemName;
-					foodElement.texture = item.getTexture();
+					foodElement.texture = item.texture;
 					mcreator.getWorkspace().getModElementManager().storeModElementPicture(foodElement);
 					mcreator.getWorkspace().addModElement(foodElement.getModElement());
 					mcreator.getWorkspace().getGenerator().generateElement(foodElement);
 					mcreator.getWorkspace().getModElementManager().storeModElement(foodElement);
 					break;
 				default:
-					PackMakerToolLoader.LOG.error("Unexpected value: " + item.getElementType());
+					PackMakerToolLoader.LOG.error("Unexpected value: " + item.elementType);
 				}
 			}
 		}
 
-		if (pmt.getBlocks() != null) {
-			for(Blocks block : pmt.getBlocks()){
+		if (pmt.blocks != null) {
+			for(Blocks block : pmt.blocks){
 				String blockName = "";
 				//"default" uses the name of the text field only
-				if (block.name.useTextField()){
-					if(block.name.getLocation().equals("after"))
-						blockName = name + " " + block.name.getName();
-					else if(block.name.getLocation().equals("before"))
-						blockName = block.name.getName() + " " + name;
+				if (block.name.useTextField){
+					if(block.name.location.equals("after"))
+						blockName = name + " " + block.name.name;
+					else if(block.name.location.equals("before"))
+						blockName = block.name.name + " " + name;
 				} else
-					blockName = block.name.getName();
+					blockName = block.name.name;
 
 				//Create the mod element
 				switch(block.elementType){
@@ -290,10 +293,92 @@ public class CustomPackMakerTool {
 				}
 			}
 		}
+
+		if (pmt.recipes != null) {
+			for(Recipes recipe : pmt.recipes){
+				//Create the mod element using a template
+				String blockName = "";
+				for(Blocks block : pmt.blocks){
+					if(recipe.block.equals(block.name.name)){
+						if (block.name.useTextField){
+							if(block.name.location.equals("after"))
+								blockName = name + block.name.name;
+							else if(block.name.location.equals("before"))
+								blockName = block.name.name + name;
+						} else
+							blockName = block.name.name;
+					}
+				}
+
+				String resultItemName = recipe.returnItem;
+				if(!recipe.returnItem.contains("Items.") || !recipe.returnItem.contains("Blocks.")) {
+					for (Blocks block : pmt.blocks) {
+						if (recipe.block.equals(block.name.name)) {
+							if (block.name.useTextField) {
+								if (block.name.location.equals("after"))
+									resultItemName = name + block.name.name;
+								else if (block.name.location.equals("before"))
+									resultItemName = block.name.name + name;
+							} else
+								resultItemName = block.name.name;
+						}
+					}
+				}
+
+				switch(recipe.type){
+				case "crafting_table":
+					switch(recipe.template){
+					case "stairs":
+						RecipeUtils.stairs(mcreator, workspace, blockName, recipe.recipeName, resultItemName);
+						break;
+					case "slab":
+						RecipeUtils.slab(mcreator, workspace, blockName, recipe.recipeName, resultItemName);
+						break;
+					case "fence":
+						RecipeUtils.fence(mcreator, workspace, blockName, recipe.recipeName, resultItemName);
+						break;
+					case "fence_gate":
+						RecipeUtils.fenceGate(mcreator, workspace, blockName, recipe.recipeName, resultItemName);
+						break;
+					case "stick":
+						RecipeUtils.stick(mcreator, workspace, blockName, recipe.recipeName);
+						break;
+					case "four_blocks":
+						RecipeUtils.fourBlocks(mcreator, workspace, blockName, recipe.recipeName, resultItemName);
+						break;
+					case "full_block":
+						if(recipe.returnItem.contains("Blocks.") || recipe.returnItem.contains("Items."))
+							RecipeUtils.fullBlock(mcreator, workspace, blockName, name, recipe.recipeName, recipe.returnItem,
+									recipe.stackSize);
+						else
+							RecipeUtils.fullBlock(mcreator, workspace, blockName, name, recipe.recipeName, resultItemName, recipe.stackSize);
+						break;
+					}
+					break;
+				case "smelting":
+					RecipeUtils.smelting(mcreator, workspace, recipe, blockName, name, factor);
+					break;
+				case "blasting":
+					RecipeUtils.blasting(mcreator, workspace, recipe, blockName, name, factor);
+					break;
+				case "smoking":
+					RecipeUtils.smoking(mcreator, workspace, recipe, blockName, name, factor);
+					break;
+				case "campfire_cooking":
+					RecipeUtils.campfireCooking(mcreator, workspace, recipe, blockName, name, factor);
+					break;
+				case "stone_cutting":
+					RecipeUtils.stoneCutting(mcreator, workspace, recipe, blockName, name, factor);
+					break;
+				default:
+					PackMakerToolLoader.LOG.error("Unexpected value: " + recipe.template);
+				}
+			}
+		}
 	}
 
 	public static BasicAction getAction(ActionRegistry actionRegistry, PackMakerTool packMakerTool) {
-		return new BasicAction(actionRegistry, L10N.t("action.pack_tools." + packMakerTool.getPackID()),
+		return new BasicAction(actionRegistry, L10N.t("action.pack_tools." + packMakerTool.packID),
 				e -> CustomPackMakerTool.open(actionRegistry.getMCreator(), packMakerTool)) {
 			@Override public boolean isEnabled() {
 				GeneratorConfiguration gc = actionRegistry.getMCreator().getWorkspace().getGenerator()
@@ -305,7 +390,7 @@ public class CustomPackMakerTool {
 
 	private static boolean elements(PackMakerTool pmt, GeneratorConfiguration gc){
 		boolean b = false;
-		for(String element : pmt.getModElements()){
+		for(String element : pmt.mod_elements){
 			if(gc.getGeneratorStats().getModElementTypeCoverageInfo().get(ModElementType.valueOf(element))
 					!= GeneratorStats.CoverageStatus.NONE)
 				b = true;

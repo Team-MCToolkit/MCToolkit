@@ -19,15 +19,13 @@ package net.mcreator.ui.dialogs.tools.plugin.elements;
 
 import javax.annotation.Nullable;
 
-public class Items {
-	//Variables used by all item mod elements
-	public String elementType;
-	public Name name;
-	public String texture;
-
-	public class Name{
-		public String name;
-		public boolean useTextField;
-		@Nullable public String location;
-	}
+public class Recipes {
+	public String type;
+	@Nullable public String template;
+	public String recipeName;
+	public String block;
+	public String returnItem;
+	@Nullable public int xpReward;
+	@Nullable public int cookingTime;
+	@Nullable public int stackSize;
 }

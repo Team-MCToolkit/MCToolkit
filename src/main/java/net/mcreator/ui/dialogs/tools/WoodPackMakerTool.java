@@ -349,15 +349,15 @@ public class WoodPackMakerTool {
 		mcreator.getWorkspace().getGenerator().generateElement(planksRecipe);
 		mcreator.getWorkspace().getModElementManager().storeModElement(planksRecipe);
 
-		RecipeUtils.stairsRecipe(mcreator, workspace, planksBlock, name);
+		RecipeUtils.stairs(mcreator, workspace, planksBlock, name);
 
-		RecipeUtils.slabRecipe(mcreator, workspace, planksBlock, name);
+		RecipeUtils.slab(mcreator, workspace, planksBlock, name);
 
-		RecipeUtils.fenceRecipe(mcreator, workspace, planksBlock, name);
+		RecipeUtils.fence(mcreator, workspace, planksBlock, name);
 
-		RecipeUtils.fenceGateRecipe(mcreator, workspace, planksBlock, name);
+		RecipeUtils.fenceGate(mcreator, workspace, planksBlock, name);
 
-		RecipeUtils.stickRecipe(mcreator, workspace, planksBlock, name);
+		RecipeUtils.stick(mcreator, workspace, planksBlock, name);
 	}
 
 	public static BasicAction getAction(ActionRegistry actionRegistry) {

@@ -69,8 +69,40 @@
       "dropAmount": 2
     }
   ],
+  "recipes": [
+    {
+      "type": "Crafting table",
+      "template": "full_block",
+      "recipeName": "FullBlockRecipe",
+      "block": "Block",
+      "returnItem": "Blocks.DIRT"
+    },
+    {
+      "type": "crafting_table",
+      "template": "stairs",
+      "recipeName": "BlockStairsRecipe",
+      "block": "Block",
+      "returnItem": "Blocks.DIRT#0"
+    },
+    {
+      "type": "smelting",
+      "recipeName": "test",
+      "block": "Block",
+      "returnItem": "Items.DIAMOND",
+      "xpReward": 10,
+      "cookingTime": 200
+    },
+    {
+      "type": "stone_cutting",
+      "recipeName": "test2",
+      "block": "Block",
+      "returnItem": "Items.DIAMOND",
+      "stackSize": 4
+    }
+  ],
   "mod_elements": [
     "ITEM",
-    "BLOCK"
+    "BLOCK",
+    "RECIPE"
   ]
 }
