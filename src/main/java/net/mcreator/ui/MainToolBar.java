@@ -70,11 +70,8 @@ public class MainToolBar extends JToolBar {
 			if(pmt.ui.icon != null){
 				if(PackMakerToolIcons.CACHE.containsKey(pmt.ui.icon)){
 					BasicAction action = CustomPackMakerTool.getAction(mcreator.actionRegistry, pmt);
-					ImageIcon imageIcon = PackMakerToolIcons.getIconForItem(pmt.ui.icon);
-					if (imageIcon != null && imageIcon.getImage() != null) {
-						action.setIcon(imageIcon);
-						add(action);
-					}
+					action.setIcon(PackMakerToolIcons.getIconForItem(pmt.ui.icon));
+					add(action);
 				}
 			}
 		}
