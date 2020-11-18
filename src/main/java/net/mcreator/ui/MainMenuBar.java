@@ -51,7 +51,7 @@ public class MainMenuBar extends JMenuBar {
 
 		setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, (Color) UIManager.get("MCreatorLAF.BLACK_ACCENT")));
 
-		JMenu logo = new JMenu("  MCreator");
+		JMenu logo = new JMenu("  MCToolkit");
 		logo.setMnemonic('M');
 		logo.setIcon(new ImageIcon(ImageUtils.resizeAA(UIRES.get("icon").getImage(), 14, 14)));
 
@@ -203,7 +203,6 @@ public class MainMenuBar extends JMenuBar {
 		tools.add(mcreator.actionRegistry.openOrePackMaker);
 		tools.add(mcreator.actionRegistry.openToolPackMaker);
 		tools.add(mcreator.actionRegistry.openArmorPackMaker);
-		tools.add(mcreator.actionRegistry.openWoodPackMaker);
 
 		for(PackMakerTool pmt : PackMakerToolLoader.getPackMakersList()){
 			BasicAction action = CustomPackMakerTool.getAction(mcreator.actionRegistry, pmt);

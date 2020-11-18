@@ -41,9 +41,9 @@ public class PackMakerTool {
 	public class UI {
 		@Nullable public String icon;
 		public NameField name;
-		public boolean color;
+		@Nullable public boolean color;
 		@Nullable public PowerSpinner power;
-		public boolean itemBase;
+		@Nullable public boolean itemBase;
 
 		public class NameField{
 			public short length;

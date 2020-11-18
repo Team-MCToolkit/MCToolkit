@@ -41,10 +41,8 @@ import net.mcreator.ui.dialogs.tools.plugin.elements.Items;
 import net.mcreator.ui.dialogs.tools.plugin.elements.Recipes;
 import net.mcreator.ui.dialogs.tools.plugin.elements.Tags;
 import net.mcreator.ui.dialogs.tools.util.RecipeUtils;
-import net.mcreator.ui.init.BlockItemIcons;
 import net.mcreator.ui.init.ImageMakerTexturesCache;
 import net.mcreator.ui.init.L10N;
-import net.mcreator.ui.init.UIRES;
 import net.mcreator.ui.minecraft.MCItemHolder;
 import net.mcreator.ui.validation.Validator;
 import net.mcreator.ui.validation.component.VTextField;
@@ -163,7 +161,7 @@ public class CustomPackMakerTool {
 					ImageIcon image = ImageUtils.colorize(ImageMakerTexturesCache.CACHE.get(new ResourcePointer(
 									"templates/textures/texturemaker/" + ListUtils.getRandomItem(Arrays.asList(texture.textures.toArray())) + ".png")),
 							color, true);
-					String textureName = (texture.name).toLowerCase(Locale.ENGLISH);
+					String textureName = (name + texture.name).toLowerCase(Locale.ENGLISH);
 					switch (texture.type) {
 					case "item":
 						FileIO.writeImageToPNGFile(ImageUtils.toBufferedImage(image.getImage()),
@@ -260,17 +258,17 @@ public class CustomPackMakerTool {
 							.getModElement(mcreator, new ModElement(workspace, blockName.replace(" ", ""), ModElementType.BLOCK), false)
 							.getElementFromGUI();
 					blockElement.name = blockName;
-					blockElement.texture = block.texture;
+					blockElement.texture = name + block.texture;
 					if(block.textureBack != null)
-						blockElement.textureBack = block.textureBack;
+						blockElement.textureBack = name + block.textureBack;
 					if(block.textureFront != null)
-						blockElement.textureFront = block.textureFront;
+						blockElement.textureFront = name + block.textureFront;
 					if(block.textureLeft != null)
-						blockElement.textureLeft = block.textureLeft;
+						blockElement.textureLeft = name + block.textureLeft;
 					if(block.textureRight != null)
-						blockElement.textureRight = block.textureRight;
+						blockElement.textureRight = name + block.textureRight;
 					if(block.textureTop != null)
-						blockElement.textureTop = block.textureTop;
+						blockElement.textureTop = name + block.textureTop;
 					blockElement.customModelName = block.customModelName;
 					if(block.blockBase != null)
 						blockElement.blockBase = block.blockBase;
@@ -282,6 +280,8 @@ public class CustomPackMakerTool {
 					blockElement.breakHarvestLevel = block.breakHarvestLevel;
 					blockElement.renderType = block.renderType;
 					blockElement.flammability = (int) (block.flammability * factor);
+					if(block.plantsGrowOn)
+						blockElement.plantsGrowOn = true;
 					if(block.spawnWorldTypes != null){
 						blockElement.spawnWorldTypes = block.spawnWorldTypes;
 						blockElement.minGenerateHeight = block.minGenerateHeight;
@@ -348,6 +348,12 @@ public class CustomPackMakerTool {
 						break;
 					case "fence_gate":
 						RecipeUtils.fenceGate(mcreator, workspace, blockName, recipe.recipeName, resultItemName);
+						break;
+					case "button":
+						RecipeUtils.button(mcreator, workspace, blockName, recipe.recipeName, resultItemName);
+						break;
+					case "pressure_plate":
+						RecipeUtils.pressurePlate(mcreator, workspace, blockName, recipe.recipeName, resultItemName);
 						break;
 					case "stick":
 						RecipeUtils.stick(mcreator, workspace, blockName, recipe.recipeName);

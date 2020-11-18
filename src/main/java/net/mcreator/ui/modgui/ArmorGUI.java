@@ -553,7 +553,7 @@ public class ArmorGUI extends ModElementGUI<Armor> {
 		JPanel enderpanel = new JPanel(new GridLayout(8, 2, 20, 10));
 
 		enderpanel.add(HelpUtils.wrapWithHelpButton(this.withEntry("armor/armor_layer_texture"),
-				new JLabel(L10N.t("elementgui.armor.layer_texture") + L10N.t("elementgui.armor.layer_texture.info"))));
+				L10N.label("elementgui.armor.layer_texture")));
 		enderpanel.add(armorTextureFile);
 
 		enderpanel.add(HelpUtils.wrapWithHelpButton(this.withEntry("common/creative_tab"),
@@ -951,15 +951,6 @@ public class ArmorGUI extends ModElementGUI<Armor> {
 		bodySpecialInfo.setText(armor.bodySpecialInfo.stream().map(info -> info.replace(",", "\\,")).collect(Collectors.joining(",")));
 		leggingsSpecialInfo.setText(armor.leggingsSpecialInfo.stream().map(info -> info.replace(",", "\\,")).collect(Collectors.joining(",")));
 		bootsSpecialInfo.setText(armor.bootsSpecialInfo.stream().map(info -> info.replace(",", "\\,")).collect(Collectors.joining(",")));
-		/*
-		try {
-			if (RangedItem.class.getField("onCommandInfo").get(rangedItem) != null) {
-				onCommandInfo.setText(rangedItem.onCommandInfo.stream().map(info -> info.replace(",", "\\,")).collect(Collectors.joining(",")));
-			}
-		} catch (NoSuchFieldException | IllegalAccessException e) {
-			e.printStackTrace();
-		}
-		 */
 		try {
 			if (Armor.class.getField("helmetShiftInfo").get(armor) != null ) {
 				helmetShiftInfo.setText(armor.helmetShiftInfo.stream().map(info -> info.replace(",", "\\,")).collect(Collectors.joining(",")));

@@ -41,6 +41,7 @@ public class Blocks {
 	public String destroyTool;
 	public int breakHarvestLevel;
 	public int flammability;
+	@Nullable public boolean plantsGrowOn;
 
 	//World generation
 	@Nullable public List<String> spawnWorldTypes;

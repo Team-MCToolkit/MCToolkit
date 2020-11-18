@@ -168,6 +168,35 @@ public class RecipeUtils {
 		mcreator.getWorkspace().getModElementManager().storeModElement(fenceGateRecipe);
 	}
 
+	public static void button(MCreator mcreator, Workspace workspace, String block, String name, String resultBlock){
+		Recipe slabRecipe = (Recipe) ModElementTypeRegistry.REGISTRY.get(ModElementType.RECIPE)
+				.getModElement(mcreator, new ModElement(workspace, name, ModElementType.RECIPE), false)
+				.getElementFromGUI();
+		slabRecipe.recipeSlots[0] = new MItemBlock(workspace, "CUSTOM:" + block);
+		slabRecipe.recipeShapeless = true;
+		slabRecipe.recipeReturnStack = new MItemBlock(workspace, "CUSTOM:" + resultBlock);
+		slabRecipe.recipeRetstackSize = 1;
+		mcreator.getWorkspace().getModElementManager().storeModElementPicture(slabRecipe);
+		mcreator.getWorkspace().addModElement(slabRecipe.getModElement());
+		mcreator.getWorkspace().getGenerator().generateElement(slabRecipe);
+		mcreator.getWorkspace().getModElementManager().storeModElement(slabRecipe);
+	}
+
+	public static void pressurePlate(MCreator mcreator, Workspace workspace, String block, String name, String resultBlock){
+		Recipe slabRecipe = (Recipe) ModElementTypeRegistry.REGISTRY.get(ModElementType.RECIPE)
+				.getModElement(mcreator, new ModElement(workspace, name, ModElementType.RECIPE), false)
+				.getElementFromGUI();
+		slabRecipe.recipeSlots[0] = new MItemBlock(workspace, "CUSTOM:" + block);
+		slabRecipe.recipeSlots[1] = new MItemBlock(workspace, "CUSTOM:" + block);
+		slabRecipe.recipeShapeless = true;
+		slabRecipe.recipeReturnStack = new MItemBlock(workspace, "CUSTOM:" + resultBlock);
+		slabRecipe.recipeRetstackSize = 1;
+		mcreator.getWorkspace().getModElementManager().storeModElementPicture(slabRecipe);
+		mcreator.getWorkspace().addModElement(slabRecipe.getModElement());
+		mcreator.getWorkspace().getGenerator().generateElement(slabRecipe);
+		mcreator.getWorkspace().getModElementManager().storeModElement(slabRecipe);
+	}
+
 	public static void stick(MCreator mcreator, Workspace workspace, Block block, String name){
 		Recipe stickRecipe = (Recipe) ModElementTypeRegistry.REGISTRY.get(ModElementType.RECIPE)
 				.getModElement(mcreator, new ModElement(workspace, name + "StickRecipe", ModElementType.RECIPE), false)
