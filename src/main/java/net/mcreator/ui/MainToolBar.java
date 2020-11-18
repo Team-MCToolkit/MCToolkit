@@ -18,7 +18,12 @@
 
 package net.mcreator.ui;
 
+import net.mcreator.ui.action.BasicAction;
 import net.mcreator.ui.component.JEmptyBox;
+import net.mcreator.ui.dialogs.tools.plugin.CustomPackMakerTool;
+import net.mcreator.ui.dialogs.tools.plugin.PackMakerTool;
+import net.mcreator.ui.dialogs.tools.plugin.PackMakerToolIcons;
+import net.mcreator.ui.dialogs.tools.plugin.PackMakerToolLoader;
 
 import javax.swing.*;
 import java.awt.*;
@@ -61,6 +66,18 @@ public class MainToolBar extends JToolBar {
 		add(mcreator.actionRegistry.openToolPackMaker);
 		add(mcreator.actionRegistry.openArmorPackMaker);
 		add(mcreator.actionRegistry.openWoodPackMaker);
+		for(PackMakerTool pmt : PackMakerToolLoader.getPackMakersList()){
+			if(pmt.ui.icon != null){
+				if(PackMakerToolIcons.CACHE.containsKey(pmt.ui.icon)){
+					BasicAction action = CustomPackMakerTool.getAction(mcreator.actionRegistry, pmt);
+					ImageIcon imageIcon = PackMakerToolIcons.getIconForItem(pmt.ui.icon);
+					if (imageIcon != null && imageIcon.getImage() != null) {
+						action.setIcon(imageIcon);
+						add(action);
+					}
+				}
+			}
+		}
 
 		addSeparator(new Dimension(10, 4));
 		add(mcreator.actionRegistry.setCreativeTabItemOrder);

@@ -1,5 +1,6 @@
 {
   "ui": {
+    "icon": "test",
     "name": {
       "length": 25
     },

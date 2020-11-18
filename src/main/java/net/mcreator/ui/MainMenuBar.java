@@ -23,6 +23,7 @@ import net.mcreator.ui.component.SocialButtons;
 import net.mcreator.ui.component.util.ComponentUtils;
 import net.mcreator.ui.dialogs.tools.plugin.CustomPackMakerTool;
 import net.mcreator.ui.dialogs.tools.plugin.PackMakerTool;
+import net.mcreator.ui.dialogs.tools.plugin.PackMakerToolIcons;
 import net.mcreator.ui.dialogs.tools.plugin.PackMakerToolLoader;
 import net.mcreator.ui.ide.CodeEditorView;
 import net.mcreator.ui.init.L10N;
@@ -206,6 +207,13 @@ public class MainMenuBar extends JMenuBar {
 
 		for(PackMakerTool pmt : PackMakerToolLoader.getPackMakersList()){
 			BasicAction action = CustomPackMakerTool.getAction(mcreator.actionRegistry, pmt);
+			if(pmt.ui.icon != null){
+				if(PackMakerToolIcons.CACHE.containsKey(pmt.ui.icon)){
+					ImageIcon imageIcon = PackMakerToolIcons.getIconForItem(pmt.ui.icon);
+					if (imageIcon != null && imageIcon.getImage() != null)
+						action.setIcon(imageIcon);
+				}
+			}
 			tools.add(action);
 		}
 

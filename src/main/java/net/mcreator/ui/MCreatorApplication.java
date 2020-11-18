@@ -38,6 +38,7 @@ import net.mcreator.ui.component.util.DiscordClient;
 import net.mcreator.ui.component.util.MacOSUIUtil;
 import net.mcreator.ui.dialogs.UpdateNotifyDialog;
 import net.mcreator.ui.dialogs.preferences.PreferencesDialog;
+import net.mcreator.ui.dialogs.tools.plugin.PackMakerToolIcons;
 import net.mcreator.ui.dialogs.tools.plugin.PackMakerToolLoader;
 import net.mcreator.ui.help.HelpLoader;
 import net.mcreator.ui.init.*;
@@ -119,6 +120,7 @@ public final class MCreatorApplication {
 		BlocklyLoader.init();
 
 		//load custom pack maker tools after plugins are loaded
+		PackMakerToolIcons.init();
 		PackMakerToolLoader.init();
 
 		splashScreen.setProgress(55, "Loading generators");

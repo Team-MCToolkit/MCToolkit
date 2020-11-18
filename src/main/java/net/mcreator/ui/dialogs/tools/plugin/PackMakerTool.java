@@ -37,6 +37,7 @@ public class PackMakerTool {
 	public List<String> mod_elements;
 
 	public class UI {
+		@Nullable public String icon;
 		public NameField name;
 		public boolean color;
 		@Nullable public PowerSpinner power;

@@ -43,8 +43,10 @@ import net.mcreator.ui.dialogs.tools.plugin.elements.Blocks;
 import net.mcreator.ui.dialogs.tools.plugin.elements.Items;
 import net.mcreator.ui.dialogs.tools.plugin.elements.Recipes;
 import net.mcreator.ui.dialogs.tools.util.RecipeUtils;
+import net.mcreator.ui.init.BlockItemIcons;
 import net.mcreator.ui.init.ImageMakerTexturesCache;
 import net.mcreator.ui.init.L10N;
+import net.mcreator.ui.init.UIRES;
 import net.mcreator.ui.minecraft.MCItemHolder;
 import net.mcreator.ui.validation.Validator;
 import net.mcreator.ui.validation.component.VTextField;
@@ -68,6 +70,14 @@ public class CustomPackMakerTool {
 		MCreatorDialog dialog = new MCreatorDialog(mcreator, L10N.t("dialog.tools." + pmt.packID + "_title"),
 				true);
 		dialog.setLayout(new BorderLayout(10, 10));
+
+		if(pmt.ui.icon != null){
+			if(PackMakerToolIcons.CACHE.containsKey(pmt.ui.icon)){
+				ImageIcon imageIcon = PackMakerToolIcons.getIconForItem(pmt.ui.icon);
+				if (imageIcon != null && imageIcon.getImage() != null)
+					dialog.setIconImage(ImageUtils.resize(imageIcon.getImage(), 16));
+			}
+		}
 
 		dialog.add("North", PanelUtils.centerInPanel(L10N.label("dialog.tools." + pmt.packID + "_info")));
 
