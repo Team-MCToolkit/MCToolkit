@@ -23,10 +23,7 @@ import net.mcreator.element.ModElementTypeRegistry;
 import net.mcreator.element.parts.MItemBlock;
 import net.mcreator.element.parts.Material;
 import net.mcreator.element.parts.StepSound;
-import net.mcreator.element.types.Block;
-import net.mcreator.element.types.Food;
-import net.mcreator.element.types.Item;
-import net.mcreator.element.types.Recipe;
+import net.mcreator.element.types.*;
 import net.mcreator.generator.GeneratorConfiguration;
 import net.mcreator.generator.GeneratorStats;
 import net.mcreator.io.FileIO;
@@ -42,6 +39,7 @@ import net.mcreator.ui.dialogs.MCreatorDialog;
 import net.mcreator.ui.dialogs.tools.plugin.elements.Blocks;
 import net.mcreator.ui.dialogs.tools.plugin.elements.Items;
 import net.mcreator.ui.dialogs.tools.plugin.elements.Recipes;
+import net.mcreator.ui.dialogs.tools.plugin.elements.Tags;
 import net.mcreator.ui.dialogs.tools.util.RecipeUtils;
 import net.mcreator.ui.init.BlockItemIcons;
 import net.mcreator.ui.init.ImageMakerTexturesCache;
@@ -61,6 +59,7 @@ import net.mcreator.workspace.elements.ModElement;
 import javax.annotation.Nullable;
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
 
@@ -336,7 +335,7 @@ public class CustomPackMakerTool {
 				}
 
 				switch(recipe.type){
-				case "crafting_table":
+				case "crafting":
 					switch(recipe.template){
 					case "stairs":
 						RecipeUtils.stairs(mcreator, workspace, blockName, recipe.recipeName, resultItemName);
@@ -381,8 +380,62 @@ public class CustomPackMakerTool {
 					RecipeUtils.stoneCutting(mcreator, workspace, recipe, blockName, name, factor);
 					break;
 				default:
-					PackMakerToolLoader.LOG.error("Unexpected value: " + recipe.template);
+					PackMakerToolLoader.LOG.error("Unexpected value: " + recipe.template + " for: " + recipe.recipeName);
 				}
+			}
+		}
+
+		if (pmt.tags != null) {
+			for (Tags tag : pmt.tags) {
+				//Create the mod element
+				Tag tagElement = (Tag) ModElementTypeRegistry.REGISTRY.get(ModElementType.TAG)
+						.getModElement(mcreator, new ModElement(workspace, name + tag.name, ModElementType.TAG), false)
+						.getElementFromGUI();
+				tagElement.type = tag.type;
+				tagElement.namespace = tag.namespace;
+				tagElement.name = RegistryNameFixer.fix(name) + tag.name;
+				if(tag.blocks != null){
+					tagElement.blocks = new ArrayList<>();
+					for(String str : tag.blocks){
+						String blockName = str;
+						if(!str.contains("Items.") || !str.contains("Blocks.")) {
+							for (Blocks block : pmt.blocks) {
+								if (str.equals(block.name.name)) {
+									if (block.name.useTextField) {
+										if (block.name.location.equals("after"))
+											blockName = name + block.name.name;
+										else if (block.name.location.equals("before"))
+											blockName = block.name.name + name;
+									} else
+										blockName = block.name.name;
+								}
+							}
+						}
+						tagElement.blocks.add(new MItemBlock(workspace,"CUSTOM:" + blockName));
+					}
+				}
+				if(tag.items != null){
+					tagElement.items = new ArrayList<>();
+					for(String str : tag.items){
+						String blockName = "";
+						for (Items item : pmt.items) {
+							if (str.equals(item.name.name)) {
+								if (item.name.useTextField) {
+									if (item.name.location.equals("after"))
+										blockName = name + item.name.name;
+									else if (item.name.location.equals("before"))
+										blockName = item.name.name + name;
+								} else
+									blockName = item.name.name;
+							}
+							tagElement.items.add(new MItemBlock(workspace,"CUSTOM:" + blockName));
+						}
+					}
+				}
+				mcreator.getWorkspace().getModElementManager().storeModElementPicture(tagElement);
+				mcreator.getWorkspace().addModElement(tagElement.getModElement());
+				mcreator.getWorkspace().getGenerator().generateElement(tagElement);
+				mcreator.getWorkspace().getModElementManager().storeModElement(tagElement);
 			}
 		}
 	}

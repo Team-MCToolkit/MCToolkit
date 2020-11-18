@@ -1,6 +1,5 @@
 {
   "ui": {
-    "icon": "test",
     "name": {
       "length": 25
     },
@@ -72,14 +71,15 @@
   ],
   "recipes": [
     {
-      "type": "Crafting table",
+      "type": "crafting",
       "template": "full_block",
       "recipeName": "FullBlockRecipe",
       "block": "Block",
-      "returnItem": "Blocks.DIRT"
+      "returnItem": "Blocks.DIRT",
+      "stackSize": 10
     },
     {
-      "type": "crafting_table",
+      "type": "crafting",
       "template": "stairs",
       "recipeName": "BlockStairsRecipe",
       "block": "Block",
@@ -101,9 +101,20 @@
       "stackSize": 4
     }
   ],
+  "tags":[
+    {
+      "namespace": "forge",
+      "name": "_test",
+      "type": "Blocks",
+      "blocks": [
+        "Block"
+      ]
+    }
+  ],
   "mod_elements": [
     "ITEM",
     "BLOCK",
-    "RECIPE"
+    "RECIPE",
+    "TAG"
   ]
 }

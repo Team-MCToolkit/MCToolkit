@@ -21,6 +21,7 @@ package net.mcreator.ui.dialogs.tools.plugin;
 import net.mcreator.ui.dialogs.tools.plugin.elements.Blocks;
 import net.mcreator.ui.dialogs.tools.plugin.elements.Items;
 import net.mcreator.ui.dialogs.tools.plugin.elements.Recipes;
+import net.mcreator.ui.dialogs.tools.plugin.elements.Tags;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -34,6 +35,7 @@ public class PackMakerTool {
 	@Nullable public List<Items> items;
 	@Nullable public List<Blocks> blocks;
 	@Nullable public List<Recipes> recipes;
+	@Nullable public List<Tags> tags;
 	public List<String> mod_elements;
 
 	public class UI {
