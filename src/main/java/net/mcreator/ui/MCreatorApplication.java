@@ -61,7 +61,7 @@ public final class MCreatorApplication {
 	private static final Logger LOG = LogManager.getLogger("Application");
 
 	public static IWebAPI WEB_API = new D8WebAPI();
-	public static final String SERVER_DOMAIN = "https://mcreator.net";
+	public static final String SERVER_DOMAIN = "https://mctoolkit.net";
 	public static boolean isInternet = true;
 
 	private final Analytics analytics;
@@ -146,7 +146,7 @@ public final class MCreatorApplication {
 		// we do async login attempt
 		UpdateNotifyDialog.showUpdateDialogIfUpdateExists(splashScreen, false);
 
-		splashScreen.setProgress(100, "Loading MCreator windows");
+		splashScreen.setProgress(100, "Loading MCToolkit windows");
 
 		if (OS.getOS() == OS.MAC) {
 			MacOSUIUtil.registerAboutHandler(() -> AboutAction.showDialog(null));
