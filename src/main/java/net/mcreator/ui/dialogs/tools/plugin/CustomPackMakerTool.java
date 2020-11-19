@@ -174,8 +174,6 @@ public class CustomPackMakerTool {
 		if (pmt.textures != null) {
 			System.out.println(type);
 			for(PackMakerTool.Texture texture : pmt.textures){
-							color, true);
-						break;
 				if(type.equals(texture.condition) || texture.condition == null){
 					if (!texture.type.equals("armor")) {
 						ImageIcon image;
