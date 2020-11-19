@@ -94,11 +94,11 @@ public class CustomPackMakerTool {
 
 		VTextField name = new VTextField(pmt.ui.name.length);
 		name.enableRealtimeValidation();
-		props.add(L10N.label("dialog.tools." + pmt.packID + "_info"));
+		props.add(L10N.label("dialog.tools." + pmt.packID + "_name"));
 		props.add(name);
 
 		if (pmt.ui.color && !pmt.ui.itemBase) {
-			props.add(L10N.label("dialog.tools." + pmt.ui.color + "_color_accent"));
+			props.add(L10N.label("dialog.tools." + pmt.packID + "_color_accent"));
 			props.add(color);
 		}
 		if (pmt.ui.power != null) {
@@ -140,6 +140,11 @@ public class CustomPackMakerTool {
 				dialog.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 				addPackToWorkspace(mcreator, mcreator.getWorkspace(), pmt, name.getText(), color.getColor(),
 						(Double) power.getValue(), base.getBlock());
+				for(String id : pmt.packs){
+					PackMakerTool packMakerTool = PackMakerToolLoader.getPackMakerTool(id);
+					addPackToWorkspace(mcreator, mcreator.getWorkspace(), packMakerTool, name.getText(), color.getColor(),
+							(Double) power.getValue(), base.getBlock());
+				}
 				mcreator.mv.updateMods();
 				dialog.setCursor(Cursor.getDefaultCursor());
 				dialog.setVisible(false);
@@ -152,7 +157,7 @@ public class CustomPackMakerTool {
 
 	}
 
-	private static void addPackToWorkspace(MCreator mcreator, Workspace workspace, PackMakerTool pmt, String name, @Nullable Color color,
+	public static void addPackToWorkspace(MCreator mcreator, Workspace workspace, PackMakerTool pmt, String name, @Nullable Color color,
 			double factor, @Nullable MItemBlock base) {
 
 		if (pmt.textures != null) {

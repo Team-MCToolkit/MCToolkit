@@ -28,6 +28,8 @@ import net.mcreator.ui.action.BasicAction;
 import net.mcreator.ui.component.JColor;
 import net.mcreator.ui.component.util.PanelUtils;
 import net.mcreator.ui.dialogs.MCreatorDialog;
+import net.mcreator.ui.dialogs.tools.plugin.CustomPackMakerTool;
+import net.mcreator.ui.dialogs.tools.plugin.PackMakerToolLoader;
 import net.mcreator.ui.init.L10N;
 import net.mcreator.ui.init.UIRES;
 import net.mcreator.ui.validation.Validator;
@@ -101,6 +103,8 @@ public class MaterialPackMakerTool {
 		MItemBlock gem = OrePackMakerTool.addOrePackToWorkspace(mcreator, workspace, name, type, color, factor);
 		ToolPackMakerTool.addToolPackToWorkspace(mcreator, workspace, name, gem, color, factor);
 		ArmorPackMakerTool.addArmorPackToWorkspace(mcreator, workspace, name, "", gem, color, factor);
+		CustomPackMakerTool.addPackToWorkspace(mcreator, workspace, PackMakerToolLoader.getPackMakerTool("wood_pack"),
+				name, color, factor, gem);
 	}
 
 	public static BasicAction getAction(ActionRegistry actionRegistry) {

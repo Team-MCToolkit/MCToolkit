@@ -19,15 +19,8 @@
 package net.mcreator.ui.dialogs.tools.plugin;
 
 import com.google.gson.*;
-import net.mcreator.element.ModElementType;
-import net.mcreator.generator.GeneratorConfiguration;
-import net.mcreator.generator.GeneratorStats;
 import net.mcreator.io.FileIO;
 import net.mcreator.plugin.PluginLoader;
-import net.mcreator.ui.MCreator;
-import net.mcreator.ui.action.ActionRegistry;
-import net.mcreator.ui.action.BasicAction;
-import net.mcreator.ui.init.L10N;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -67,6 +60,19 @@ public class PackMakerToolLoader {
 				LOG.error("Failed to load pack maker tool: " + packMakerTool, e);
 			}
 		}
+	}
+
+	public static PackMakerTool getPackMakerTool(String packId){
+		for(PackMakerTool pmt : packMakersList){
+			if(pmt.packID.equals(packId)) {
+				return pmt;
+			}
+			else {
+				LOG.error("The pack maker tool with ID: " + packId + " doesn't exit or is not loaded.");
+				return null;
+			}
+		}
+		return null;
 	}
 
 	public static List<PackMakerTool> getPackMakersList() {

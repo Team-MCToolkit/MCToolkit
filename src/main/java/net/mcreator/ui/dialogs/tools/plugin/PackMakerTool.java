@@ -36,6 +36,7 @@ public class PackMakerTool {
 	@Nullable public List<Blocks> blocks;
 	@Nullable public List<Recipes> recipes;
 	@Nullable public List<Tags> tags;
+	@Nullable public List<String> packs;
 	public List<String> mod_elements;
 
 	public class UI {
