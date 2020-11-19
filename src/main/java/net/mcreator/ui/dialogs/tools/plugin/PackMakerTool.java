@@ -45,6 +45,7 @@ public class PackMakerTool {
 		@Nullable public boolean color;
 		@Nullable public PowerSpinner power;
 		@Nullable public boolean itemBase;
+		@Nullable public String[] type;
 
 		public class NameField{
 			public short length;
@@ -62,5 +63,6 @@ public class PackMakerTool {
 		public String type;
 		@Nullable public String armorType;
 		public String name;
+		@Nullable public String condition;
 	}
 }

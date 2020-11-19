@@ -60,6 +60,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.Objects;
 
 public class CustomPackMakerTool {
 
@@ -83,6 +84,8 @@ public class CustomPackMakerTool {
 			i++;
 		if (pmt.ui.power != null)
 			i++;
+		if(pmt.ui.type != null)
+			i++;
 		if (pmt.ui.itemBase)
 			i = i + 2;
 		JPanel props = new JPanel(new GridLayout(i, 2, 5, 5));
@@ -91,6 +94,7 @@ public class CustomPackMakerTool {
 				new SpinnerNumberModel(pmt.ui.power.value, pmt.ui.power.min, pmt.ui.power.max,
 						pmt.ui.power.stepSize));
 		MCItemHolder base = new MCItemHolder(mcreator, ElementUtil::loadBlocksAndItems);
+		JComboBox<String> type = new JComboBox<>(pmt.ui.type);
 
 		VTextField name = new VTextField(pmt.ui.name.length);
 		name.enableRealtimeValidation();
@@ -104,6 +108,10 @@ public class CustomPackMakerTool {
 		if (pmt.ui.power != null) {
 			props.add(L10N.label("dialog.tools." + pmt.packID + "_power_factor"));
 			props.add(power);
+		}
+		if(pmt.ui.type != null) {
+			props.add(L10N.label("dialog.tools." + pmt.packID + "_type"));
+			props.add(type);
 		}
 		if (pmt.ui.itemBase) {
 			props.add(L10N.label("dialog.tools." + pmt.packID + "_color_accent"));
@@ -139,11 +147,14 @@ public class CustomPackMakerTool {
 			if (name.getValidationStatus().getValidationResultType() != Validator.ValidationResultType.ERROR) {
 				dialog.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 				addPackToWorkspace(mcreator, mcreator.getWorkspace(), pmt, name.getText(), color.getColor(),
-						(Double) power.getValue(), base.getBlock());
-				for(String id : pmt.packs){
-					PackMakerTool packMakerTool = PackMakerToolLoader.getPackMakerTool(id);
-					addPackToWorkspace(mcreator, mcreator.getWorkspace(), packMakerTool, name.getText(), color.getColor(),
-							(Double) power.getValue(), base.getBlock());
+						(Double) power.getValue(), base.getBlock(), (String) Objects.requireNonNull(type.getSelectedItem()));
+				if(pmt.packs != null) {
+					for (String id : pmt.packs) {
+						PackMakerTool packMakerTool = PackMakerToolLoader.getPackMakerTool(id);
+						addPackToWorkspace(mcreator, mcreator.getWorkspace(), packMakerTool, name.getText(),
+								color.getColor(), (Double) power.getValue(), base.getBlock(),
+								(String) Objects.requireNonNull(type.getSelectedItem()));
+					}
 				}
 				mcreator.mv.updateMods();
 				dialog.setCursor(Cursor.getDefaultCursor());
@@ -151,52 +162,60 @@ public class CustomPackMakerTool {
 			}
 		});
 
-		dialog.setSize(600, 280);
+		dialog.setSize(600, 160 + (i*30));
 		dialog.setLocationRelativeTo(mcreator);
 		dialog.setVisible(true);
 
 	}
 
 	public static void addPackToWorkspace(MCreator mcreator, Workspace workspace, PackMakerTool pmt, String name, @Nullable Color color,
-			double factor, @Nullable MItemBlock base) {
+			double factor, @Nullable MItemBlock base, @Nullable String type) {
 
 		if (pmt.textures != null) {
+			System.out.println(type);
 			for(PackMakerTool.Texture texture : pmt.textures){
-				if(!texture.type.equals("armor")) {
-					ImageIcon image = ImageUtils.colorize(ImageMakerTexturesCache.CACHE.get(new ResourcePointer(
-									"templates/textures/texturemaker/" + ListUtils.getRandomItem(Arrays.asList(texture.textures.toArray())) + ".png")),
 							color, true);
-					String textureName = (name + texture.name).toLowerCase(Locale.ENGLISH);
-					switch (texture.type) {
-					case "item":
-						FileIO.writeImageToPNGFile(ImageUtils.toBufferedImage(image.getImage()),
-								mcreator.getWorkspace().getFolderManager()
-										.getItemTextureFile(RegistryNameFixer.fix(textureName)));
 						break;
-					case "block":
-						FileIO.writeImageToPNGFile(ImageUtils.toBufferedImage(image.getImage()),
-								mcreator.getWorkspace().getFolderManager()
-										.getBlockTextureFile(RegistryNameFixer.fix(textureName)));
-						break;
-					case "entity":
-						FileIO.writeImageToPNGFile(ImageUtils.toBufferedImage(image.getImage()),
-								mcreator.getWorkspace().getFolderManager()
-										.getEntityTextureFile(RegistryNameFixer.fix(textureName)));
-						break;
-					case "painting":
-						FileIO.writeImageToPNGFile(ImageUtils.toBufferedImage(image.getImage()),
-								mcreator.getWorkspace().getFolderManager()
-										.getPaintingTextureFile(RegistryNameFixer.fix(textureName)));
-						break;
-					case "other":
-						FileIO.writeImageToPNGFile(ImageUtils.toBufferedImage(image.getImage()),
-								mcreator.getWorkspace().getFolderManager()
-										.getOtherTextureFile(RegistryNameFixer.fix(textureName)));
-						break;
+				if(type.equals(texture.condition) || texture.condition == null){
+					if (!texture.type.equals("armor")) {
+						ImageIcon image;
+						image = ImageUtils.colorize(ImageMakerTexturesCache.CACHE.get(new ResourcePointer(
+										"templates/textures/texturemaker/" + ListUtils
+												.getRandomItem(Arrays.asList(texture.textures.toArray())) + ".png")), color,
+								true);
+						String textureName = (name + texture.name).toLowerCase(Locale.ENGLISH);
+						switch (texture.type) {
+						case "item":
+							FileIO.writeImageToPNGFile(ImageUtils.toBufferedImage(image.getImage()),
+									mcreator.getWorkspace().getFolderManager()
+											.getItemTextureFile(RegistryNameFixer.fix(textureName)));
+							break;
+						case "block":
+							FileIO.writeImageToPNGFile(ImageUtils.toBufferedImage(image.getImage()),
+									mcreator.getWorkspace().getFolderManager()
+											.getBlockTextureFile(RegistryNameFixer.fix(textureName)));
+							break;
+						case "entity":
+							FileIO.writeImageToPNGFile(ImageUtils.toBufferedImage(image.getImage()),
+									mcreator.getWorkspace().getFolderManager()
+											.getEntityTextureFile(RegistryNameFixer.fix(textureName)));
+							break;
+						case "painting":
+							FileIO.writeImageToPNGFile(ImageUtils.toBufferedImage(image.getImage()),
+									mcreator.getWorkspace().getFolderManager()
+											.getPaintingTextureFile(RegistryNameFixer.fix(textureName)));
+							break;
+						case "other":
+							FileIO.writeImageToPNGFile(ImageUtils.toBufferedImage(image.getImage()),
+									mcreator.getWorkspace().getFolderManager()
+											.getOtherTextureFile(RegistryNameFixer.fix(textureName)));
+							break;
+						}
+					} else {
+						ArmorImageMakerView
+								.generateArmorImages(workspace, name.toLowerCase(Locale.ENGLISH), "", texture.armorType,
+										color, true);
 					}
-				} else {
-					ArmorImageMakerView
-							.generateArmorImages(workspace, name.toLowerCase(Locale.ENGLISH), "", texture.armorType, color, true);
 				}
 			}
 		}

@@ -104,7 +104,7 @@ public class MaterialPackMakerTool {
 		ToolPackMakerTool.addToolPackToWorkspace(mcreator, workspace, name, gem, color, factor);
 		ArmorPackMakerTool.addArmorPackToWorkspace(mcreator, workspace, name, "", gem, color, factor);
 		CustomPackMakerTool.addPackToWorkspace(mcreator, workspace, PackMakerToolLoader.getPackMakerTool("wood_pack"),
-				name, color, factor, gem);
+				name, color, factor, gem, type);
 	}
 
 	public static BasicAction getAction(ActionRegistry actionRegistry) {
