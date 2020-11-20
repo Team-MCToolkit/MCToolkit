@@ -297,6 +297,10 @@ public class CustomPackMakerTool {
 					}
 					toolElement.damageVsEntity = (double) Math.round(item.damageVsEntity * factor);
 					toolElement.repairItems = Collections.singletonList(base);
+					toolElement.harvestLevel = (int) Math.round(item.harvestLevel * factor);
+					toolElement.efficiency = (double) Math.round(item.efficiency * Math.pow(factor, 0.6));
+					toolElement.enchantability = (int) Math.round(item.enchantability * factor);
+					toolElement.usageCount = (int) Math.round(item.usageCount * Math.pow(factor, 1.4));
 					mcreator.getWorkspace().getModElementManager().storeModElementPicture(toolElement);
 					mcreator.getWorkspace().addModElement(toolElement.getModElement());
 					mcreator.getWorkspace().getGenerator().generateElement(toolElement);

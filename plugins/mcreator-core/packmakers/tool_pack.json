@@ -79,7 +79,12 @@
         "location": "after"
       },
       "texture": "_pickaxe",
-      "toolType": "Pickaxe"
+      "toolType": "Pickaxe",
+      "harvestLevel": 2,
+      "damageVsEntity": 2,
+      "efficiency": 6,
+      "enchantability": 14,
+      "usageCount": 250
     },
     {
       "elementType": "tool",
@@ -89,7 +94,12 @@
         "location": "after"
       },
       "texture": "_axe",
-      "toolType": "Axe"
+      "toolType": "Axe",
+      "harvestLevel": 2,
+      "damageVsEntity": 9,
+      "efficiency": 6,
+      "enchantability": 14,
+      "usageCount": 250
     },
     {
       "elementType": "tool",
@@ -99,7 +109,12 @@
         "location": "after"
       },
       "texture": "_sword",
-      "toolType": "Sword"
+      "toolType": "Sword",
+      "harvestLevel": 2,
+      "damageVsEntity": 6,
+      "efficiency": 6,
+      "enchantability": 14,
+      "usageCount": 250
     },
     {
       "elementType": "tool",
@@ -109,7 +124,12 @@
         "location": "after"
       },
       "texture": "_shovel",
-      "toolType": "Shovel"
+      "toolType": "Shovel",
+      "harvestLevel": 2,
+      "damageVsEntity": 2,
+      "efficiency": 6,
+      "enchantability": 14,
+      "usageCount": 250
     },
     {
       "elementType": "tool",
@@ -119,7 +139,12 @@
         "location": "after"
       },
       "texture": "_hoe",
-      "toolType": "Hoe"
+      "toolType": "Hoe",
+      "harvestLevel": 2,
+      "damageVsEntity": 2,
+      "efficiency": 6,
+      "enchantability": 14,
+      "usageCount": 250
     }
   ],
   "recipes":[

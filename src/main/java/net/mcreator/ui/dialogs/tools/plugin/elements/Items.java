@@ -27,6 +27,10 @@ public class Items {
 	@Nullable public String toolType;
 	@Nullable public String creativeTab;
 	@Nullable public double damageVsEntity = 4;
+	@Nullable public int harvestLevel;
+	@Nullable public double efficiency;
+	@Nullable public int enchantability;
+	@Nullable public int usageCount;
 
 	public class Name{
 		public String name;
