@@ -94,7 +94,10 @@ public class CustomPackMakerTool {
 				new SpinnerNumberModel(pmt.ui.power.value, pmt.ui.power.min, pmt.ui.power.max,
 						pmt.ui.power.stepSize));
 		MCItemHolder base = new MCItemHolder(mcreator, ElementUtil::loadBlocksAndItems);
-		JComboBox<String> type = new JComboBox<>(pmt.ui.type);
+		JComboBox<String> type = new JComboBox<>();
+		if(pmt.ui.type != null){
+			type = new JComboBox<>(pmt.ui.type);
+		}
 
 		VTextField name = new VTextField(pmt.ui.name.length);
 		name.enableRealtimeValidation();
@@ -143,17 +146,18 @@ public class CustomPackMakerTool {
 
 		name.setValidator(new ModElementNameValidator(mcreator.getWorkspace(), name));
 
+		JComboBox<String> finalType = type;
 		ok.addActionListener(e -> {
 			if (name.getValidationStatus().getValidationResultType() != Validator.ValidationResultType.ERROR) {
 				dialog.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 				addPackToWorkspace(mcreator, mcreator.getWorkspace(), pmt, name.getText(), color.getColor(),
-						(Double) power.getValue(), base.getBlock(), (String) Objects.requireNonNull(type.getSelectedItem()));
+						(Double) power.getValue(), base.getBlock(), (String) finalType.getSelectedItem());
 				if(pmt.packs != null) {
 					for (String id : pmt.packs) {
 						PackMakerTool packMakerTool = PackMakerToolLoader.getPackMakerTool(id);
 						addPackToWorkspace(mcreator, mcreator.getWorkspace(), packMakerTool, name.getText(),
 								color.getColor(), (Double) power.getValue(), base.getBlock(),
-								(String) Objects.requireNonNull(type.getSelectedItem()));
+								(String) Objects.requireNonNull(finalType.getSelectedItem()));
 					}
 				}
 				mcreator.mv.updateMods();
@@ -170,17 +174,39 @@ public class CustomPackMakerTool {
 
 	public static void addPackToWorkspace(MCreator mcreator, Workspace workspace, PackMakerTool pmt, String name, @Nullable Color color,
 			double factor, @Nullable MItemBlock base, @Nullable String type) {
-
 		if (pmt.textures != null) {
-			System.out.println(type);
 			for(PackMakerTool.Texture texture : pmt.textures){
-				if(type.equals(texture.condition) || texture.condition == null){
+				boolean b = (type == null);
+				if(!b)
+					b = type.equals(texture.condition);
+				if(b || texture.condition.equals("")){
 					if (!texture.type.equals("armor")) {
 						ImageIcon image;
-						image = ImageUtils.colorize(ImageMakerTexturesCache.CACHE.get(new ResourcePointer(
-										"templates/textures/texturemaker/" + ListUtils
-												.getRandomItem(Arrays.asList(texture.textures.toArray())) + ".png")), color,
-								true);
+						if(texture.baseTexture != null){
+							if(texture.baseTextureTop){
+								image = ImageUtils.drawOver(
+										ImageUtils.colorize(ImageMakerTexturesCache.CACHE.get(new ResourcePointer(
+														"templates/textures/texturemaker/" + ListUtils
+																.getRandomItem(Arrays.asList(texture.textures.toArray())) + ".png")), color,
+												true),
+										ImageMakerTexturesCache.CACHE.get(new ResourcePointer("templates/textures/texturemaker/" + ListUtils
+												.getRandomItem(Arrays.asList(texture.baseTexture.toArray())) + ".png")));
+							} else {
+								image = ImageUtils.drawOver(
+										ImageMakerTexturesCache.CACHE.get(new ResourcePointer("templates/textures/texturemaker/" + ListUtils
+												.getRandomItem(Arrays.asList(texture.baseTexture.toArray())) + ".png")),
+										ImageUtils.colorize(ImageMakerTexturesCache.CACHE.get(new ResourcePointer(
+														"templates/textures/texturemaker/" + ListUtils
+																.getRandomItem(Arrays.asList(texture.textures.toArray())) + ".png")), color,
+												true));
+							}
+
+						} else {
+							image = ImageUtils.colorize(ImageMakerTexturesCache.CACHE.get(new ResourcePointer(
+											"templates/textures/texturemaker/" + ListUtils
+													.getRandomItem(Arrays.asList(texture.textures.toArray())) + ".png")), color,
+									true);
+						}
 						String textureName = (name + texture.name).toLowerCase(Locale.ENGLISH);
 						switch (texture.type) {
 						case "item":
@@ -224,10 +250,12 @@ public class CustomPackMakerTool {
 				String itemName = "";
 				//"default" uses the name of the text field only
 				if (item.name.useTextField){
-					if(item.name.location.equals("after"))
-						itemName = name + " " + item.name.name;
-					else if(item.name.location.equals("before"))
-						itemName = item.name.name + " " + name;
+					if (item.name.location != null) {
+						if(item.name.location.equals("after"))
+							itemName = name + " " + item.name.name;
+						else if(item.name.location.equals("before"))
+							itemName = item.name.name + " " + name;
+					}
 				} else
 					itemName = item.name.name;
 
@@ -266,10 +294,12 @@ public class CustomPackMakerTool {
 				String blockName = "";
 				//"default" uses the name of the text field only
 				if (block.name.useTextField){
-					if(block.name.location.equals("after"))
-						blockName = name + " " + block.name.name;
-					else if(block.name.location.equals("before"))
-						blockName = block.name.name + " " + name;
+					if (block.name.location != null) {
+						if(block.name.location.equals("after"))
+							blockName = name + " " + block.name.name;
+						else if(block.name.location.equals("before"))
+							blockName = block.name.name + " " + name;
+					}
 				} else
 					blockName = block.name.name;
 
@@ -329,29 +359,37 @@ public class CustomPackMakerTool {
 			for(Recipes recipe : pmt.recipes){
 				//Create the mod element using a template
 				String blockName = "";
-				for(Blocks block : pmt.blocks){
-					if(recipe.block.equals(block.name.name)){
-						if (block.name.useTextField){
-							if(block.name.location.equals("after"))
-								blockName = name + block.name.name;
-							else if(block.name.location.equals("before"))
-								blockName = block.name.name + name;
-						} else
-							blockName = block.name.name;
+				if (pmt.blocks != null) {
+					for(Blocks block : pmt.blocks){
+						if(recipe.block.equals(block.name.name)){
+							if (block.name.useTextField){
+								if (block.name.location != null) {
+									if(block.name.location.equals("after"))
+										blockName = name + block.name.name;
+									else if(block.name.location.equals("before"))
+										blockName = block.name.name + name;
+								}
+							} else
+								blockName = block.name.name;
+						}
 					}
 				}
 
 				String resultItemName = recipe.returnItem;
 				if(!recipe.returnItem.contains("Items.") || !recipe.returnItem.contains("Blocks.")) {
-					for (Blocks block : pmt.blocks) {
-						if (recipe.block.equals(block.name.name)) {
-							if (block.name.useTextField) {
-								if (block.name.location.equals("after"))
-									resultItemName = name + block.name.name;
-								else if (block.name.location.equals("before"))
-									resultItemName = block.name.name + name;
-							} else
-								resultItemName = block.name.name;
+					if (pmt.blocks != null) {
+						for (Blocks block : pmt.blocks) {
+							if (recipe.block.equals(block.name.name)) {
+								if (block.name.useTextField) {
+									if (block.name.location != null) {
+										if (block.name.location.equals("after"))
+											resultItemName = name + block.name.name;
+										else if (block.name.location.equals("before"))
+											resultItemName = block.name.name + name;
+									}
+								} else
+									resultItemName = block.name.name;
+							}
 						}
 					}
 				}
@@ -430,10 +468,12 @@ public class CustomPackMakerTool {
 							for (Blocks block : pmt.blocks) {
 								if (str.equals(block.name.name)) {
 									if (block.name.useTextField) {
-										if (block.name.location.equals("after"))
-											blockName = name + block.name.name;
-										else if (block.name.location.equals("before"))
-											blockName = block.name.name + name;
+										if (block.name.location != null) {
+											if (block.name.location.equals("after"))
+												blockName = name + block.name.name;
+											else if (block.name.location.equals("before"))
+												blockName = block.name.name + name;
+										}
 									} else
 										blockName = block.name.name;
 								}
@@ -449,10 +489,12 @@ public class CustomPackMakerTool {
 						for (Items item : pmt.items) {
 							if (str.equals(item.name.name)) {
 								if (item.name.useTextField) {
-									if (item.name.location.equals("after"))
-										blockName = name + item.name.name;
-									else if (item.name.location.equals("before"))
-										blockName = item.name.name + name;
+									if (item.name.location != null) {
+										if (item.name.location.equals("after"))
+											blockName = name + item.name.name;
+										else if (item.name.location.equals("before"))
+											blockName = item.name.name + name;
+									}
 								} else
 									blockName = item.name.name;
 							}

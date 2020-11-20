@@ -59,10 +59,12 @@ public class PackMakerTool {
 	}
 
 	public class Texture{
+		@Nullable public List<String> baseTexture;
 		public List<String> textures;
+		@Nullable public boolean baseTextureTop;
 		public String type;
 		@Nullable public String armorType;
 		public String name;
-		@Nullable public String condition;
+		@Nullable public String condition = "";
 	}
 }
