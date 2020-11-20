@@ -44,7 +44,7 @@ public class PackMakerTool {
 		public NameField name;
 		@Nullable public boolean color;
 		@Nullable public PowerSpinner power;
-		@Nullable public boolean itemBase;
+		@Nullable public boolean baseItem;
 		@Nullable public String[] type;
 
 		public class NameField{

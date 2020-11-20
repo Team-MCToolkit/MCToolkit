@@ -26,6 +26,7 @@ public class Blocks {
 	public String elementType;
 	public Items.Name name;
 	public String texture;
+	@Nullable public String creativeTab;
 	@Nullable public String textureTop;
 	@Nullable public String textureLeft;
 	@Nullable public String textureFront;

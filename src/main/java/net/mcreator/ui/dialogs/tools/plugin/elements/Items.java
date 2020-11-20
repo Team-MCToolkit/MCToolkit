@@ -24,6 +24,9 @@ public class Items {
 	public String elementType;
 	public Name name;
 	public String texture;
+	@Nullable public String toolType;
+	@Nullable public String creativeTab;
+	@Nullable public double damageVsEntity = 4;
 
 	public class Name{
 		public String name;

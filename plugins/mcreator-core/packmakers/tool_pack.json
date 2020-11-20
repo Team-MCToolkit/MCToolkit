@@ -1,0 +1,153 @@
+{
+  "ui": {
+    "icon": "toolpack",
+    "name": {
+      "length": 25
+    },
+    "color": true,
+    "power": {
+      "value": 1.0,
+      "min": 0.1,
+      "max": 100,
+      "stepSize": 0.1
+    },
+    "baseItem": true
+  },
+  "textures":[
+    {
+      "name": "_pickaxe",
+      "type": "item",
+      "baseTexture": [
+        "tool_base_stick"
+      ],
+      "textures":[
+        "tool_pickaxe"
+      ],
+      "baseTextureTop": false
+    },
+    {
+      "name": "_axe",
+      "type": "item",
+      "baseTexture": [
+        "tool_base_stick"
+      ],
+      "textures":[
+        "tool_axe"
+      ],
+      "baseTextureTop": false
+    },
+    {
+      "name": "_sword",
+      "type": "item",
+      "baseTexture": [
+        "tool_base_stick"
+      ],
+      "textures":[
+        "tool_sword"
+      ],
+      "baseTextureTop": false
+    },
+    {
+      "name": "_shovel",
+      "type": "item",
+      "baseTexture": [
+        "tool_base_stick"
+      ],
+      "textures":[
+        "tool_shovel_base"
+      ],
+      "baseTextureTop": false
+    },
+    {
+      "name": "_hoe",
+      "type": "item",
+      "baseTexture": [
+        "tool_base_stick"
+      ],
+      "textures":[
+        "tool_hoe"
+      ],
+      "baseTextureTop": false
+    }
+  ],
+  "items": [
+    {
+      "elementType": "tool",
+      "name": {
+        "name": "Pickaxe",
+        "useTextField": true,
+        "location": "after"
+      },
+      "texture": "_pickaxe",
+      "toolType": "Pickaxe"
+    },
+    {
+      "elementType": "tool",
+      "name": {
+        "name": "Axe",
+        "useTextField": true,
+        "location": "after"
+      },
+      "texture": "_axe",
+      "toolType": "Axe"
+    },
+    {
+      "elementType": "tool",
+      "name": {
+        "name": "Sword",
+        "useTextField": true,
+        "location": "after"
+      },
+      "texture": "_sword",
+      "toolType": "Sword"
+    },
+    {
+      "elementType": "tool",
+      "name": {
+        "name": "Shovel",
+        "useTextField": true,
+        "location": "after"
+      },
+      "texture": "_shovel",
+      "toolType": "Shovel"
+    },
+    {
+      "elementType": "tool",
+      "name": {
+        "name": "Hoe",
+        "useTextField": true,
+        "location": "after"
+      },
+      "texture": "_hoe",
+      "toolType": "Hoe"
+    }
+  ],
+  "recipes":[
+    {
+      "type": "crafting",
+      "template": "custom",
+      "recipeName": "PickaxeRecipe",
+      "pattern": [
+        "bbb",
+        " s ",
+        " s "
+      ],
+      "keys": [
+        {
+          "keyName": "b",
+          "useBaseItem": true
+        },
+        {
+          "keyName": "s",
+          "item": "Items.STICK"
+        }
+      ],
+      "returnItem": "Pickaxe",
+      "stackSize": 1
+    }
+  ],
+  "mod_elements": [
+    "TOOL",
+    "RECIPE"
+  ]
+}

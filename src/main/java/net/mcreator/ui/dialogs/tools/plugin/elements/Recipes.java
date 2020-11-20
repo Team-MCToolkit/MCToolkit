@@ -18,14 +18,23 @@
 package net.mcreator.ui.dialogs.tools.plugin.elements;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 public class Recipes {
 	public String type;
 	@Nullable public String template;
 	public String recipeName;
-	public String block;
+	@Nullable public String block;
 	public String returnItem;
+	@Nullable public List<String> pattern;
+	@Nullable public List<Key> keys;
 	@Nullable public int xpReward;
 	@Nullable public int cookingTime;
 	@Nullable public int stackSize;
+
+	public static class Key {
+		@Nullable public String keyName;
+		public String item;
+		@Nullable public boolean useBaseItem;
+	}
 }

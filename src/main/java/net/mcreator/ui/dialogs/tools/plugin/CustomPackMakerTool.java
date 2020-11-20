@@ -23,6 +23,7 @@ import net.mcreator.element.ModElementTypeRegistry;
 import net.mcreator.element.parts.MItemBlock;
 import net.mcreator.element.parts.Material;
 import net.mcreator.element.parts.StepSound;
+import net.mcreator.element.parts.TabEntry;
 import net.mcreator.element.types.*;
 import net.mcreator.generator.GeneratorConfiguration;
 import net.mcreator.generator.GeneratorStats;
@@ -57,10 +58,7 @@ import net.mcreator.workspace.elements.ModElement;
 import javax.annotation.Nullable;
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Locale;
-import java.util.Objects;
+import java.util.*;
 
 public class CustomPackMakerTool {
 
@@ -86,7 +84,7 @@ public class CustomPackMakerTool {
 			i++;
 		if(pmt.ui.type != null)
 			i++;
-		if (pmt.ui.itemBase)
+		if (pmt.ui.baseItem)
 			i = i + 2;
 		JPanel props = new JPanel(new GridLayout(i, 2, 5, 5));
 		JColor color = new JColor(mcreator, false);
@@ -104,7 +102,7 @@ public class CustomPackMakerTool {
 		props.add(L10N.label("dialog.tools." + pmt.packID + "_name"));
 		props.add(name);
 
-		if (pmt.ui.color && !pmt.ui.itemBase) {
+		if (pmt.ui.color && !pmt.ui.baseItem) {
 			props.add(L10N.label("dialog.tools." + pmt.packID + "_color_accent"));
 			props.add(color);
 		}
@@ -116,7 +114,7 @@ public class CustomPackMakerTool {
 			props.add(L10N.label("dialog.tools." + pmt.packID + "_type"));
 			props.add(type);
 		}
-		if (pmt.ui.itemBase) {
+		if (pmt.ui.baseItem) {
 			props.add(L10N.label("dialog.tools." + pmt.packID + "_color_accent"));
 			props.add(color);
 
@@ -266,7 +264,9 @@ public class CustomPackMakerTool {
 							.getModElement(mcreator, new ModElement(workspace, itemName.replace(" ", ""), ModElementType.ITEM), false)
 							.getElementFromGUI();
 					itemElement.name = itemName;
-					itemElement.texture = item.texture;
+					itemElement.texture = name + item.texture;
+					if(item.creativeTab != null)
+						itemElement.creativeTab = new TabEntry(mcreator.getWorkspace(), item.creativeTab);
 					mcreator.getWorkspace().getModElementManager().storeModElementPicture(itemElement);
 					mcreator.getWorkspace().addModElement(itemElement.getModElement());
 					mcreator.getWorkspace().getGenerator().generateElement(itemElement);
@@ -274,17 +274,36 @@ public class CustomPackMakerTool {
 					break;
 				case "food":
 					Food foodElement = (Food) ModElementTypeRegistry.REGISTRY.get(ModElementType.FOOD)
-							.getModElement(mcreator, new ModElement(workspace, itemName, ModElementType.FOOD), false)
+							.getModElement(mcreator, new ModElement(workspace, itemName.replace(" ", ""), ModElementType.FOOD), false)
 							.getElementFromGUI();
 					foodElement.name = itemName;
-					foodElement.texture = item.texture;
+					foodElement.texture = name + item.texture;
+					if(item.creativeTab != null)
+						foodElement.creativeTab = new TabEntry(mcreator.getWorkspace(), item.creativeTab);
 					mcreator.getWorkspace().getModElementManager().storeModElementPicture(foodElement);
 					mcreator.getWorkspace().addModElement(foodElement.getModElement());
 					mcreator.getWorkspace().getGenerator().generateElement(foodElement);
 					mcreator.getWorkspace().getModElementManager().storeModElement(foodElement);
 					break;
+				case "tool":
+					Tool toolElement = (Tool) ModElementTypeRegistry.REGISTRY.get(ModElementType.TOOL)
+							.getModElement(mcreator, new ModElement(workspace, itemName.replace(" ", ""), ModElementType.TOOL), false)
+							.getElementFromGUI();
+					toolElement.name = name + " " + itemName;
+					toolElement.texture = name + item.texture;
+					toolElement.toolType = item.toolType;
+					if(item.creativeTab != null) {
+						toolElement.creativeTab = new TabEntry(mcreator.getWorkspace(), item.creativeTab);
+					}
+					toolElement.damageVsEntity = (double) Math.round(item.damageVsEntity * factor);
+					toolElement.repairItems = Collections.singletonList(base);
+					mcreator.getWorkspace().getModElementManager().storeModElementPicture(toolElement);
+					mcreator.getWorkspace().addModElement(toolElement.getModElement());
+					mcreator.getWorkspace().getGenerator().generateElement(toolElement);
+					mcreator.getWorkspace().getModElementManager().storeModElement(toolElement);
+					break;
 				default:
-					PackMakerToolLoader.LOG.error("Unexpected value: " + item.elementType);
+					PackMakerToolLoader.LOG.error("Unsupported mod element: " + item.elementType);
 				}
 			}
 		}
@@ -311,6 +330,8 @@ public class CustomPackMakerTool {
 							.getElementFromGUI();
 					blockElement.name = blockName;
 					blockElement.texture = name + block.texture;
+					if(block.creativeTab != null)
+						blockElement.creativeTab = new TabEntry(mcreator.getWorkspace(), block.creativeTab);
 					if(block.textureBack != null)
 						blockElement.textureBack = name + block.textureBack;
 					if(block.textureFront != null)
@@ -379,16 +400,31 @@ public class CustomPackMakerTool {
 				if(!recipe.returnItem.contains("Items.") || !recipe.returnItem.contains("Blocks.")) {
 					if (pmt.blocks != null) {
 						for (Blocks block : pmt.blocks) {
-							if (recipe.block.equals(block.name.name)) {
+							if (recipe.returnItem.equals(block.name.name)) {
 								if (block.name.useTextField) {
 									if (block.name.location != null) {
 										if (block.name.location.equals("after"))
-											resultItemName = name + block.name.name;
+											resultItemName = "CUSTOM:" + name + block.name.name;
 										else if (block.name.location.equals("before"))
-											resultItemName = block.name.name + name;
+											resultItemName = "CUSTOM:" + block.name.name + name;
 									}
 								} else
-									resultItemName = block.name.name;
+									resultItemName = "CUSTOM:" + block.name.name;
+							}
+						}
+					}
+					if (pmt.items != null) {
+						for (Items item : pmt.items) {
+							if (recipe.returnItem.equals(item.name.name)) {
+								if (item.name.useTextField) {
+									if (item.name.location != null) {
+										if (item.name.location.equals("after"))
+											resultItemName = "CUSTOM:" + name + item.name.name;
+										else if (item.name.location.equals("before"))
+											resultItemName = "CUSTOM:" + item.name.name + name;
+									}
+								} else
+									resultItemName = "CUSTOM:" + item.name.name;
 							}
 						}
 					}
@@ -427,6 +463,9 @@ public class CustomPackMakerTool {
 									recipe.stackSize);
 						else
 							RecipeUtils.fullBlock(mcreator, workspace, blockName, name, recipe.recipeName, resultItemName, recipe.stackSize);
+						break;
+					case "custom":
+						RecipeUtils.custom(mcreator, workspace, recipe, pmt, name, resultItemName, base);
 						break;
 					}
 					break;
