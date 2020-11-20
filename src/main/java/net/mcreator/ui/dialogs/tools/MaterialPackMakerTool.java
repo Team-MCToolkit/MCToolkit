@@ -101,10 +101,9 @@ public class MaterialPackMakerTool {
 	private static void addMaterialPackToWorkspace(MCreator mcreator, Workspace workspace, String name, String type,
 			Color color, double factor) {
 		MItemBlock gem = OrePackMakerTool.addOrePackToWorkspace(mcreator, workspace, name, type, color, factor);
-		ToolPackMakerTool.addToolPackToWorkspace(mcreator, workspace, name, gem, color, factor);
-		ArmorPackMakerTool.addArmorPackToWorkspace(mcreator, workspace, name, "", gem, color, factor);
-		CustomPackMakerTool.addPackToWorkspace(mcreator, workspace, PackMakerToolLoader.getPackMakerTool("wood_pack"),
+		CustomPackMakerTool.addPackToWorkspace(mcreator, workspace, PackMakerToolLoader.getPackMakerTool("tool_pack"),
 				name, color, factor, gem, type);
+		ArmorPackMakerTool.addArmorPackToWorkspace(mcreator, workspace, name, "", gem, color, factor);
 	}
 
 	public static BasicAction getAction(ActionRegistry actionRegistry) {
