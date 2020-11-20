@@ -198,14 +198,10 @@ public class RecipeUtils {
 					for(Recipes.Key key : recipe.keys){
 						if (key.keyName.equals(String.valueOf(c))) {
 							if(key.useBaseItem){
-								System.out.println(base);
-								System.out.println("1");
 								customRecipe.recipeSlots[slot] = base;
 							} else if(key.item.contains("Items.") || key.item.contains("Blocks.")) {
-								System.out.println("2");
 								customRecipe.recipeSlots[slot] = new MItemBlock(workspace, key.item);
 							} else {
-								System.out.println("3");
 								String blockName = "";
 								//Try to get block with the key
 								if (pmt.blocks != null) {
