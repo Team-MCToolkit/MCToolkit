@@ -51,10 +51,10 @@
       "name": "_shovel",
       "type": "item",
       "baseTexture": [
-        "tool_base_stick"
+        "tool_shovel_base"
       ],
       "textures":[
-        "tool_shovel_base"
+        "tool_shovel_top"
       ],
       "baseTextureTop": false
     },
