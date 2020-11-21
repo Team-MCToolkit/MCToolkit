@@ -1,0 +1,90 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "x",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "y",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "z",
+      "check": "Number"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "rotation",
+      "options": [
+        [
+          "NONE",
+          "NONE"
+        ],
+        [
+          "CLOCKWISE_90",
+          "CLOCKWISE_90"
+        ],
+        [
+          "CLOCKWISE_180",
+          "CLOCKWISE_180"
+        ],
+        [
+          "COUNTERCLOCKWISE_90",
+          "COUNTERCLOCKWISE_90"
+        ]
+      ]
+    },
+    {
+      "type": "field_dropdown",
+      "name": "mirror",
+      "options": [
+        [
+          "NONE",
+          "NONE"
+        ],
+        [
+          "FRONT_BACK",
+          "FRONT_BACK"
+        ],
+        [
+          "LEFT_RIGHT",
+          "LEFT_RIGHT"
+        ]
+      ]
+    }
+  ],
+  "extensions": [
+    "schematic_list_provider"
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 35,
+  "mcreator": {
+    "toolbox_id": "worldmanagement",
+    "toolbox_init": [
+      "<value name=\"x\"><block type=\"coord_x\"></block></value>",
+      "<value name=\"y\"><block type=\"coord_y\"></block></value>",
+      "<value name=\"z\"><block type=\"coord_z\"></block></value>"
+    ],
+    "fields": [
+      "schematic",
+      "rotation",
+      "mirror"
+    ],
+    "inputs": [
+      "x",
+      "y",
+      "z"
+    ],
+    "dependencies": [
+      {
+        "name": "world",
+        "type": "world"
+      }
+    ]
+  }
+}

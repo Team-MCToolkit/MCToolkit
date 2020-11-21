@@ -61,7 +61,7 @@ import java.util.stream.Collectors;
 
 public final class MCreator extends JFrame {
 
-	private static final Logger LOG = LogManager.getLogger("MCreator");
+	private static final Logger LOG = LogManager.getLogger("MCToolkit");
 
 	public WorkspacePanel mv;
 	private final GradleConsole gradleConsole;
