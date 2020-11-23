@@ -82,8 +82,6 @@ public class CustomPackMakerTool {
 			i++;
 		if (pmt.ui.power != null)
 			i++;
-		if(pmt.ui.type != null)
-			i++;
 		if (pmt.ui.baseItem)
 			i = i + 2;
 		JPanel props = new JPanel(new GridLayout(i, 2, 5, 5));
@@ -93,9 +91,6 @@ public class CustomPackMakerTool {
 						pmt.ui.power.stepSize));
 		MCItemHolder base = new MCItemHolder(mcreator, ElementUtil::loadBlocksAndItems);
 		JComboBox<String> type = new JComboBox<>();
-		if(pmt.ui.type != null){
-			type = new JComboBox<>(pmt.ui.type);
-		}
 
 		VTextField name = new VTextField(pmt.ui.name.length);
 		name.enableRealtimeValidation();
@@ -109,10 +104,6 @@ public class CustomPackMakerTool {
 		if (pmt.ui.power != null) {
 			props.add(L10N.label("dialog.tools." + pmt.packID + "_power_factor"));
 			props.add(power);
-		}
-		if(pmt.ui.type != null) {
-			props.add(L10N.label("dialog.tools." + pmt.packID + "_type"));
-			props.add(type);
 		}
 		if (pmt.ui.baseItem) {
 			props.add(L10N.label("dialog.tools." + pmt.packID + "_color_accent"));
