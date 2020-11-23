@@ -63,7 +63,6 @@ public class MainToolBar extends JToolBar {
 
 		add(mcreator.actionRegistry.openMaterialPackMaker);
 		add(mcreator.actionRegistry.openOrePackMaker);
-		add(mcreator.actionRegistry.openToolPackMaker);
 		add(mcreator.actionRegistry.openArmorPackMaker);
 		for(PackMakerTool pmt : PackMakerToolLoader.getPackMakersList()){
 			if(pmt.ui.icon != null){
