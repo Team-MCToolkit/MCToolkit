@@ -545,7 +545,7 @@ public class CustomPackMakerTool {
 	}
 
 	public static BasicAction getAction(ActionRegistry actionRegistry, PackMakerTool packMakerTool) {
-		return new BasicAction(actionRegistry, L10N.t("action.pack_tools." + packMakerTool.packID),
+		return new BasicAction(actionRegistry, L10N.t("dialog.tools." + packMakerTool.packID + "_create"),
 				e -> CustomPackMakerTool.open(actionRegistry.getMCreator(), packMakerTool)) {
 			@Override public boolean isEnabled() {
 				GeneratorConfiguration gc = actionRegistry.getMCreator().getWorkspace().getGenerator()

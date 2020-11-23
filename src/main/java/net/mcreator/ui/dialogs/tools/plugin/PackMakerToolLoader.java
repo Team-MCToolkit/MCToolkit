@@ -43,7 +43,7 @@ public class PackMakerToolLoader {
 	private PackMakerToolLoader() {
 		final Gson gson = new GsonBuilder().setLenient().create();
 
-		Set<String> fileNames = PluginLoader.INSTANCE.getResources("tools/packmakers", format);
+		Set<String> fileNames = PluginLoader.INSTANCE.getResources("tools.packmakers", format);
 		for (String packMakerTool : fileNames) {
 			try {
 				JsonObject jsonresult = JsonParser
