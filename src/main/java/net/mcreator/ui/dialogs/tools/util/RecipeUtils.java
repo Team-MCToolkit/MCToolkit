@@ -237,7 +237,7 @@ public class RecipeUtils {
 										}
 									}
 								}
-
+								customRecipe.recipeShapeless = recipe.isShapeless;
 								customRecipe.recipeSlots[slot] = new MItemBlock(workspace, blockName);
 							}
 

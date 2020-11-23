@@ -31,6 +31,7 @@ public class Recipes {
 	@Nullable public int xpReward;
 	@Nullable public int cookingTime;
 	@Nullable public int stackSize;
+	@Nullable public boolean isShapeless;
 
 	public static class Key {
 		@Nullable public String keyName;
