@@ -119,7 +119,7 @@ public final class MCreatorApplication {
 		// load blockly blocks after plugins are loaded
 		BlocklyLoader.init();
 
-		// load pack maker tools defined by plugins after plugins are loaded
+		// load pack makers defined by plugins after plugins are loaded
 		PackMakerToolIcons.init();
 		PackMakerToolLoader.init();
 

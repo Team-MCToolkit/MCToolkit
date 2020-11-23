@@ -79,7 +79,7 @@ public class TestSetup {
 		// blockly mod elements need blockly blocks loaded
 		BlocklyLoader.init();
 
-		// load pack maker tools defined by plugins after plugins are loaded
+		// load pack makers defined by plugins after plugins are loaded
 		PackMakerToolIcons.init();
 		PackMakerToolLoader.init();
 
