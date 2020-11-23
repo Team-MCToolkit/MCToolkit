@@ -1,7 +1,7 @@
 new Object() {
 
             private int ticks;
-            private float time;
+            private final float time;
 
             public Object init() {
                 this.time = ((float) ${input$SEC}) * 20F;
