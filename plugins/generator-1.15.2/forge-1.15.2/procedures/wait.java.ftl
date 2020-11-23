@@ -4,7 +4,7 @@ new Object() {
             private float time;
 
             public Object init() {
-                this.time = ${input$SEC} * 20F;
+                this.time = ((float) ${input$SEC}) * 20F;
                 MinecraftForge.EVENT_BUS.register(this);
                 return this;
             }
