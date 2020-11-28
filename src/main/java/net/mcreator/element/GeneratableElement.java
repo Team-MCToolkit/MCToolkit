@@ -21,7 +21,9 @@ package net.mcreator.element;
 import com.google.gson.*;
 import net.mcreator.element.converter.ConverterRegistry;
 import net.mcreator.element.converter.IConverter;
+import net.mcreator.generator.Generator;
 import net.mcreator.generator.mapping.MappableElement;
+import net.mcreator.generator.template.TemplateGeneratorException;
 import net.mcreator.workspace.Workspace;
 import net.mcreator.workspace.elements.ModElement;
 import org.apache.logging.log4j.LogManager;
@@ -33,6 +35,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Map;
 
 public abstract class GeneratableElement {
 
@@ -64,6 +67,20 @@ public abstract class GeneratableElement {
 	 * element resources for cases such as GUI mod element
 	 */
 	public void finalizeModElementGeneration() {
+	}
+
+	/**
+	 * Returns the additional data that will be used for formatting the generated code, {@code null} by default
+	 * See {@link net.mcreator.element.types.Achievement#getAdditionalData}
+	 * See {@link net.mcreator.element.types.Procedure#getAdditionalData}
+	 * See {@link net.mcreator.element.types.Mob#getAdditionalData}
+	 * See {@link net.mcreator.element.TooltipContainerGeneratableElement#getAdditionalData}
+	 * @param generator The generator
+	 * @return The additional data for the generated code
+	 * @throws TemplateGeneratorException
+	 */
+	public Map<String, Object> getAdditionalData(Generator generator) throws TemplateGeneratorException {
+		return null;
 	}
 
 	public static class GSONAdapter
