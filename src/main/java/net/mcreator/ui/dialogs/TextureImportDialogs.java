@@ -21,31 +21,34 @@ package net.mcreator.ui.dialogs;
 import net.mcreator.io.FileIO;
 import net.mcreator.minecraft.RegistryNameFixer;
 import net.mcreator.ui.MCreator;
-import net.mcreator.ui.modgui.ModElementGUI;
+import net.mcreator.ui.init.L10N;
 import org.apache.commons.io.FilenameUtils;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
-import java.util.Arrays;
-import java.util.Locale;
+import java.util.*;
+
+import static net.mcreator.ui.dialogs.GeneralTextureSelector.*;
 
 public class TextureImportDialogs {
 
 	private static File f1, f2;
 
 	public static void importTextureGeneral(final MCreator mcreator, File file, String message) {
-		Object[] options = { "Block", "Item", "Other" };
-		int n = JOptionPane.showOptionDialog(mcreator, message, "Texture type", JOptionPane.YES_NO_CANCEL_OPTION,
-				JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+		Object[] options = { "Block", "Entity", "Item", "Other", "Painting" };
+		int n = JOptionPane.showOptionDialog(mcreator, message, L10N.t("dialog.textures_import.texture_type"),
+				JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 		if (n == 0) {
-			TextureImportDialogs.importTexturesBlockOrItem(mcreator, BlockItemTextureSelector.TextureType.BLOCK,
-					new File[] { file });
-		} else if (n == 1) {
-			TextureImportDialogs.importTexturesBlockOrItem(mcreator, BlockItemTextureSelector.TextureType.ITEM,
-					new File[] { file });
+			TextureImportDialogs.importTexturesGeneral(mcreator, TextureType.BLOCK, new File[] { file });
+		} else if (n == 1){
+			TextureImportDialogs.importTexturesGeneral(mcreator, TextureType.ENTITY, new File[] {file});
 		} else if (n == 2) {
-			TextureImportDialogs.importOtherTextures(mcreator, new File[] { file });
+			TextureImportDialogs.importTexturesGeneral(mcreator, TextureType.ITEM, new File[] { file });
+		} else if (n == 3) {
+			TextureImportDialogs.importTexturesGeneral(mcreator, TextureType.OTHER, new File[] { file });
+		} else if (n == 4){
+			TextureImportDialogs.importTexturesGeneral(mcreator, TextureType.PAINTING, new File[] {file});
 		}
 	}
 
@@ -54,11 +57,11 @@ public class TextureImportDialogs {
 		JPanel neno = new JPanel(new GridLayout(3, 2, 4, 4));
 		JButton p1 = new JButton("...");
 		JButton p2 = new JButton("...");
-		neno.add(new JLabel("Armor layer texture needs two files:"));
-		neno.add(new JLabel("*layer_1*.png and *layer_2*.png"));
-		neno.add(new JLabel("Armor texture part 1 (*layer_1*.png):"));
+		neno.add(L10N.label("dialog.textures_import.armor_needs_two_files"));
+		neno.add(L10N.label("dialog.textures_import.armor_layers"));
+		neno.add(L10N.label("dialog.textures_import.armor_part_one"));
 		neno.add(p1);
-		neno.add(new JLabel("Armor texture part 2 (*layer_2*.png):"));
+		neno.add(L10N.label("dialog.textures_import.armor_part_two"));
 		neno.add(p2);
 		p1.addActionListener(event -> {
 			File[] f1a = FileDialogs.getFileChooserDialog(fra, null, FileDialogs.FileChooserType.OPEN, false,
@@ -104,12 +107,12 @@ public class TextureImportDialogs {
 		});
 		od.add("Center", neno);
 
-		int ret = JOptionPane.showConfirmDialog(fra, od, "Import armor texture", JOptionPane.OK_CANCEL_OPTION,
+		int ret = JOptionPane.showConfirmDialog(fra, od, L10N.t("dialog.textures_import.import_armor_texture"), JOptionPane.OK_CANCEL_OPTION,
 				JOptionPane.PLAIN_MESSAGE, null);
 		if (ret == JOptionPane.OK_OPTION)
 			if (f1 == null || f2 == null) {
 				JOptionPane
-						.showMessageDialog(fra, "<html><font color=red>You haven't selected both texture files!", null,
+						.showMessageDialog(fra, L10N.t("dialog.textures_import.error_both_texture_files_not_selected"), null,
 								JOptionPane.ERROR_MESSAGE);
 			} else {
 				String namec = RegistryNameFixer
@@ -120,64 +123,16 @@ public class TextureImportDialogs {
 			}
 	}
 
-	public static void importTexturesBlockOrItem(MCreator fr, BlockItemTextureSelector.TextureType type) {
+	public static void importTexturesGeneral(MCreator fr, TextureType type) {
 		File[] hohe = FileDialogs.getMultiOpenDialog(fr, new String[] { ".png" });
 		if (hohe != null)
-			importTexturesBlockOrItem(fr, type, hohe);
+			importTexturesGeneral(fr, type, hohe);
 	}
 
-	public static void importTexturesBlockOrItem(MCreator fr, BlockItemTextureSelector.TextureType type, File[] hohe) {
+	public static void importTexturesGeneral(MCreator fr, TextureType type, File[] hohe) {
 		Arrays.stream(hohe).forEach(hoh -> {
-			String namec = RegistryNameFixer.fix(FilenameUtils.removeExtension(hoh.getName()));
-			File file;
-			if (type == BlockItemTextureSelector.TextureType.BLOCK) {
-				file = fr.getWorkspace().getFolderManager().getBlockTextureFile(namec);
-			} else {
-				file = fr.getWorkspace().getFolderManager().getItemTextureFile(namec);
-			}
-			if (file.isFile()) {
-				String name = JOptionPane.showInputDialog(fr, "<html>Texture " + namec + " already exists!<br>"
-						+ "You can enter a new name or cancel the import", "Import error", JOptionPane.WARNING_MESSAGE);
-				if (name != null) {
-					namec = RegistryNameFixer.fix(FilenameUtils.removeExtension(name));
-					if (type == BlockItemTextureSelector.TextureType.BLOCK) {
-						file = fr.getWorkspace().getFolderManager().getBlockTextureFile(namec);
-					} else {
-						file = fr.getWorkspace().getFolderManager().getItemTextureFile(namec);
-					}
-				} else {
-					return;
-				}
-			}
-			FileIO.copyFile(hoh, file);
+			TextureFolderDialog.setTextureFolder(fr, hoh, type);
 			fr.mv.resourcesPan.workspacePanelTextures.reloadElements();
-		});
-	}
-
-	public static void importOtherTextures(MCreator fr) {
-		File[] hohs = FileDialogs.getMultiOpenDialog(fr, new String[] { ".png" });
-		if (hohs != null)
-			importOtherTextures(fr, hohs);
-	}
-
-	public static void importOtherTextures(MCreator fr, File[] hohs) {
-		Arrays.stream(hohs).forEach(hoh -> {
-			String namec = RegistryNameFixer.fix(FilenameUtils.removeExtension(hoh.getName()));
-			File file = fr.getWorkspace().getFolderManager().getOtherTextureFile(namec);
-			if (file.isFile()) {
-				String name = JOptionPane.showInputDialog(fr, "<html>Texture " + namec + " already exists!<br>"
-						+ "You can enter a new name or cancel the import", "Import error", JOptionPane.WARNING_MESSAGE);
-				if (name != null) {
-					namec = RegistryNameFixer.fix(FilenameUtils.removeExtension(name));
-					file = fr.getWorkspace().getFolderManager().getOtherTextureFile(namec);
-				} else {
-					return;
-				}
-			}
-			FileIO.copyFile(hoh, file);
-			fr.mv.resourcesPan.workspacePanelTextures.reloadElements();
-			if (fr.mcreatorTabs.getCurrentTab().getContent() instanceof ModElementGUI)
-				((ModElementGUI) fr.mcreatorTabs.getCurrentTab().getContent()).reloadDataLists();
 		});
 	}
 

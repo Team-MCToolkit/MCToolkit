@@ -22,6 +22,7 @@ import net.mcreator.ui.MCreator;
 import net.mcreator.ui.component.util.ComponentUtils;
 import net.mcreator.ui.component.util.PanelUtils;
 import net.mcreator.ui.dialogs.imageeditor.NewImageDialog;
+import net.mcreator.ui.init.L10N;
 import net.mcreator.ui.init.UIRES;
 import net.mcreator.util.image.ImageUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -38,9 +39,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
-public class BlockItemTextureSelector extends MCreatorDialog {
+public class GeneralTextureSelector extends MCreatorDialog {
 
-	private final JButton naprej = new JButton("Select");
+	private final JButton naprej = L10N.button("dialog.textures_selector.select");
 	private final FilterModel model = new FilterModel();
 	public JList<File> list = new JList<>(model);
 	private final TextureType type;
@@ -51,13 +52,13 @@ public class BlockItemTextureSelector extends MCreatorDialog {
 
 	private final MCreator mcreator;
 
-	public BlockItemTextureSelector(MCreator mcreator, TextureType type) {
+	public GeneralTextureSelector(MCreator mcreator, TextureType type) {
 		super(mcreator);
 		this.type = type;
 		this.mcreator = mcreator;
 
 		setModal(true);
-		setTitle(type + " texture selection");
+		setTitle(L10N.t("dialog.textures_selector.title", type));
 		setSize(842, 480);
 
 		Dimension dim = getToolkit().getScreenSize();
@@ -81,8 +82,7 @@ public class BlockItemTextureSelector extends MCreatorDialog {
 
 		pn.add("Center", center);
 
-		JLabel aa = new JLabel(
-				"<html><center><br><br><br><br><br><h1>In order to select texture, you need to make one.</h1>To make one, click \"Resources\" in the toolbar and click \"Create item/block texture.\"");
+		JLabel aa = L10N.label("dialog.textures_selector.no_texture");
 
 		center.add(PanelUtils.centerInPanel(aa), "help");
 		center.add(new JScrollPane(list), "list");
@@ -115,12 +115,12 @@ public class BlockItemTextureSelector extends MCreatorDialog {
 
 		JPanel pno2 = new JPanel();
 
-		pno2.add(new JLabel("Search: "));
+		pno2.add(L10N.label("dialog.textures_selector.search"));
 		pno2.add(filterField);
 
 		JPanel pno = new JPanel();
 
-		JButton createTx2 = new JButton("<html>Create texture<br><small>From scratch");
+		JButton createTx2 = L10N.button("dialog.textures_selector.create_from_scratch");
 		createTx2.setFont(naprej.getFont());
 		createTx2.setIcon(UIRES.get("18px.add"));
 		createTx2.addActionListener(event -> {
@@ -130,16 +130,22 @@ public class BlockItemTextureSelector extends MCreatorDialog {
 		});
 		pno.add(createTx2);
 
-		JButton importTx = new JButton("<html>Import texture<br><small>For " + type.name().toLowerCase(Locale.ENGLISH));
+		JButton importTx = L10N.button("dialog.textures_selector.import", type.name().toLowerCase(Locale.ENGLISH));
 		importTx.setFont(naprej.getFont());
 		importTx.setIcon(UIRES.get("18px.add"));
 		importTx.addActionListener(event -> {
 
-			TextureImportDialogs.importTexturesBlockOrItem(mcreator, type);
+			TextureImportDialogs.importTexturesGeneral(mcreator, type);
 			List<File> block1;
 			if (type == TextureType.BLOCK) {
 				block1 = mcreator.getWorkspace().getFolderManager().getBlockTexturesList();
-			} else {
+			} else if (type == TextureType.ARMOR) {
+				block1 = mcreator.getWorkspace().getFolderManager().getArmorTexturesList();
+			} else if (type == TextureType.ENTITY) {
+				block1 = mcreator.getWorkspace().getFolderManager().getEntityTexturesList();
+			} else if (type == TextureType.PAINTING) {
+				block1 = mcreator.getWorkspace().getFolderManager().getPaintingTexturesList();
+			} else  {
 				block1 = mcreator.getWorkspace().getFolderManager().getItemTexturesList();
 			}
 			model.removeAllElements();
@@ -167,7 +173,13 @@ public class BlockItemTextureSelector extends MCreatorDialog {
 		List<File> block;
 		if (type == TextureType.BLOCK) {
 			block = mcreator.getWorkspace().getFolderManager().getBlockTexturesList();
-		} else {
+		} else if (type == TextureType.ARMOR) {
+			block = mcreator.getWorkspace().getFolderManager().getArmorTexturesList();
+		} else if (type == TextureType.ENTITY) {
+			block = mcreator.getWorkspace().getFolderManager().getEntityTexturesList();
+		} else if (type == TextureType.PAINTING) {
+			block = mcreator.getWorkspace().getFolderManager().getPaintingTexturesList();
+		} else  {
 			block = mcreator.getWorkspace().getFolderManager().getItemTexturesList();
 		}
 		model.removeAllElements();
@@ -264,7 +276,7 @@ public class BlockItemTextureSelector extends MCreatorDialog {
 	}
 
 	public enum TextureType {
-		BLOCK, ITEM
+		ARMOR, BLOCK, ITEM, ENTITY, PAINTING, OTHER
 	}
 
 }
