@@ -38,11 +38,6 @@ package ${package}.potion;
 	@ObjectHolder("${modid}:${registryname}")
 	public static final Effect potion = null;
 
-	<#if data.registerPotionType>
-	@ObjectHolder("${modid}:${registryname}")
-	public static final Potion potionType = null;
-	</#if>
-
 	public ${name} (${JavaModName}Elements instance) {
 		super(instance, ${data.getModElement().getSortID()});
 
@@ -52,21 +47,6 @@ package ${package}.potion;
 	@SubscribeEvent public void registerEffect(RegistryEvent.Register<Effect> event) {
 		event.getRegistry().register(new EffectCustom());
 	}
-
-	<#if data.registerPotionType>
-	@SubscribeEvent public void registerPotion(RegistryEvent.Register<Potion> event) {
-		event.getRegistry().register(new PotionCustom());
-	}
-
-	public static class PotionCustom extends Potion {
-
-		public PotionCustom() {
-			super(new EffectInstance(potion, 3600));
-			setRegistryName("${registryname}");
-		}
-
-	}
-	</#if>
 
 	public static class EffectCustom extends Effect {
 
