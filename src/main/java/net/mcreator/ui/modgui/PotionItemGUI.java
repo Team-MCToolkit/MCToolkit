@@ -83,7 +83,7 @@ public class PotionItemGUI extends ModElementGUI<PotionItem> {
 		name.enableRealtimeValidation();
 		page1group.addValidationElement(name);
 
-		pane3.add(PanelUtils.northAndCenterElement(PanelUtils.join(FlowLayout.CENTER, northPanel), mainEditor));
+		pane3.add(PanelUtils.northAndCenterElement(PanelUtils.join(FlowLayout.LEFT, northPanel), mainEditor));
 		addPage(pane3);
 
 		if (!isEditingMode()) {

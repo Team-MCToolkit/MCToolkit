@@ -27,6 +27,7 @@ import net.mcreator.ui.MCreator;
 import net.mcreator.ui.component.util.PanelUtils;
 import net.mcreator.ui.help.HelpUtils;
 import net.mcreator.ui.help.IHelpContext;
+import net.mcreator.ui.init.L10N;
 import net.mcreator.ui.init.UIRES;
 import net.mcreator.workspace.Workspace;
 
@@ -55,18 +56,18 @@ public class JPotionListEntry extends JPanel {
 
 		ElementUtil.loadAllPotionEffects(workspace).forEach(e -> effect.addItem(e.getName()));
 
-		add(new JLabel("Effect: "));
+		add(L10N.label("elementgui.potionitem.effect"));
 		add(effect);
 
-		add(HelpUtils.wrapWithHelpButton(IHelpContext.NONE.withEntry("potionitem/duration"), new JLabel("Duration: ")));
+		add(HelpUtils.wrapWithHelpButton(IHelpContext.NONE.withEntry("potionitem/duration"), L10N.label("elementgui.potionitem.duration")));
 		add(duration);
 
 		add(HelpUtils
-				.wrapWithHelpButton(IHelpContext.NONE.withEntry("potionitem/amplifier"), new JLabel("Amplifier: ")));
+				.wrapWithHelpButton(IHelpContext.NONE.withEntry("potionitem/amplifier"), L10N.label("elementgui.potionitem.amplifier")));
 		add(amplifier);
 
 		JButton remove = new JButton(UIRES.get("16px.clear"));
-		remove.setText("Remove this entry");
+		remove.setText(L10N.t("elementgui.potionitem.remove_entry"));
 		remove.addActionListener(e -> {
 			entryList.remove(this);
 			parent.remove(container);

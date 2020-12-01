@@ -68,7 +68,7 @@ public class JPotionList extends JPanel {
 		JPanel topbar = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		topbar.setBackground((Color) UIManager.get("MCreatorLAF.LIGHT_ACCENT"));
 
-		add.setText(L10N.t("elementgui.potion.add_entry"));
+		add.setText(L10N.t("elementgui.potionitem.add_entry"));
 		topbar.add(add);
 
 		add("North", topbar);
@@ -81,7 +81,7 @@ public class JPotionList extends JPanel {
 
 		setBorder(BorderFactory.createTitledBorder(
 				BorderFactory.createLineBorder((Color) UIManager.get("MCreatorLAF.BRIGHT_COLOR"), 2),
-				L10N.t("elementgui.potion.potions"), 0, 0, getFont().deriveFont(12.0f),
+				L10N.t("elementgui.potionitem.effects"), 0, 0, getFont().deriveFont(12.0f),
 				(Color) UIManager.get("MCreatorLAF.BRIGHT_COLOR")));
 	}
 
