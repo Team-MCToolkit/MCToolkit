@@ -22,9 +22,16 @@ import net.mcreator.element.GeneratableElement;
 import net.mcreator.element.parts.EffectEntry;
 import net.mcreator.workspace.elements.ModElement;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PotionItem extends GeneratableElement {
+	public String name;
+	public List<CustomEffectEntry> effects;
+
 	public PotionItem(ModElement element) {
 		super(element);
+		effects = new ArrayList<>();
 	}
 
 	public static class CustomEffectEntry {
@@ -32,7 +39,6 @@ public class PotionItem extends GeneratableElement {
 		public EffectEntry effect;
 		public int duration;
 		public int amplifier;
-		public boolean showParticles;
 
 	}
 }

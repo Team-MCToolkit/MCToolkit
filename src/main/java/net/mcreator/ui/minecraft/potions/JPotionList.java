@@ -91,11 +91,11 @@ public class JPotionList extends JPanel {
 		add.setEnabled(false);
 	}
 
-	public List<PotionItem.CustomEffectEntry> getSpawns() {
+	public List<PotionItem.CustomEffectEntry> getEffects() {
 		return entryList.stream().map(JPotionListEntry::getEntry).filter(Objects::nonNull).collect(Collectors.toList());
 	}
 
-	public void setSpawns(List<PotionItem.CustomEffectEntry> pool) {
+	public void setEffects(List<PotionItem.CustomEffectEntry> pool) {
 		pool.forEach(e -> new JPotionListEntry(mcreator, entries, entryList).setEntry(e));
 	}
 }

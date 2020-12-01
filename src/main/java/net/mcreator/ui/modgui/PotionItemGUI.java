@@ -20,11 +20,34 @@ package net.mcreator.ui.modgui;
 
 import net.mcreator.element.types.PotionItem;
 import net.mcreator.ui.MCreator;
+import net.mcreator.ui.component.util.PanelUtils;
+import net.mcreator.ui.help.HelpUtils;
+import net.mcreator.ui.init.L10N;
+import net.mcreator.ui.init.UIRES;
+import net.mcreator.ui.minecraft.potions.JPotionList;
 import net.mcreator.ui.validation.AggregatedValidationResult;
+import net.mcreator.ui.validation.ValidationGroup;
+import net.mcreator.ui.validation.component.VTextField;
+import net.mcreator.ui.validation.validators.ConditionalTextFieldValidator;
+import net.mcreator.ui.validation.validators.RegistryNameValidator;
+import net.mcreator.ui.validation.validators.TextFieldValidator;
+import net.mcreator.util.StringUtils;
 import net.mcreator.workspace.elements.ModElement;
 import org.jetbrains.annotations.NotNull;
 
+import javax.swing.*;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+
 public class PotionItemGUI extends ModElementGUI<PotionItem> {
+
+	private final VTextField name = new VTextField(20);
+	private final JPotionList effectList = new JPotionList(mcreator);
+
+	private final JPanel effects = new JPanel(new GridLayout(0, 1, 5, 5));
+
+	private final ValidationGroup page1group = new ValidationGroup();
 
 	public PotionItemGUI(MCreator mcreator, @NotNull ModElement modElement, boolean editingMode) {
 		super(mcreator, modElement, editingMode);
@@ -33,23 +56,57 @@ public class PotionItemGUI extends ModElementGUI<PotionItem> {
 	}
 
 	@Override protected void initGUI() {
+		JPanel pane3 = new JPanel(new BorderLayout());
+		pane3.setOpaque(false);
 
+		JPanel northPanel = new JPanel(new GridLayout(1, 2, 0, 2));
+		northPanel.setOpaque(false);
+
+		northPanel.add(HelpUtils.wrapWithHelpButton(this.withEntry("potionitem/display_name"),
+				L10N.label("elementgui.common.name_in_gui")));
+		northPanel.add(name);
+
+		JPanel mainEditor = new JPanel(new GridLayout());
+
+		JComponent component = PanelUtils.northAndCenterElement(HelpUtils
+				.wrapWithHelpButton(this.withEntry("potionitem/effects"),
+						L10N.label("elementgui.potionitem.effects")), effectList);
+
+		component.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+		mainEditor.add(component);
+
+		mainEditor.setOpaque(false);
+
+		name.setValidator(
+				new TextFieldValidator(name, L10N.t("elementgui.potionitem.error_potion_needs_display_name")));
+		name.enableRealtimeValidation();
+		page1group.addValidationElement(name);
+
+		pane3.add(PanelUtils.northAndCenterElement(PanelUtils.join(FlowLayout.CENTER, northPanel), mainEditor));
+		addPage(pane3);
+
+		if (!isEditingMode()) {
+			String readableNameFromModElement = StringUtils.machineToReadableName(modElement.getName());
+			name.setText(readableNameFromModElement);
+		}
 	}
 
 	@Override protected AggregatedValidationResult validatePage(int page) {
-		return null;
+		if (page == 0)
+			return new AggregatedValidationResult(page1group);
+		return new AggregatedValidationResult.PASS();
 	}
 
-	/**
-	 * This method is called to open a mod element in the GUI
-	 *
-	 * @param generatableElement
-	 */
-	@Override protected void openInEditingMode(PotionItem generatableElement) {
-
+	@Override protected void openInEditingMode(PotionItem potion) {
+		name.setText(potion.name);
+		effectList.setEffects(potion.effects);
 	}
 
 	@Override public PotionItem getElementFromGUI() {
-		return null;
+		PotionItem potion = new PotionItem(modElement);
+		potion.name = name.getText();
+		potion.effects = effectList.getEffects();
+		return potion;
 	}
 }

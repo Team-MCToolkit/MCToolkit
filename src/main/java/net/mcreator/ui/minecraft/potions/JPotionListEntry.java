@@ -39,7 +39,6 @@ public class JPotionListEntry extends JPanel {
 
 	private final JSpinner duration = new JSpinner(new SpinnerNumberModel(3600, 1, 72000, 1));
 	private final JSpinner amplifier = new JSpinner(new SpinnerNumberModel(0, 0, 255, 1));
-	private final JCheckBox showParticles = new JCheckBox();
 	private final JComboBox<String> effect = new JComboBox<>();
 
 	private final Workspace workspace;
@@ -66,10 +65,6 @@ public class JPotionListEntry extends JPanel {
 				.wrapWithHelpButton(IHelpContext.NONE.withEntry("potionitem/amplifier"), new JLabel("Amplifier: ")));
 		add(amplifier);
 
-		add(HelpUtils.wrapWithHelpButton(IHelpContext.NONE.withEntry("potionitem/showParticles"),
-				new JLabel("Show particles: ")));
-		add(showParticles);
-
 		JButton remove = new JButton(UIRES.get("16px.clear"));
 		remove.setText("Remove this entry");
 		remove.addActionListener(e -> {
@@ -89,7 +84,6 @@ public class JPotionListEntry extends JPanel {
 		entry.effect = new EffectEntry(workspace, (String) effect.getSelectedItem());
 		entry.duration = (int) duration.getValue();
 		entry.amplifier = (int) amplifier.getValue();
-		entry.showParticles = showParticles.isSelected();
 		return entry;
 	}
 
@@ -97,6 +91,5 @@ public class JPotionListEntry extends JPanel {
 		effect.setSelectedItem(e.effect.getUnmappedValue());
 		duration.setValue(e.duration);
 		amplifier.setValue(e.amplifier);
-		showParticles.setSelected(e.showParticles);
 	}
 }
