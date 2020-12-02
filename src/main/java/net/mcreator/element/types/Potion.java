@@ -31,7 +31,6 @@ import java.io.File;
 
 public class Potion extends GeneratableElement {
 
-	public String name;
 	public String effectName;
 	public String icon;
 	public Color color;
