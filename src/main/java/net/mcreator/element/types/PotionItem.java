@@ -26,7 +26,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PotionItem extends GeneratableElement {
-	public String name;
+	public String potionName;
+	public String splashName;
+	public String lingeringName;
+	public String arrowName;
 	public List<CustomEffectEntry> effects;
 
 	public PotionItem(ModElement element) {

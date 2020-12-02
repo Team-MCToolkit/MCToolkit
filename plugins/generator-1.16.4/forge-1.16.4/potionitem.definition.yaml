@@ -4,14 +4,10 @@ templates:
 
 localizationkeys:
   - key: item.minecraft.potion.effect.@registryname
-    mapto: name
-    prefix: "Potion of "
+    mapto: potionName
   - key: item.minecraft.splash_potion.effect.@registryname
-    mapto: name
-    prefix: "Splash Potion of "
+    mapto: splashName
   - key: item.minecraft.tipped_arrow.effect.@registryname
-    mapto: name
-    prefix: "Arrow of "
+    mapto: lingeringName
   - key: item.minecraft.lingering_potion.effect.@registryname
-    mapto: name
-    prefix: "Lingering Potion of "
+    mapto: arrowName

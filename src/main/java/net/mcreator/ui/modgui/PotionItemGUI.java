@@ -42,7 +42,10 @@ import java.util.List;
 
 public class PotionItemGUI extends ModElementGUI<PotionItem> {
 
-	private final VTextField name = new VTextField(20);
+	private final VTextField potionName = new VTextField(40);
+	private final VTextField splashName = new VTextField(40);
+	private final VTextField lingeringName = new VTextField(40);
+	private final VTextField arrowName = new VTextField(40);
 	private final JPotionList effectList = new JPotionList(mcreator);
 
 	private final JPanel effects = new JPanel(new GridLayout(0, 1, 5, 5));
@@ -59,12 +62,24 @@ public class PotionItemGUI extends ModElementGUI<PotionItem> {
 		JPanel pane3 = new JPanel(new BorderLayout());
 		pane3.setOpaque(false);
 
-		JPanel northPanel = new JPanel(new GridLayout(1, 2, 0, 2));
+		JPanel northPanel = new JPanel(new GridLayout(4, 2, 0, 2));
 		northPanel.setOpaque(false);
 
 		northPanel.add(HelpUtils.wrapWithHelpButton(this.withEntry("potionitem/display_name"),
-				L10N.label("elementgui.common.name_in_gui")));
-		northPanel.add(name);
+				L10N.label("elementgui.potionitem.potion_name")));
+		northPanel.add(potionName);
+
+		northPanel.add(HelpUtils.wrapWithHelpButton(this.withEntry("potionitem/display_name"),
+				L10N.label("elementgui.potionitem.splash_name")));
+		northPanel.add(splashName);
+
+		northPanel.add(HelpUtils.wrapWithHelpButton(this.withEntry("potionitem/display_name"),
+				L10N.label("elementgui.potionitem.lingering_name")));
+		northPanel.add(lingeringName);
+
+		northPanel.add(HelpUtils.wrapWithHelpButton(this.withEntry("potionitem/display_name"),
+				L10N.label("elementgui.potionitem.arrow_name")));
+		northPanel.add(arrowName);
 
 		JPanel mainEditor = new JPanel(new GridLayout());
 
@@ -78,17 +93,41 @@ public class PotionItemGUI extends ModElementGUI<PotionItem> {
 
 		mainEditor.setOpaque(false);
 
-		name.setValidator(
-				new TextFieldValidator(name, L10N.t("elementgui.potionitem.error_potion_needs_display_name")));
-		name.enableRealtimeValidation();
-		page1group.addValidationElement(name);
+		potionName.setValidator(
+				new TextFieldValidator(potionName, L10N.t("elementgui.potionitem.error_potion_needs_display_name")));
+		potionName.enableRealtimeValidation();
+		page1group.addValidationElement(potionName);
+
+		splashName.setValidator(
+				new TextFieldValidator(splashName, L10N.t("elementgui.potionitem.error_potion_needs_display_name")));
+		splashName.enableRealtimeValidation();
+		page1group.addValidationElement(splashName);
+
+		lingeringName.setValidator(
+				new TextFieldValidator(lingeringName, L10N.t("elementgui.potionitem.error_potion_needs_display_name")));
+		lingeringName.enableRealtimeValidation();
+		page1group.addValidationElement(lingeringName);
+
+		arrowName.setValidator(
+				new TextFieldValidator(arrowName, L10N.t("elementgui.potionitem.error_potion_needs_display_name")));
+		arrowName.enableRealtimeValidation();
+		page1group.addValidationElement(arrowName);
 
 		pane3.add(PanelUtils.northAndCenterElement(PanelUtils.join(FlowLayout.LEFT, northPanel), mainEditor));
 		addPage(pane3);
 
 		if (!isEditingMode()) {
-			String readableNameFromModElement = StringUtils.machineToReadableName(modElement.getName());
-			name.setText(readableNameFromModElement);
+			String readableNameFromModElement = "Potion of " + StringUtils.machineToReadableName(modElement.getName());
+			potionName.setText(readableNameFromModElement);
+
+			readableNameFromModElement = "Splash Potion of " + StringUtils.machineToReadableName(modElement.getName());
+			splashName.setText(readableNameFromModElement);
+
+			readableNameFromModElement = "Lingering Potion of " + StringUtils.machineToReadableName(modElement.getName());
+			lingeringName.setText(readableNameFromModElement);
+
+			readableNameFromModElement = "Arrow of " + StringUtils.machineToReadableName(modElement.getName());
+			arrowName.setText(readableNameFromModElement);
 		}
 	}
 
@@ -99,13 +138,19 @@ public class PotionItemGUI extends ModElementGUI<PotionItem> {
 	}
 
 	@Override protected void openInEditingMode(PotionItem potion) {
-		name.setText(potion.name);
+		potionName.setText(potion.potionName);
+		splashName.setText(potion.splashName);
+		lingeringName.setText(potion.lingeringName);
+		arrowName.setText(potion.arrowName);
 		effectList.setEffects(potion.effects);
 	}
 
 	@Override public PotionItem getElementFromGUI() {
 		PotionItem potion = new PotionItem(modElement);
-		potion.name = name.getText();
+		potion.potionName = potionName.getText();
+		potion.splashName = splashName.getText();
+		potion.lingeringName = lingeringName.getText();
+		potion.arrowName = arrowName.getText();
 		potion.effects = effectList.getEffects();
 		return potion;
 	}
