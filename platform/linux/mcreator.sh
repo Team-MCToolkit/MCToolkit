@@ -20,7 +20,7 @@ Icon=${pwd}/icon.png
 EOL
 
 chmod +x mctoolkit.desktop
-cp mctoolkit.desktop ~/Desktop/mcreator.desktop
+cp mctoolkit.desktop ~/Desktop/mctoolkit.desktop
 
 fi
 
