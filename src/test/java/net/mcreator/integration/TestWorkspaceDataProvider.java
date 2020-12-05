@@ -593,12 +593,22 @@ public class TestWorkspaceDataProvider {
 			}
 			mob.hasAI = _true;
 			mob.aiBase = "(none)";
-			mob.aixml = "<xml><block type=\"aitasks_container\" deletable=\"!_true\" x=\"40\" y=\"40\">"
-					+ "<next><block type=\"wander\"><field name=\"speed\">1</field>"
-					+ "<next><block type=\"look_around\"><next><block type=\"swim_in_water\">"
-					+ "<next><block type=\"panic_when_attacked\"><field name=\"speed\">1.2</field>"
-					+ "<next><block type=\"attack_action\"><field name=\"callhelp\">!_true</field>"
-					+ "</block></next></block></next></block></next></block></next></block></next></block></xml>";
+			if(!emptyLists) {
+				Set<String> aiTasks = modElement.getWorkspace().getGenerator().getGeneratorStats().getGeneratorAITasks();
+				if (aiTasks.contains("wander") && aiTasks.contains("look_around")
+						&& aiTasks.contains("panic_when_attacked") && aiTasks.contains("attack_action")) {
+					mob.aixml = "<xml><block type=\"aitasks_container\" deletable=\"!_true\">"
+							+ "<next><block type=\"wander\"><field name=\"speed\">1</field>"
+							+ "<next><block type=\"look_around\"><next><block type=\"swim_in_water\">"
+							+ "<next><block type=\"panic_when_attacked\"><field name=\"speed\">1.2</field>"
+							+ "<next><block type=\"attack_action\"><field name=\"callhelp\">!_true</field>"
+							+ "</block></next></block></next></block></next></block></next></block></next></block></xml>";
+				}
+			}
+			// fallback
+			if (mob.aixml == null) {
+				mob.aixml = "<xml><block type=\"aitasks_container\" deletable=\"!_true\"></block></xml>";
+			}
 			mob.breedable = _true;
 			mob.tameable = _true;
 			mob.breedTriggerItems = new ArrayList<>();
@@ -988,9 +998,8 @@ public class TestWorkspaceDataProvider {
 			rangedItem.enableMeleeDamage = !_true;
 			rangedItem.damageVsEntity = 2;
 			return rangedItem;
-		case POTION:
-			Potion potion = new Potion(modElement);
-			potion.name = modElement.getName();
+		case POTIONEFFECT:
+			PotionEffect potion = new PotionEffect(modElement);
 			potion.effectName = modElement.getName() + " Effect Name";
 			potion.color = Color.magenta;
 			potion.icon = "test.png";
@@ -999,11 +1008,34 @@ public class TestWorkspaceDataProvider {
 			potion.isBenefitical = !_true;
 			potion.renderStatusInHUD = _true;
 			potion.renderStatusInInventory = _true;
-			potion.registerPotionType = _true;
 			potion.onStarted = new Procedure("procedure1");
 			potion.onActiveTick = new Procedure("procedure2");
 			potion.onExpired = new Procedure("procedure3");
 			return potion;
+		case POTIONITEM:
+			PotionItem potionItem = new PotionItem(modElement);
+			potionItem.potionName = modElement.getName();
+			potionItem.splashName = modElement.getName();
+			potionItem.lingeringName = modElement.getName();
+			potionItem.arrowName = modElement.getName();
+			List<PotionItem.CustomEffectEntry> effects = new ArrayList<>();
+			if (!emptyLists) {
+				PotionItem.CustomEffectEntry entry1 = new PotionItem.CustomEffectEntry();
+				entry1.effect = new EffectEntry(modElement.getWorkspace(),
+						getRandomDataListEntry(random, ElementUtil.loadAllPotionEffects(modElement.getWorkspace())));
+				entry1.duration = 3600;
+				entry1.amplifier = 1;
+				effects.add(entry1);
+
+				PotionItem.CustomEffectEntry entry2 = new PotionItem.CustomEffectEntry();
+				entry2.effect = new EffectEntry(modElement.getWorkspace(),
+						getRandomDataListEntry(random, ElementUtil.loadAllPotionEffects(modElement.getWorkspace())));
+				entry2.duration = 7200;
+				entry2.amplifier = 0;
+				effects.add(entry2);
+			}
+			potionItem.effects = effects;
+			return potionItem;
 		case BLOCK:
 			Block block = new Block(modElement);
 			block.name = modElement.getName();
@@ -1035,7 +1067,6 @@ public class TestWorkspaceDataProvider {
 			block.plantsGrowOn = _true;
 			block.isNotColidable = _true;
 			block.canProvidePower = _true;
-			block.isBeaconBase = _true;
 			block.isWaterloggable = !block.hasGravity; // only works if block has no gravity, emptyLists for more randomness
 			block.isLadder = _true;
 			block.enchantPowerBonus = 1.2342;
