@@ -20,8 +20,11 @@ package net.mcreator.element.types;
 
 import net.mcreator.element.GeneratableElement;
 import net.mcreator.element.parts.EffectEntry;
+import net.mcreator.minecraft.MinecraftImageGenerator;
 import net.mcreator.workspace.elements.ModElement;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +34,7 @@ public class PotionItem extends GeneratableElement {
 	public String lingeringName;
 	public String arrowName;
 	public List<CustomEffectEntry> effects;
+	public CustomEffectEntry potionEffect;
 
 	public PotionItem(ModElement element) {
 		super(element);
@@ -38,10 +42,16 @@ public class PotionItem extends GeneratableElement {
 	}
 
 	public static class CustomEffectEntry {
-
 		public EffectEntry effect;
 		public int duration;
 		public int amplifier;
+		public Color color;
+	}
 
+	@Override public BufferedImage generateModElementPicture() {
+		if (!effects.isEmpty() && effects.size() > 0) {
+			potionEffect = effects.get(0);
+		}
+		return MinecraftImageGenerator.Preview.generatePotionIcon(potionEffect.color);
 	}
 }

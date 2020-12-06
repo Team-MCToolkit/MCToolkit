@@ -21,12 +21,10 @@ package net.mcreator.element.types;
 import net.mcreator.element.GeneratableElement;
 import net.mcreator.element.parts.Procedure;
 import net.mcreator.io.FileIO;
-import net.mcreator.minecraft.MinecraftImageGenerator;
 import net.mcreator.workspace.elements.ModElement;
 import org.apache.commons.io.FilenameUtils;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.File;
 
 public class PotionEffect extends GeneratableElement {
@@ -46,10 +44,6 @@ public class PotionEffect extends GeneratableElement {
 
 	public PotionEffect(ModElement element) {
 		super(element);
-	}
-
-	@Override public BufferedImage generateModElementPicture() {
-		return MinecraftImageGenerator.Preview.generatePotionIcon(color);
 	}
 
 	@Override public void finalizeModElementGeneration() {
