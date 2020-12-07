@@ -70,8 +70,8 @@ public class Procedure extends GeneratableElement {
 		return MinecraftImageGenerator.Preview.generateProcedurePreviewPicture(procedurexml, getDependencies());
 	}
 
-	@Override public Map<String, Object> getAdditionalData(Generator generator) throws TemplateGeneratorException {
-		Map<String, Object> additionalData = new HashMap<>();
+	@Override public void provideAdditionalData(Map<String, Object> additionalData, Generator generator) throws TemplateGeneratorException {
+		super.provideAdditionalData(additionalData, generator);
 		BlocklyBlockCodeGenerator blocklyBlockCodeGenerator = new BlocklyBlockCodeGenerator(
 				BlocklyLoader.INSTANCE.getProcedureBlockLoader().getDefinedBlocks(),
 				generator.getProcedureGenerator(),
@@ -117,6 +117,5 @@ public class Procedure extends GeneratableElement {
 		additionalData.put("has_trigger", trigger != null);
 		additionalData.put("trigger_code", triggerCode);
 		additionalData.put("dependencies", dependenciesArrayList);
-		return additionalData;
 	}
 }

@@ -43,8 +43,8 @@ public abstract class TooltipContainerGeneratableElement extends GeneratableElem
 	 */
 	public abstract String getXml();
 
-	@Override public Map<String, Object> getAdditionalData(Generator generator) throws TemplateGeneratorException {
-		Map<String, Object> additionalData = new HashMap<>();
+	@Override public void provideAdditionalData(Map<String, Object> additionalData, Generator generator) throws TemplateGeneratorException {
+		super.provideAdditionalData(additionalData, generator);
 		BlocklyBlockCodeGenerator blocklyBlockCodeGenerator = new BlocklyBlockCodeGenerator(
 				BlocklyLoader.INSTANCE.getTooltipBlockLoader().getDefinedBlocks(),
 				generator.getTooltipGenerator(),
@@ -66,6 +66,5 @@ public abstract class TooltipContainerGeneratableElement extends GeneratableElem
 			tooltipCode = "";
 
 		additionalData.put("tooltipCode", tooltipCode);
-		return additionalData;
 	}
 }

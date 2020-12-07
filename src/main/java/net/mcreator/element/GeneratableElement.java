@@ -70,17 +70,13 @@ public abstract class GeneratableElement {
 	}
 
 	/**
-	 * Returns the additional data that will be used for formatting the generated code, {@code null} by default
-	 * See {@link net.mcreator.element.types.Achievement#getAdditionalData}
-	 * See {@link net.mcreator.element.types.Procedure#getAdditionalData}
-	 * See {@link net.mcreator.element.types.Mob#getAdditionalData}
-	 * See {@link net.mcreator.element.TooltipContainerGeneratableElement#getAdditionalData}
+	 * Provides additional data for template generation
+	 * See {@link net.mcreator.element.types.Procedure#provideAdditionalData} for example
+	 * @param additionalData The map that contains the data for template generation
 	 * @param generator The generator
-	 * @return The additional data for the generated code
 	 * @throws TemplateGeneratorException
 	 */
-	public Map<String, Object> getAdditionalData(Generator generator) throws TemplateGeneratorException {
-		return null;
+	public void provideAdditionalData(Map<String, Object> additionalData, Generator generator) throws TemplateGeneratorException {
 	}
 
 	public static class GSONAdapter

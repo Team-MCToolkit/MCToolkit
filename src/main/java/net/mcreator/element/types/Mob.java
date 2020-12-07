@@ -185,8 +185,8 @@ import java.util.List;
 		return !mobDrop.isEmpty();
 	}
 
-	@Override public Map<String, Object> getAdditionalData(Generator generator) throws TemplateGeneratorException {
-		Map<String, Object> additionalData = new HashMap<>();
+	@Override public void provideAdditionalData(Map<String, Object> additionalData, Generator generator) throws TemplateGeneratorException {
+		super.provideAdditionalData(additionalData, generator);
 		BlocklyBlockCodeGenerator blocklyBlockCodeGenerator = new BlocklyBlockCodeGenerator(
 				BlocklyLoader.INSTANCE.getAITaskBlockLoader().getDefinedBlocks(),
 				generator.getAITaskGenerator(),
@@ -207,6 +207,5 @@ import java.util.List;
 			aicode = "";
 
 		additionalData.put("aicode", aicode);
-		return additionalData;
 	}
 }

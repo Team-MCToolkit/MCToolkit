@@ -69,8 +69,8 @@ import java.util.Map;
 				.generateAchievementPreviewPicture(getModElement().getWorkspace(), achievementIcon, achievementName);
 	}
 
-	@Override public Map<String, Object> getAdditionalData(Generator generator) throws TemplateGeneratorException {
-		Map<String, Object> additionalData = new HashMap<>();
+	@Override public void provideAdditionalData(Map<String, Object> additionalData, Generator generator) throws TemplateGeneratorException {
+		super.provideAdditionalData(additionalData, generator);
 		BlocklyBlockCodeGenerator blocklyBlockCodeGenerator = new BlocklyBlockCodeGenerator(
 				BlocklyLoader.INSTANCE.getJSONTriggerLoader().getDefinedBlocks(),
 				generator.getJSONTriggerGenerator(),
@@ -89,7 +89,6 @@ import java.util.Map;
 		if (triggerCode == null || triggerCode.equals(""))
 			triggerCode = "{\"trigger\": \"minecraft:impossible\"}";
 		additionalData.put("triggercode", triggerCode);
-		return additionalData;
 	}
 
 }
