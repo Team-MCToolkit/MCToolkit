@@ -19,6 +19,7 @@
 package net.mcreator.element.types;
 
 import net.mcreator.element.GeneratableElement;
+import net.mcreator.element.ModElementTypeRegistry;
 import net.mcreator.element.parts.EffectEntry;
 import net.mcreator.minecraft.MinecraftImageGenerator;
 import net.mcreator.workspace.elements.ModElement;
@@ -26,6 +27,7 @@ import net.mcreator.workspace.elements.ModElement;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class PotionItem extends GeneratableElement {
@@ -34,7 +36,6 @@ public class PotionItem extends GeneratableElement {
 	public String lingeringName;
 	public String arrowName;
 	public List<CustomEffectEntry> effects;
-	public CustomEffectEntry potionEffect;
 
 	public PotionItem(ModElement element) {
 		super(element);
@@ -45,13 +46,57 @@ public class PotionItem extends GeneratableElement {
 		public EffectEntry effect;
 		public int duration;
 		public int amplifier;
-		public Color color;
+
+		public boolean showParticles;
+		public ModElementTypeRegistry.Effect potion;
+
+		public boolean doesShowParticles() {
+			return this.showParticles;
+		}
+
+		public ModElementTypeRegistry.Effect getPotion() {
+			return this.potion == null ? null : this.potion.delegate.get();
+		}
+
+		public int getAmplifier() {
+			return this.amplifier;
+		}
+	}
+
+	public static Color getPotionColorFromEffectList(Collection<CustomEffectEntry> effects) {
+		int i = 3694022;
+		if (effects.isEmpty()) {
+			return new Color(3694022, true);
+		} else {
+			float f = 0.0F;
+			float f1 = 0.0F;
+			float f2 = 0.0F;
+			int j = 0;
+
+			for(CustomEffectEntry effectentry : effects) {
+				if (effectentry.doesShowParticles()) {
+					int k = effectentry.getPotion().getLiquidColor();
+					int l = effectentry.getAmplifier() + 1;
+					f += (float)(l * (k >> 16 & 255)) / 255.0F;
+					f1 += (float)(l * (k >> 8 & 255)) / 255.0F;
+					f2 += (float)(l * (k >> 0 & 255)) / 255.0F;
+					j += l;
+				}
+			}
+
+			if (j == 0) {
+				return new Color(0, true);
+			} else {
+				f = f / (float)j * 255.0F;
+				f1 = f1 / (float)j * 255.0F;
+				f2 = f2 / (float)j * 255.0F;
+				return new Color((int)f << 16 | (int)f1 << 8 | (int)f2, true);
+			}
+		}
 	}
 
 	@Override public BufferedImage generateModElementPicture() {
-		if (!effects.isEmpty() && effects.size() > 0) {
-			potionEffect = effects.get(0);
-		}
-		return MinecraftImageGenerator.Preview.generatePotionIcon(potionEffect.color);
+		return MinecraftImageGenerator.Preview.generatePotionIcon(
+				PotionItem.getPotionColorFromEffectList(effects));
 	}
 }
