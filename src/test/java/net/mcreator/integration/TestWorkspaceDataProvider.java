@@ -998,8 +998,8 @@ public class TestWorkspaceDataProvider {
 			rangedItem.enableMeleeDamage = !_true;
 			rangedItem.damageVsEntity = 2;
 			return rangedItem;
-		case POTION:
-			Potion potion = new Potion(modElement);
+		case POTIONEFFECT:
+			PotionEffect potion = new PotionEffect(modElement);
 			potion.effectName = modElement.getName() + " Effect Name";
 			potion.color = Color.magenta;
 			potion.icon = "test.png";
@@ -1058,7 +1058,7 @@ public class TestWorkspaceDataProvider {
 			block.useLootTableForDrops = !_true;
 			block.creativeTab = new TabEntry(modElement.getWorkspace(),
 					getRandomDataListEntry(random, ElementUtil.loadAllTabs(modElement.getWorkspace())));
-			block.destroyTool = new String[] { "Not specified", "pickaxe", "axe", "shovel" }[valueIndex];
+			block.destroyTool = getRandomItem(random, new String[] { "Not specified", "pickaxe", "axe", "shovel", "hoe" });
 			block.customDrop = new MItemBlock(modElement.getWorkspace(),
 					getRandomMCItem(random, ElementUtil.loadBlocksAndItems(modElement.getWorkspace())).getName());
 			block.flammability = 5;
@@ -1067,7 +1067,6 @@ public class TestWorkspaceDataProvider {
 			block.plantsGrowOn = _true;
 			block.isNotColidable = _true;
 			block.canProvidePower = _true;
-			block.isBeaconBase = _true;
 			block.isWaterloggable = !block.hasGravity; // only works if block has no gravity, emptyLists for more randomness
 			block.isLadder = _true;
 			block.enchantPowerBonus = 1.2342;
