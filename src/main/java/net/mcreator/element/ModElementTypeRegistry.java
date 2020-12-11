@@ -111,34 +111,4 @@ public final class ModElementTypeRegistry {
 	private interface ModElementGUIProvider<GE extends GeneratableElement> {
 		ModElementGUI<GE> get(MCreator mcreator, ModElement modElement, boolean editingMode);
 	}
-
-	public interface ModElementProvider<GE extends GeneratableElement> {
-		ModElementGUI<GE> get(MCreator mcreator, ModElement modElement, boolean editingMode);
-
-		Effect get();
-	}
-
-	public static class Effect<EffectType> {
-		private final int liquidColor;
-		private final EffectType type;
-		public ModElementProvider<GeneratableElement> delegate;
-
-		public int getLiquidColor() {
-			return this.liquidColor;
-		}
-
-		public EffectType getEffectType() {
-			return this.type;
-		}
-
-		protected Effect(EffectType typeIn, int liquidColorIn) {
-			this.type = typeIn;
-			this.liquidColor = liquidColorIn;
-		}
-
-		public Effect(int liquidColor, EffectType type) {
-			this.liquidColor = liquidColor;
-			this.type = type;
-		}
-	}
 }
