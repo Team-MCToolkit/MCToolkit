@@ -3,8 +3,10 @@ world: IWorld
 number: double
 entity: Entity
 itemstack: ItemStack
+blockstate: BlockState
 map: HashMap
 string: String
 boolean: boolean
 direction: Direction
 advancement: Advancement
+dimensiontype: RegistryKey<World>

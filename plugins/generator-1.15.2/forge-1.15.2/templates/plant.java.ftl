@@ -249,14 +249,14 @@ import net.minecraft.block.material.Material;
 					<#else>
 					.hardnessAndResistance(${data.hardness}f, ${data.resistance}f)
 					</#if>
-					.lightValue(${(data.luminance * 15)?round})
+					.lightValue(${data.luminance})
 			);
 			setRegistryName("${registryname}");
 		}
 
         <#if data.isReplaceable>
         @Override public boolean isReplaceable(BlockState state, BlockItemUseContext useContext) {
-			return true;
+			return useContext.getItem().getItem() != this.asItem();
 		}
         </#if>
 

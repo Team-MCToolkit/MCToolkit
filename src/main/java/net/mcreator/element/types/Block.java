@@ -80,7 +80,6 @@ import java.util.Map;
 	public int dropAmount;
 	public boolean useLootTableForDrops;
 
-	public boolean isBeaconBase;
 	public double enchantPowerBonus;
 	public boolean plantsGrowOn;
 	public boolean canProvidePower;
@@ -108,7 +107,7 @@ import java.util.Map;
 
 	public boolean isNotColidable;
 	public StepSound soundOnStep;
-	public double luminance;
+	public int luminance;
 	public boolean unbreakable;
 	public int breakHarvestLevel;
 

@@ -103,10 +103,10 @@ public class BlockGUI extends ModElementGUI<Block> {
 	private ProcedureSelector generateCondition;
 
 	private final JSpinner hardness = new JSpinner(new SpinnerNumberModel(1, -1, 64000, 0.05));
-	private final JSpinner resistance = new JSpinner(new SpinnerNumberModel(10, 0, 64000, 0.5));
+	private final JSpinner resistance = new JSpinner(new SpinnerNumberModel(10, 0, Integer.MAX_VALUE, 0.5));
 	private final VTextField name = new VTextField(19);
 
-	private final JSpinner luminance = new JSpinner(new SpinnerNumberModel(0.00, 0.00, 1.00, 0.01));
+	private final JSpinner luminance = new JSpinner(new SpinnerNumberModel(0, 0, 15, 1));
 	private final JSpinner dropAmount = new JSpinner(new SpinnerNumberModel(1, 0, 64, 1));
 	private final JSpinner lightOpacity = new JSpinner(new SpinnerNumberModel(255, 0, 255, 1));
 
@@ -163,7 +163,6 @@ public class BlockGUI extends ModElementGUI<Block> {
 	private DimensionListField spawnWorldTypes;
 
 	private final JCheckBox plantsGrowOn = L10N.checkbox("elementgui.common.enable");
-	private final JCheckBox isBeaconBase = L10N.checkbox("elementgui.common.enable");
 	private final JCheckBox isLadder = L10N.checkbox("elementgui.common.enable");
 
 	private final JComboBox<String> reactionToPushing = new JComboBox<>(
@@ -192,7 +191,7 @@ public class BlockGUI extends ModElementGUI<Block> {
 					"<html>Log rotation (X/Y/Z)<br><small>Imitates vanilla log rotation" });
 
 	private final JComboBox<String> destroyTool = new JComboBox<>(
-			new String[] { "Not specified", "pickaxe", "axe", "shovel" });
+			new String[] { "Not specified", "pickaxe", "axe", "shovel", "hoe" });
 	private final JSpinner breakHarvestLevel = new JSpinner(new SpinnerNumberModel(1, -1, 100, 1));
 
 	private final JCheckBox spawnParticles = L10N.checkbox("elementgui.block.spawn_particles");
@@ -511,7 +510,6 @@ public class BlockGUI extends ModElementGUI<Block> {
 		sbbp2.setOpaque(false);
 
 		plantsGrowOn.setOpaque(false);
-		isBeaconBase.setOpaque(false);
 
 		sbbp22.setBorder(BorderFactory.createTitledBorder(
 				BorderFactory.createLineBorder((Color) UIManager.get("MCreatorLAF.BRIGHT_COLOR"), 1),
@@ -807,10 +805,6 @@ public class BlockGUI extends ModElementGUI<Block> {
 		advancedProperties.add(HelpUtils.wrapWithHelpButton(this.withEntry("block/beacon_color_modifier"),
 				L10N.label("elementgui.block.beacon_color_modifier")));
 		advancedProperties.add(beaconColorModifier);
-
-		advancedProperties.add(HelpUtils.wrapWithHelpButton(this.withEntry("block/is_beacon_base"),
-				L10N.label("elementgui.block.is_beacon_base")));
-		advancedProperties.add(isBeaconBase);
 
 		advancedProperties.add(HelpUtils
 				.wrapWithHelpButton(this.withEntry("block/is_ladder"), L10N.label("elementgui.block.is_ladder")));
@@ -1410,7 +1404,6 @@ public class BlockGUI extends ModElementGUI<Block> {
 		emittedRedstonePower.setValue(block.emittedRedstonePower);
 		inventoryStackSize.setValue(block.inventoryStackSize);
 		tickRate.setValue(block.tickRate);
-		isBeaconBase.setSelected(block.isBeaconBase);
 
 		spawnWorldTypes.setListElements(block.spawnWorldTypes);
 		blocksToReplace.setListElements(block.blocksToReplace);
@@ -1493,7 +1486,6 @@ public class BlockGUI extends ModElementGUI<Block> {
 		block.tickRandomly = tickRandomly.isSelected();
 		block.creativeTab = new TabEntry(mcreator.getWorkspace(), creativeTab.getSelectedItem());
 		block.destroyTool = (String) destroyTool.getSelectedItem();
-		block.isBeaconBase = isBeaconBase.isSelected();
 		block.customDrop = customDrop.getBlock();
 		block.dropAmount = (int) dropAmount.getValue();
 		block.plantsGrowOn = plantsGrowOn.isSelected();
@@ -1510,7 +1502,7 @@ public class BlockGUI extends ModElementGUI<Block> {
 		block.material = new Material(mcreator.getWorkspace(), material.getSelectedItem());
 		block.tickRate = (int) tickRate.getValue();
 		block.soundOnStep = new StepSound(mcreator.getWorkspace(), soundOnStep.getSelectedItem());
-		block.luminance = (double) luminance.getValue();
+		block.luminance = (int) luminance.getValue();
 		block.unbreakable = unbreakable.isSelected();
 		block.breakHarvestLevel = (int) breakHarvestLevel.getValue();
 		block.spawnParticles = spawnParticles.isSelected();

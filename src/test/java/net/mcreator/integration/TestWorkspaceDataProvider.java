@@ -68,6 +68,7 @@ public class TestWorkspaceDataProvider {
 			generatableElements.add(getRecipeExample(me(workspace, type, "5"), "Smoking", random, true));
 			generatableElements.add(getRecipeExample(me(workspace, type, "6"), "Stone cutting", random, true));
 			generatableElements.add(getRecipeExample(me(workspace, type, "7"), "Campfire cooking", random, true));
+			generatableElements.add(getRecipeExample(me(workspace, type, "8"), "Smithing", random, true));
 		} else if (type == ModElementType.TOOL) {
 			generatableElements.add(getToolExample(me(workspace, type, "1"), "Pickaxe", random, false, false));
 			generatableElements.add(getToolExample(me(workspace, type, "2"), "Pickaxe", random, true, false));
@@ -592,12 +593,22 @@ public class TestWorkspaceDataProvider {
 			}
 			mob.hasAI = _true;
 			mob.aiBase = "(none)";
-			mob.aixml = "<xml><block type=\"aitasks_container\" deletable=\"!_true\" x=\"40\" y=\"40\">"
-					+ "<next><block type=\"wander\"><field name=\"speed\">1</field>"
-					+ "<next><block type=\"look_around\"><next><block type=\"swim_in_water\">"
-					+ "<next><block type=\"panic_when_attacked\"><field name=\"speed\">1.2</field>"
-					+ "<next><block type=\"attack_action\"><field name=\"callhelp\">!_true</field>"
-					+ "</block></next></block></next></block></next></block></next></block></next></block></xml>";
+			if(!emptyLists) {
+				Set<String> aiTasks = modElement.getWorkspace().getGenerator().getGeneratorStats().getGeneratorAITasks();
+				if (aiTasks.contains("wander") && aiTasks.contains("look_around")
+						&& aiTasks.contains("panic_when_attacked") && aiTasks.contains("attack_action")) {
+					mob.aixml = "<xml><block type=\"aitasks_container\" deletable=\"!_true\">"
+							+ "<next><block type=\"wander\"><field name=\"speed\">1</field>"
+							+ "<next><block type=\"look_around\"><next><block type=\"swim_in_water\">"
+							+ "<next><block type=\"panic_when_attacked\"><field name=\"speed\">1.2</field>"
+							+ "<next><block type=\"attack_action\"><field name=\"callhelp\">!_true</field>"
+							+ "</block></next></block></next></block></next></block></next></block></next></block></xml>";
+				}
+			}
+			// fallback
+			if (mob.aixml == null) {
+				mob.aixml = "<xml><block type=\"aitasks_container\" deletable=\"!_true\"></block></xml>";
+			}
 			mob.breedable = _true;
 			mob.tameable = _true;
 			mob.breedTriggerItems = new ArrayList<>();
@@ -671,9 +682,8 @@ public class TestWorkspaceDataProvider {
 			dimension.imitateOverworldBehaviour = _true;
 			dimension.isDark = _true;
 			dimension.doesWaterVaporize = !_true;
-			dimension.hasWeather = !_true;
 			dimension.enablePortal = true; // we always want it as it can be referenced in other tests
-			dimension.portalLuminance = 0.4;
+			dimension.portalLuminance = 8;
 			dimension.portalFrame = new MItemBlock(modElement.getWorkspace(),
 					getRandomMCItem(random, ElementUtil.loadBlocks(modElement.getWorkspace())).getName());
 			dimension.igniterName = modElement.getName();
@@ -799,6 +809,7 @@ public class TestWorkspaceDataProvider {
 			armor.damageValueBoots = 6;
 			armor.enchantability = 7;
 			armor.toughness = 1.23;
+			armor.knockbackResistance = 3.148;
 			armor.repairItems = new ArrayList<>();
 			if (!emptyLists) {
 				armor.repairItems.add(new MItemBlock(modElement.getWorkspace(),
@@ -837,7 +848,7 @@ public class TestWorkspaceDataProvider {
 			plant.hardness = 0.03;
 			plant.emissiveRendering = !_true;
 			plant.resistance = 3;
-			plant.luminance = 0.2;
+			plant.luminance = 3;
 			plant.isReplaceable = !_true;
 			plant.forceTicking = !_true;
 			plant.hasTileEntity = !_true;
@@ -986,9 +997,8 @@ public class TestWorkspaceDataProvider {
 			rangedItem.enableMeleeDamage = !_true;
 			rangedItem.damageVsEntity = 2;
 			return rangedItem;
-		case POTION:
-			Potion potion = new Potion(modElement);
-			potion.name = modElement.getName();
+		case POTIONEFFECT:
+			PotionEffect potion = new PotionEffect(modElement);
 			potion.effectName = modElement.getName() + " Effect Name";
 			potion.color = Color.magenta;
 			potion.icon = "test.png";
@@ -997,11 +1007,34 @@ public class TestWorkspaceDataProvider {
 			potion.isBenefitical = !_true;
 			potion.renderStatusInHUD = _true;
 			potion.renderStatusInInventory = _true;
-			potion.registerPotionType = _true;
 			potion.onStarted = new Procedure("procedure1");
 			potion.onActiveTick = new Procedure("procedure2");
 			potion.onExpired = new Procedure("procedure3");
 			return potion;
+		case POTIONITEM:
+			PotionItem potionItem = new PotionItem(modElement);
+			potionItem.potionName = modElement.getName();
+			potionItem.splashName = modElement.getName();
+			potionItem.lingeringName = modElement.getName();
+			potionItem.arrowName = modElement.getName();
+			List<PotionItem.CustomEffectEntry> effects = new ArrayList<>();
+			if (!emptyLists) {
+				PotionItem.CustomEffectEntry entry1 = new PotionItem.CustomEffectEntry();
+				entry1.effect = new EffectEntry(modElement.getWorkspace(),
+						getRandomDataListEntry(random, ElementUtil.loadAllPotionEffects(modElement.getWorkspace())));
+				entry1.duration = 3600;
+				entry1.amplifier = 1;
+				effects.add(entry1);
+
+				PotionItem.CustomEffectEntry entry2 = new PotionItem.CustomEffectEntry();
+				entry2.effect = new EffectEntry(modElement.getWorkspace(),
+						getRandomDataListEntry(random, ElementUtil.loadAllPotionEffects(modElement.getWorkspace())));
+				entry2.duration = 7200;
+				entry2.amplifier = 0;
+				effects.add(entry2);
+			}
+			potionItem.effects = effects;
+			return potionItem;
 		case BLOCK:
 			Block block = new Block(modElement);
 			block.name = modElement.getName();
@@ -1024,7 +1057,7 @@ public class TestWorkspaceDataProvider {
 			block.useLootTableForDrops = !_true;
 			block.creativeTab = new TabEntry(modElement.getWorkspace(),
 					getRandomDataListEntry(random, ElementUtil.loadAllTabs(modElement.getWorkspace())));
-			block.destroyTool = new String[] { "Not specified", "pickaxe", "axe", "shovel" }[valueIndex];
+			block.destroyTool = getRandomItem(random, new String[] { "Not specified", "pickaxe", "axe", "shovel", "hoe" });
 			block.customDrop = new MItemBlock(modElement.getWorkspace(),
 					getRandomMCItem(random, ElementUtil.loadBlocksAndItems(modElement.getWorkspace())).getName());
 			block.flammability = 5;
@@ -1033,7 +1066,6 @@ public class TestWorkspaceDataProvider {
 			block.plantsGrowOn = _true;
 			block.isNotColidable = _true;
 			block.canProvidePower = _true;
-			block.isBeaconBase = _true;
 			block.isWaterloggable = !block.hasGravity; // only works if block has no gravity, emptyLists for more randomness
 			block.isLadder = _true;
 			block.enchantPowerBonus = 1.2342;
@@ -1526,6 +1558,15 @@ public class TestWorkspaceDataProvider {
 					getRandomMCItem(random, ElementUtil.loadBlocksAndItems(modElement.getWorkspace())).getName());
 			recipe.xpReward = 21.234;
 			recipe.cookingTime = 2983;
+		} else if ("Smithing".equals(recipe.recipeType)) {
+			recipe.smithingInputStack = new MItemBlock(modElement.getWorkspace(),
+					getRandomMCItem(random, ElementUtil.loadBlocksAndItemsAndTags(modElement.getWorkspace()))
+							.getName());
+			recipe.smithingInputAdditionStack = new MItemBlock(modElement.getWorkspace(),
+					getRandomMCItem(random, ElementUtil.loadBlocksAndItemsAndTags(modElement.getWorkspace()))
+							.getName());
+			recipe.smithingReturnStack = new MItemBlock(modElement.getWorkspace(),
+					getRandomMCItem(random, ElementUtil.loadBlocksAndItems(modElement.getWorkspace())).getName());
 		} else {
 			throw new RuntimeException("Unknown recipe type");
 		}

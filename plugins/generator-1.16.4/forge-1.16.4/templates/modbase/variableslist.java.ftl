@@ -33,6 +33,8 @@ public class ${JavaModName}Variables {
 	        public static String ${var.getName()} ="${JavaConventions.escapeStringForJava(var.getValue())}";
 				<#elseif var.getType().name() == "ITEMSTACK">
 	        public static ItemStack ${var.getName()} = ItemStack.EMPTY;
+				<#elseif var.getType().name() == "BLOCKSTATE">
+	        public static BlockState ${var.getName()} = Blocks.AIR.getDefaultState();
 				</#if>
 			</#if>
 		</#list>
@@ -40,7 +42,7 @@ public class ${JavaModName}Variables {
 
 	<#if w.hasVariablesOfScope("GLOBAL_WORLD") || w.hasVariablesOfScope("GLOBAL_MAP")>
 	@SubscribeEvent public void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
-		if (!event.getPlayer().world.isRemote) {
+		if (!event.getPlayer().world.isRemote()) {
 			WorldSavedData mapdata = MapVariables.get(event.getPlayer().world);
 			WorldSavedData worlddata = WorldVariables.get(event.getPlayer().world);
 			if(mapdata != null)
@@ -51,7 +53,7 @@ public class ${JavaModName}Variables {
 	}
 
 	@SubscribeEvent public void onPlayerChangedDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
-		if (!event.getPlayer().world.isRemote) {
+		if (!event.getPlayer().world.isRemote()) {
 			WorldSavedData worlddata = WorldVariables.get(event.getPlayer().world);
 			if(worlddata != null)
 				${JavaModName}.PACKET_HANDLER.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) event.getPlayer()), new WorldSavedDataSyncMessage(1, worlddata));
@@ -72,6 +74,8 @@ public class ${JavaModName}Variables {
        				 public String ${var.getName()} ="${JavaConventions.escapeStringForJava(var.getValue())}";
 				<#elseif var.getType().name() == "ITEMSTACK">
 					public ItemStack ${var.getName()} = ItemStack.EMPTY;
+				<#elseif var.getType().name() == "BLOCKSTATE">
+					public BlockState ${var.getName()} = Blocks.AIR.getDefaultState();
                 </#if>
             </#if>
         </#list>
@@ -95,6 +99,8 @@ public class ${JavaModName}Variables {
                         ${var.getName()} =nbt.getString("${var.getName()}");
 					<#elseif var.getType().name() == "ITEMSTACK">
 						${var.getName()} = ItemStack.read(nbt.getCompound("${var.getName()}"));
+					<#elseif var.getType().name() == "BLOCKSTATE">
+						${var.getName()} = NBTUtil.readBlockState(nbt.getCompound("${var.getName()}"));
                     </#if>
                 </#if>
             </#list>
@@ -111,6 +117,8 @@ public class ${JavaModName}Variables {
 						nbt.putString("${var.getName()}" , ${var.getName()});
 					<#elseif var.getType().name() == "ITEMSTACK">
 						nbt.put("${var.getName()}", ${var.getName()}.write(new CompoundNBT()));
+					<#elseif var.getType().name() == "BLOCKSTATE">
+						${var.getName()} = NBTUtil.readBlockState(nbt.getCompound("${var.getName()}"));
                     </#if>
                 </#if>
             </#list>
@@ -120,7 +128,7 @@ public class ${JavaModName}Variables {
 		public void syncData(IWorld world) {
 			this.markDirty();
 
-			if (world instanceof World && !((World) world).isRemote)
+			if (world instanceof World && !world.isRemote())
 				${JavaModName}.PACKET_HANDLER.send(PacketDistributor.DIMENSION.with(((World) world)::getDimensionKey), new WorldSavedDataSyncMessage(1, this));
 		}
 
@@ -150,6 +158,8 @@ public class ${JavaModName}Variables {
        				 public String ${var.getName()} ="${JavaConventions.escapeStringForJava(var.getValue())}";
 				<#elseif var.getType().name() == "ITEMSTACK">
 					public ItemStack ${var.getName()} = ItemStack.EMPTY;
+				<#elseif var.getType().name() == "BLOCKSTATE">
+					public BlockState ${var.getName()} = Blocks.AIR.getDefaultState();
                 </#if>
             </#if>
         </#list>
@@ -173,6 +183,8 @@ public class ${JavaModName}Variables {
                         ${var.getName()} =nbt.getString("${var.getName()}");
 					<#elseif var.getType().name() == "ITEMSTACK">
 						${var.getName()} = ItemStack.read(nbt.getCompound("${var.getName()}"));
+					<#elseif var.getType().name() == "BLOCKSTATE">
+						${var.getName()} = NBTUtil.readBlockState(nbt.getCompound("${var.getName()}"));
                     </#if>
                 </#if>
             </#list>
@@ -189,6 +201,8 @@ public class ${JavaModName}Variables {
 						nbt.putString("${var.getName()}" , ${var.getName()});
 					<#elseif var.getType().name() == "ITEMSTACK">
 						nbt.put("${var.getName()}", ${var.getName()}.write(new CompoundNBT()));
+					<#elseif var.getType().name() == "BLOCKSTATE">
+						nbt.put("${var.getName()}", NBTUtil.writeBlockState(${var.getName()}));
                     </#if>
                 </#if>
             </#list>
@@ -198,7 +212,7 @@ public class ${JavaModName}Variables {
 		public void syncData(IWorld world) {
 			this.markDirty();
 
-			if (world instanceof World && !((World) world).isRemote)
+			if (world instanceof World && !world.isRemote())
 				${JavaModName}.PACKET_HANDLER.send(PacketDistributor.ALL.noArg(), new WorldSavedDataSyncMessage(0, this));
 		}
 
@@ -291,6 +305,8 @@ public class ${JavaModName}Variables {
 						nbt.putString("${var.getName()}" , instance.${var.getName()});
 					<#elseif var.getType().name() == "ITEMSTACK">
 						nbt.put("${var.getName()}", instance.${var.getName()}.write(new CompoundNBT()));
+					<#elseif var.getType().name() == "BLOCKSTATE">
+						nbt.put("${var.getName()}", NBTUtil.writeBlockState(instance.${var.getName()}));
 					</#if>
 				</#if>
 			</#list>
@@ -309,6 +325,8 @@ public class ${JavaModName}Variables {
 						instance.${var.getName()} =nbt.getString("${var.getName()}");
 					<#elseif var.getType().name() == "ITEMSTACK">
 						instance.${var.getName()} = ItemStack.read(nbt.getCompound("${var.getName()}"));
+					<#elseif var.getType().name() == "BLOCKSTATE">
+						instance.${var.getName()} = NBTUtil.readBlockState(nbt.getCompound("${var.getName()}"));
 					</#if>
 				</#if>
 			</#list>
@@ -325,9 +343,11 @@ public class ${JavaModName}Variables {
 				<#elseif var.getType().name() == "LOGIC">
 			public boolean ${var.getName()} = ${var.getValue()};
 				<#elseif var.getType().name() == "STRING">
-			 public String ${var.getName()} ="${JavaConventions.escapeStringForJava(var.getValue())}";
+			public String ${var.getName()} ="${JavaConventions.escapeStringForJava(var.getValue())}";
 				<#elseif var.getType().name() == "ITEMSTACK">
 			public ItemStack ${var.getName()} = ItemStack.EMPTY;
+				<#elseif var.getType().name() == "BLOCKSTATE">
+			public BlockState ${var.getName()} = Blocks.AIR.getDefaultState();
 				</#if>
 			</#if>
 		</#list>
@@ -340,17 +360,17 @@ public class ${JavaModName}Variables {
 	}
 
 	@SubscribeEvent public void onPlayerLoggedInSyncPlayerVariables(PlayerEvent.PlayerLoggedInEvent event) {
-		if (!event.getPlayer().world.isRemote)
+		if (!event.getPlayer().world.isRemote())
 			((PlayerVariables) event.getPlayer().getCapability(PLAYER_VARIABLES_CAPABILITY, null).orElse(new PlayerVariables())).syncPlayerVariables(event.getPlayer());
 	}
 
 	@SubscribeEvent public void onPlayerRespawnedSyncPlayerVariables(PlayerEvent.PlayerRespawnEvent event) {
-		if (!event.getPlayer().world.isRemote)
+		if (!event.getPlayer().world.isRemote())
 			((PlayerVariables) event.getPlayer().getCapability(PLAYER_VARIABLES_CAPABILITY, null).orElse(new PlayerVariables())).syncPlayerVariables(event.getPlayer());
 	}
 
 	@SubscribeEvent public void onPlayerChangedDimensionSyncPlayerVariables(PlayerEvent.PlayerChangedDimensionEvent event) {
-		if (!event.getPlayer().world.isRemote)
+		if (!event.getPlayer().world.isRemote())
 			((PlayerVariables) event.getPlayer().getCapability(PLAYER_VARIABLES_CAPABILITY, null).orElse(new PlayerVariables())).syncPlayerVariables(event.getPlayer());
 	}
 
