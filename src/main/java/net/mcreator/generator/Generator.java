@@ -277,8 +277,6 @@ public class Generator implements Closeable {
 
 				extractVariables(generatorTemplate, dataModel);
 
-				element.provideAdditionalData(dataModel, this);
-
 				final String code = templateGenerator
 						.generateElementFromTemplate(
 								element,

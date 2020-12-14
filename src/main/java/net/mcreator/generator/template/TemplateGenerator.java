@@ -54,6 +54,8 @@ public class TemplateGenerator {
 		dataModel.put("registryname", element.getModElement().getRegistryName());
 		dataModel.put("name", element.getModElement().getName());
 
+		element.provideAdditionalData(dataModel, this.generator);
+
 		return generateTemplate(templateName, dataModel);
 	}
 
