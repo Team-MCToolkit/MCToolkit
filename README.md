@@ -29,8 +29,9 @@ Big thanks to [all the people](https://github.com/Team-MCToolkit/MCToolkit/graph
 
 To clone this repository, run `git clone --recursive https://github.com/Team-MCToolkit/MCToolkit.git`.
 
-MCToolkit uses Gradle build system to manage the building and exporting. Use `runMCToolkit` task to run test MCToolkit.
-
+MCToolkit uses Gradle build system to manage the building and exporting. Use the `./gradlew runMCToolkit` to  test MCToolkit.
+To Build this project, run the command in your Idea terminal: ./gradlew build
+To export the project into an executable file, run the command ./gradlew exportMac64 for OSX (Not Complete), ./gradlew exportWin64 / ./gradlew exportWin32 For windows and to use linux run ./gradlew exportLinux64 / ./gradlew exportLinux32.
 It is recommended to use Intellij IDEA for development and testing. Learn more about the development process, and 
 tips on [MCToolkit developers wiki](https://github.com/Team-MCToolkit/MCToolkit/wiki).
 
@@ -38,7 +39,7 @@ tips on [MCToolkit developers wiki](https://github.com/Team-MCToolkit/MCToolkit/
 
 MCToolkit is licensed under the GPL-3.0 license (with exceptions implemented as specified in section 7 of GPL-3.0) if not otherwise stated in source files or other files of this project. Copyright 2020 Pylo and [contributors](https://github.com/Team-MCToolkit/MCToolkit/graphs/contributors).
 
-MCToolkit is a project to continue MCreator. THis project is not affiliated with MCreator, Pylo, Minecraft or Mojang. Custom distributions of this software may not include Pylo, MCreator, MCToolkit trademarks (trademark name and logo) to not confuse the software with the official distribution of MCToolkit project.
+MCToolkit is a project to continue MCreator. This project is not affiliated with MCreator, Pylo, Minecraft or Mojang. Custom distributions of this software may not include Pylo, MCreator, MCToolkit trademarks (trademark name and logo) to not confuse the software with the official distribution of MCToolkit project.
 
 ## Notice
 
