@@ -7,4 +7,4 @@
 		} catch (Exception e) {
 			return _bs;
 		}
-}}.with(${mappedBlockToBlockStateCode(input$block)}, ${input$property}, ${input$value}))
+}}.with(${mappedBlockToBlockStateCode(input$block)}, (${input$property}).toLowerCase(java.util.Locale.ENGLISH), ${input$value}))

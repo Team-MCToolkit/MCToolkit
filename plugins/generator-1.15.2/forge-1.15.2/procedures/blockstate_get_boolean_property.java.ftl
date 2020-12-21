@@ -4,4 +4,4 @@
 		BooleanProperty _prop = (BooleanProperty) _bs.getBlock().getStateContainer().getProperty(property);
 		return _prop != null ? _bs.get(_prop) : false;
 	}
-}.get(${mappedBlockToBlockStateCode(input$block)}, ${input$property}))
+}.get(${mappedBlockToBlockStateCode(input$block)}, (${input$property}).toLowerCase(java.util.Locale.ENGLISH)))

@@ -8,4 +8,4 @@
 		} catch (Exception e) {
 			return _bs;
 		}
-}}.cycle(${mappedBlockToBlockStateCode(input$block)}, ${input$property}, ${input$forward}))
+}}.cycle(${mappedBlockToBlockStateCode(input$block)}, (${input$property}).toLowerCase(java.util.Locale.ENGLISH), ${input$forward}))
