@@ -80,6 +80,10 @@ public class Dependency implements Comparable<Dependency> {
 	}
 
 	public Color getColor() {
+		return getColor(type);
+	}
+
+	public static Color getColor(String type) {
 		switch (type) {
 		case "number":
 			return new Color(0x606999);
@@ -99,6 +103,10 @@ public class Dependency implements Comparable<Dependency> {
 			return new Color(0x997360);
 		case "advancement":
 			return new Color(0x68712E);
+		case "blockstate":
+			return new Color(0xA6A65C);
+		case "dimensiontype":
+			return new Color(0x609963);
 		default:
 			return Color.white;
 		}
