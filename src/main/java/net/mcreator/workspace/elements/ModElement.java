@@ -19,7 +19,9 @@
 package net.mcreator.workspace.elements;
 
 import net.mcreator.element.GeneratableElement;
-import net.mcreator.element.ModElementType;
+import net.mcreator.element.registry.ModElementType;
+import net.mcreator.element.registry.BaseType;
+import net.mcreator.element.registry.RecipeElementType;
 import net.mcreator.minecraft.MCItem;
 import net.mcreator.minecraft.RegistryNameFixer;
 import net.mcreator.workspace.Workspace;
@@ -111,10 +113,10 @@ public class ModElement implements Serializable {
 
 		mcItems = new ArrayList<>();
 
-		if (type.getRecipeElementType() == ModElementType.RecipeElementType.ITEM
-				|| type.getRecipeElementType() == ModElementType.RecipeElementType.BLOCK) {
+		if (type.getRecipeElementType() == RecipeElementType.ITEM
+				|| type.getRecipeElementType() == RecipeElementType.BLOCK) {
 			mcItems.add(new MCItem.Custom(this, null));
-		} else if (type.getBaseType() == ModElementType.BaseType.ARMOR) {
+		} else if (type.getBaseType() == BaseType.ARMOR) {
 			if (getMetadata("eh") != null && (Boolean) getMetadata("eh"))
 				mcItems.add(new MCItem.Custom(this, "helmet"));
 			if (getMetadata("ec") != null && (Boolean) getMetadata("ec"))
@@ -227,7 +229,7 @@ public class ModElement implements Serializable {
 	 * @param baseType The base type under which to look for the free IDs
 	 * @return The ID of the element for the given index, could be newly created
 	 */
-	public int getID(int index, ModElementType.BaseType baseType) {
+	public int getID(int index, BaseType baseType) {
 		if (ids.get(index) == null) { // id at this index is not set yet, create id
 			int free_id = workspace.getNextFreeIDAndIncrease(baseType);
 			ids.put(index, free_id);
@@ -246,7 +248,7 @@ public class ModElement implements Serializable {
 	@SuppressWarnings("unused") public int getID(int index, String baseType) {
 		if (ids.get(index) == null) { // id at this index is not set yet, create id
 			int free_id = workspace
-					.getNextFreeIDAndIncrease(ModElementType.BaseType.valueOf(baseType.toUpperCase(Locale.ENGLISH)));
+					.getNextFreeIDAndIncrease(BaseType.valueOf(baseType.toUpperCase(Locale.ENGLISH)));
 			ids.put(index, free_id);
 			return free_id;
 		}

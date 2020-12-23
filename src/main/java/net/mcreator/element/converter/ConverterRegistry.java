@@ -18,7 +18,6 @@
 
 package net.mcreator.element.converter;
 
-import net.mcreator.element.ModElementType;
 import net.mcreator.element.converter.fv10.BiomeSpawnListConverter;
 import net.mcreator.element.converter.fv11.GUICoordinateConverter;
 import net.mcreator.element.converter.fv11.OverlayCoordinateConverter;
@@ -34,6 +33,7 @@ import net.mcreator.element.converter.fv6.GUIBindingInverter;
 import net.mcreator.element.converter.fv7.ProcedureEntityDepFixer;
 import net.mcreator.element.converter.fv8.OpenGUIProcedureDepFixer;
 import net.mcreator.element.converter.fv9.ProcedureGlobalTriggerFixer;
+import net.mcreator.element.registry.ModElementType;
 
 import java.util.*;
 

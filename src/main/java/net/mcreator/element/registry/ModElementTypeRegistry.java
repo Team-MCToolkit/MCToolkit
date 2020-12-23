@@ -1,4 +1,22 @@
 /*
+ * MCToolkit (https://mctoolkit.net/)
+ * Copyright (C) 2020 MCToolkit and contributors
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+/*
  * MCreator (https://mcreator.net/)
  * Copyright (C) 2020 Pylo and contributors
  *
@@ -16,18 +34,24 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.mcreator.element;
+package net.mcreator.element.registry;
 
+import net.mcreator.element.GeneratableElement;
+import net.mcreator.element.registry.ModElementType;
 import net.mcreator.element.types.*;
 import net.mcreator.ui.MCreator;
 import net.mcreator.ui.modgui.*;
 import net.mcreator.workspace.elements.ModElement;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public final class ModElementTypeRegistry {
+
+	public static List<ModElementType> elements = new ArrayList<>();
 
 	public static final Map<ModElementType, ModTypeRegistration<?>> REGISTRY = new LinkedHashMap<ModElementType, ModTypeRegistration<?>>() {{
 		put(ModElementType.BLOCK, new ModTypeRegistration<>('b', 16, BlockGUI::new, Block.class));

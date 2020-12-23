@@ -25,7 +25,7 @@ import net.mcreator.blockly.data.Dependency;
 import net.mcreator.blockly.data.ExternalBlockLoader;
 import net.mcreator.blockly.data.ToolboxBlock;
 import net.mcreator.element.GeneratableElement;
-import net.mcreator.element.ModElementType;
+import net.mcreator.element.registry.ModElementType;
 import net.mcreator.element.parts.Particle;
 import net.mcreator.element.parts.TabEntry;
 import net.mcreator.element.types.GUI;

@@ -23,7 +23,7 @@ import net.mcreator.blockly.data.*;
 import net.mcreator.blockly.java.BlocklyToProcedure;
 import net.mcreator.blockly.java.BlocklyVariables;
 import net.mcreator.element.GeneratableElement;
-import net.mcreator.element.ModElementTypeRegistry;
+import net.mcreator.element.registry.ModElementTypeRegistry;
 import net.mcreator.element.parts.Procedure;
 import net.mcreator.element.parts.gui.GUIComponent;
 import net.mcreator.element.types.GUI;

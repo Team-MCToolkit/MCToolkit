@@ -24,7 +24,7 @@ import net.mcreator.element.parts.Enchantment;
 import net.mcreator.generator.blockly.OutputBlockCodeGenerator;
 import net.mcreator.ui.blockly.*;
 import net.mcreator.element.GeneratableElement;
-import net.mcreator.element.ModElementType;
+import net.mcreator.element.registry.ModElementType;
 import net.mcreator.element.parts.TabEntry;
 import net.mcreator.element.types.GUI;
 import net.mcreator.element.types.Item;

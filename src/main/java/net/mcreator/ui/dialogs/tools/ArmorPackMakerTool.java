@@ -18,8 +18,8 @@
 
 package net.mcreator.ui.dialogs.tools;
 
-import net.mcreator.element.ModElementType;
-import net.mcreator.element.ModElementTypeRegistry;
+import net.mcreator.element.registry.ModElementType;
+import net.mcreator.element.registry.ModElementTypeRegistry;
 import net.mcreator.element.parts.MItemBlock;
 import net.mcreator.element.types.Armor;
 import net.mcreator.element.types.Recipe;

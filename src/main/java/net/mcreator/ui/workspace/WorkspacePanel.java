@@ -19,9 +19,10 @@
 package net.mcreator.ui.workspace;
 
 import net.mcreator.element.GeneratableElement;
-import net.mcreator.element.ModElementType;
-import net.mcreator.element.ModElementTypeRegistry;
+import net.mcreator.element.registry.ModElementType;
+import net.mcreator.element.registry.ModElementTypeRegistry;
 import net.mcreator.element.NamespacedGeneratableElement;
+import net.mcreator.element.registry.BaseType;
 import net.mcreator.generator.GeneratorStats;
 import net.mcreator.generator.GeneratorTemplate;
 import net.mcreator.io.FileIO;
@@ -364,8 +365,7 @@ public class WorkspacePanel extends JPanel {
 		filterPopup.add(new UnregisteredAction(L10N.t("workspace.elements.list.filter_witherrors"),
 				e -> search.setText("f:err")));
 		filterPopup.addSeparator();
-		for (ModElementType type : Arrays.stream(ModElementType.values())
-				.sorted(Comparator.comparing(ModElementType::getReadableName)).collect(Collectors.toList())) {
+		for (ModElementType type : ModElementTypeRegistry.elements) {
 			filterPopup.add(new UnregisteredAction(type.getReadableName(),
 					e -> search.setText("f:" + type.getReadableName().replace(" ", "").toLowerCase(Locale.ENGLISH)))
 					.setIcon(new ImageIcon(ImageUtils.resizeAA(TiledImageCache.getModTypeIcon(type).getImage(), 16))));
@@ -670,7 +670,7 @@ public class WorkspacePanel extends JPanel {
 			@Override public void mouseClicked(MouseEvent e) {
 				if (but6.isEnabled()) {
 					ModElement mu = list.getSelectedValue();
-					if (mu != null && mu.getType().getBaseType() != ModElementType.BaseType.DATAPACK) {
+					if (mu != null && mu.getType().getBaseType() != BaseType.DATAPACK) {
 						ModElement modified = ModElementIDsDialog.openModElementIDDialog(mcreator, mu);
 						if (modified != null)
 							mcreator.getWorkspace().updateModElement(modified);
@@ -1092,7 +1092,7 @@ public class WorkspacePanel extends JPanel {
 					pat = pat.replaceFirst("f:", "");
 					if (pat.equals("locked") || pat.equals("ok") || pat.equals("err"))
 						filters.add(pat);
-					for (ModElementType type : ModElementType.values()) {
+					for (ModElementType type : ModElementTypeRegistry.elements) {
 						if (pat.equals(type.getReadableName().replace(" ", "").toLowerCase(Locale.ENGLISH))) {
 							metfilters.add(type);
 						}

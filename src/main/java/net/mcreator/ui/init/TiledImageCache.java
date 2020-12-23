@@ -18,8 +18,8 @@
 
 package net.mcreator.ui.init;
 
-import net.mcreator.element.ModElementType;
-import net.mcreator.element.ModElementTypeRegistry;
+import net.mcreator.element.registry.ModElementType;
+import net.mcreator.element.registry.ModElementTypeRegistry;
 import net.mcreator.util.image.ImageUtils;
 import net.mcreator.util.image.InvalidTileSizeException;
 import net.mcreator.util.image.TiledImageUtils;

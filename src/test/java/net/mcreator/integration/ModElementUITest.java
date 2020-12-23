@@ -19,8 +19,8 @@
 package net.mcreator.integration;
 
 import net.mcreator.element.GeneratableElement;
-import net.mcreator.element.ModElementType;
-import net.mcreator.element.ModElementTypeRegistry;
+import net.mcreator.element.registry.ModElementType;
+import net.mcreator.element.registry.ModElementTypeRegistry;
 import net.mcreator.generator.Generator;
 import net.mcreator.generator.GeneratorConfiguration;
 import net.mcreator.generator.GeneratorFlavor;

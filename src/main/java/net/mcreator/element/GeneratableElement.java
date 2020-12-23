@@ -21,6 +21,8 @@ package net.mcreator.element;
 import com.google.gson.*;
 import net.mcreator.element.converter.ConverterRegistry;
 import net.mcreator.element.converter.IConverter;
+import net.mcreator.element.registry.ModElementType;
+import net.mcreator.element.registry.ModElementTypeRegistry;
 import net.mcreator.generator.mapping.MappableElement;
 import net.mcreator.workspace.Workspace;
 import net.mcreator.workspace.elements.ModElement;
@@ -119,7 +121,7 @@ public abstract class GeneratableElement {
 				JsonSerializationContext jsonSerializationContext) {
 			JsonObject root = new JsonObject();
 			root.add("_fv", new JsonPrimitive(GeneratableElement.formatVersion));
-			root.add("_type", gson.toJsonTree(modElement.getModElement().getType()));
+			root.add("_type", gson.toJsonTree(modElement.getModElement().getType().getRegistryName()));
 			root.add("definition", gson.toJsonTree(modElement));
 			return root;
 		}

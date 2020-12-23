@@ -18,8 +18,8 @@
 
 package net.mcreator.ui.dialogs.tools.plugin;
 
-import net.mcreator.element.ModElementType;
-import net.mcreator.element.ModElementTypeRegistry;
+import net.mcreator.element.registry.ModElementType;
+import net.mcreator.element.registry.ModElementTypeRegistry;
 import net.mcreator.element.parts.MItemBlock;
 import net.mcreator.element.parts.Material;
 import net.mcreator.element.parts.StepSound;
@@ -558,7 +558,7 @@ public class CustomPackMakerTool {
 	private static boolean elements(PackMakerTool pmt, GeneratorConfiguration gc){
 		boolean b = false;
 		for(String element : pmt.mod_elements){
-			if(gc.getGeneratorStats().getModElementTypeCoverageInfo().get(ModElementType.valueOf(element))
+			if(gc.getGeneratorStats().getModElementTypeCoverageInfo().get(ModElementType.get(element))
 					!= GeneratorStats.CoverageStatus.NONE)
 				b = true;
 			else

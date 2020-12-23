@@ -18,17 +18,15 @@
 
 package net.mcreator.ui.dialogs.tools.util;
 
-import net.mcreator.element.ModElementType;
-import net.mcreator.element.ModElementTypeRegistry;
+import net.mcreator.element.registry.ModElementType;
+import net.mcreator.element.registry.ModElementTypeRegistry;
 import net.mcreator.element.parts.MItemBlock;
-import net.mcreator.element.types.Block;
 import net.mcreator.element.types.Recipe;
 import net.mcreator.ui.MCreator;
 import net.mcreator.ui.dialogs.tools.plugin.PackMakerTool;
 import net.mcreator.ui.dialogs.tools.plugin.elements.Blocks;
 import net.mcreator.ui.dialogs.tools.plugin.elements.Items;
 import net.mcreator.ui.dialogs.tools.plugin.elements.Recipes;
-import net.mcreator.util.StringUtils;
 import net.mcreator.workspace.Workspace;
 import net.mcreator.workspace.elements.ModElement;
 

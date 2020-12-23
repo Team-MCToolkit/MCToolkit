@@ -29,8 +29,8 @@ package net.mcreator.integration.generator;
 
 import com.google.gson.Gson;
 import net.mcreator.element.GeneratableElement;
-import net.mcreator.element.ModElementType;
-import net.mcreator.element.ModElementTypeRegistry;
+import net.mcreator.element.registry.ModElementType;
+import net.mcreator.element.registry.ModElementTypeRegistry;
 import net.mcreator.generator.GeneratorStats;
 import net.mcreator.generator.GeneratorTemplate;
 import net.mcreator.integration.TestWorkspaceDataProvider;
