@@ -72,7 +72,7 @@ public class ModElementType implements Comparable<ModElementType> {
 		this.baseType = baseType;
 		this.recipeElementType = recipeElementType;
 		this.registryName = registryName;
-		this.name = registryName.toUpperCase();
+		this.name = registryName;
 
 		this.readableName = L10N.t("modelement." + registryName.toLowerCase(Locale.ENGLISH));
 		this.description = L10N.t("modelement." + registryName.toLowerCase(Locale.ENGLISH) + ".description");
@@ -129,7 +129,7 @@ public class ModElementType implements Comparable<ModElementType> {
 
 	public static ModElementType get(String modElementName){
 		for(ModElementType me : ModElementTypeRegistry.elements){
-			if(me.name.toUpperCase().equals(modElementName)){
+			if(me.name.equals(modElementName)){
 				return me;
 			}
 		}

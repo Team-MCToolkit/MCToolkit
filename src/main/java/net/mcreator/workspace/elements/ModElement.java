@@ -35,7 +35,7 @@ import java.util.*;
 public class ModElement implements Serializable {
 
 	private String name;
-	private ModElementType type;
+	private String type;
 
 	private Integer sortid = null;
 
@@ -61,7 +61,7 @@ public class ModElement implements Serializable {
 
 	public ModElement(@NotNull Workspace workspace, @NotNull String name, ModElementType type) {
 		this.name = name;
-		this.type = type;
+		this.type = type.name();
 		this.registry_name = RegistryNameFixer.fromCamelCase(name);
 
 		setWorkspace(workspace);
@@ -113,10 +113,10 @@ public class ModElement implements Serializable {
 
 		mcItems = new ArrayList<>();
 
-		if (type.getRecipeElementType() == RecipeElementType.ITEM
-				|| type.getRecipeElementType() == RecipeElementType.BLOCK) {
+		if (getType().getRecipeElementType() == RecipeElementType.ITEM
+				|| getType().getRecipeElementType() == RecipeElementType.BLOCK) {
 			mcItems.add(new MCItem.Custom(this, null));
-		} else if (type.getBaseType() == BaseType.ARMOR) {
+		} else if (getType().getBaseType() == BaseType.ARMOR) {
 			if (getMetadata("eh") != null && (Boolean) getMetadata("eh"))
 				mcItems.add(new MCItem.Custom(this, "helmet"));
 			if (getMetadata("ec") != null && (Boolean) getMetadata("ec"))
@@ -219,7 +219,7 @@ public class ModElement implements Serializable {
 	 * @return The ID of the element for the given index, could be newly created
 	 */
 	public int getID(int index) {
-		return getID(index, type.getBaseType());
+		return getID(index, getType().getBaseType());
 	}
 
 	/**
@@ -272,11 +272,11 @@ public class ModElement implements Serializable {
 	}
 
 	public ModElementType getType() {
-		return type;
+		return ModElementType.get(type);
 	}
 
 	public void setType(ModElementType type) {
-		this.type = type;
+		this.type = type.name();
 	}
 
 	public boolean isCodeLocked() {
@@ -284,7 +284,7 @@ public class ModElement implements Serializable {
 	}
 
 	public void setCodeLock(boolean codeLock) {
-		if (this.type == ModElementType.CODE && !codeLock)
+		if (getType() == ModElementType.CODE && !codeLock)
 			return;
 		this.locked_code = codeLock;
 	}

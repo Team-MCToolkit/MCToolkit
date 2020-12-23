@@ -558,7 +558,7 @@ public class CustomPackMakerTool {
 	private static boolean elements(PackMakerTool pmt, GeneratorConfiguration gc){
 		boolean b = false;
 		for(String element : pmt.mod_elements){
-			if(gc.getGeneratorStats().getModElementTypeCoverageInfo().get(ModElementType.get(element))
+			if(gc.getGeneratorStats().getModElementTypeCoverageInfo().get(ModElementType.get(element.toLowerCase()))
 					!= GeneratorStats.CoverageStatus.NONE)
 				b = true;
 			else

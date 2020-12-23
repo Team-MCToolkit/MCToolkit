@@ -89,8 +89,7 @@ public abstract class GeneratableElement {
 		@Override
 		public GeneratableElement deserialize(JsonElement jsonElement, Type type,
 				JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
-			ModElementType modElementType = jsonDeserializationContext
-					.deserialize(jsonElement.getAsJsonObject().get("_type"), ModElementType.class);
+			ModElementType modElementType = ModElementType.get(jsonElement.getAsJsonObject().get("_type").getAsString());
 			int importedFormatVersion = jsonDeserializationContext
 					.deserialize(jsonElement.getAsJsonObject().get("_fv"), Integer.class);
 
