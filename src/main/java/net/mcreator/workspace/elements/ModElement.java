@@ -113,8 +113,11 @@ public class ModElement implements Serializable {
 
 		mcItems = new ArrayList<>();
 
-		if (getType().getRecipeElementType() == RecipeElementType.ITEM
-				|| getType().getRecipeElementType() == RecipeElementType.BLOCK) {
+		if (getType() == ModElementType.DIMENSION) {
+			if (getMetadata("ep") != null && (Boolean) getMetadata("ep"))
+				mcItems.add(new MCItem.Custom(this, null));
+		} else if (getType().getRecipeElementType() == RecipeElementType.ITEM
+				|| type.getRecipeElementType() == RecipeElementType.BLOCK) {
 			mcItems.add(new MCItem.Custom(this, null));
 		} else if (getType().getBaseType() == BaseType.ARMOR) {
 			if (getMetadata("eh") != null && (Boolean) getMetadata("eh"))
