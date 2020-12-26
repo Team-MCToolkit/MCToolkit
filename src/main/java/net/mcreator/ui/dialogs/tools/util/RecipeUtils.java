@@ -69,7 +69,7 @@ public class RecipeUtils {
 		mcreator.getWorkspace().getModElementManager().storeModElement(slabRecipe);
 	}
 
-	public static void wall(MCreator mcreator, Workspace workspace, String block, String recipeName, String name) {
+	public static void wall(MCreator mcreator, Workspace workspace, String block, String recipeName, String returnItem) {
 		Recipe wallRecipe = (Recipe) ModElementTypeRegistry.REGISTRY.get(ModElementType.RECIPE)
 				.getModElement(mcreator, new ModElement(workspace, recipeName, ModElementType.RECIPE), false)
 				.getElementFromGUI();
@@ -79,7 +79,7 @@ public class RecipeUtils {
 		wallRecipe.recipeSlots[6] = new MItemBlock(workspace, "CUSTOM:" + block);
 		wallRecipe.recipeSlots[7] = new MItemBlock(workspace, "CUSTOM:" + block);
 		wallRecipe.recipeSlots[8] = new MItemBlock(workspace, "CUSTOM:" + block);
-		wallRecipe.recipeReturnStack = new MItemBlock(workspace, "CUSTOM:" + wallRecipe);
+		wallRecipe.recipeReturnStack = new MItemBlock(workspace, "CUSTOM:" + returnItem);
 		wallRecipe.recipeRetstackSize = 6;
 		mcreator.getWorkspace().getModElementManager().storeModElementPicture(wallRecipe);
 		mcreator.getWorkspace().addModElement(wallRecipe.getModElement());
@@ -123,7 +123,7 @@ public class RecipeUtils {
 		mcreator.getWorkspace().getModElementManager().storeModElement(fenceGateRecipe);
 	}
 
-	public static void door(MCreator mcreator, Workspace workspace, String block, String recipeName, String name) {
+	public static void door(MCreator mcreator, Workspace workspace, String block, String recipeName, String returnItem) {
 		Recipe recipe = (Recipe) ModElementTypeRegistry.REGISTRY.get(ModElementType.RECIPE)
 				.getModElement(mcreator, new ModElement(workspace, recipeName, ModElementType.RECIPE), false)
 				.getElementFromGUI();
@@ -133,7 +133,7 @@ public class RecipeUtils {
 		recipe.recipeSlots[4] = new MItemBlock(workspace, "CUSTOM:" + block);
 		recipe.recipeSlots[6] = new MItemBlock(workspace, "CUSTOM:" + block);
 		recipe.recipeSlots[7] = new MItemBlock(workspace, "CUSTOM:" + block);
-		recipe.recipeReturnStack = new MItemBlock(workspace, "CUSTOM:" + recipe);
+		recipe.recipeReturnStack = new MItemBlock(workspace, "CUSTOM:" + returnItem);
 		recipe.recipeRetstackSize = 6;
 		mcreator.getWorkspace().getModElementManager().storeModElementPicture(recipe);
 		mcreator.getWorkspace().addModElement(recipe.getModElement());
@@ -192,7 +192,7 @@ public class RecipeUtils {
 		fourBlocksRecipe.recipeSlots[1] = new MItemBlock(workspace, "CUSTOM:" + block);
 		fourBlocksRecipe.recipeSlots[3] = new MItemBlock(workspace, "CUSTOM:" + block);
 		fourBlocksRecipe.recipeSlots[4] = new MItemBlock(workspace, "CUSTOM:" + block);
-		fourBlocksRecipe.recipeReturnStack = new MItemBlock(workspace, resultBlock);
+		fourBlocksRecipe.recipeReturnStack = new MItemBlock(workspace, "Custom:" + resultBlock);
 		fourBlocksRecipe.recipeRetstackSize = 4;
 		mcreator.getWorkspace().getModElementManager().storeModElementPicture(fourBlocksRecipe);
 		mcreator.getWorkspace().addModElement(fourBlocksRecipe.getModElement());
@@ -213,7 +213,7 @@ public class RecipeUtils {
 		fullBlockRecipe.recipeSlots[6] = new MItemBlock(workspace, "CUSTOM:" + block);
 		fullBlockRecipe.recipeSlots[7] = new MItemBlock(workspace, "CUSTOM:" + block);
 		fullBlockRecipe.recipeSlots[8] = new MItemBlock(workspace, "CUSTOM:" + block);
-		fullBlockRecipe.recipeReturnStack = new MItemBlock(workspace, resultBlock);
+		fullBlockRecipe.recipeReturnStack = new MItemBlock(workspace, "Custom:" + resultBlock);
 		fullBlockRecipe.recipeRetstackSize = stackSize;
 		mcreator.getWorkspace().getModElementManager().storeModElementPicture(fullBlockRecipe);
 		mcreator.getWorkspace().addModElement(fullBlockRecipe.getModElement());

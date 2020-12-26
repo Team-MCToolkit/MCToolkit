@@ -22,6 +22,7 @@ import net.mcreator.element.ModElementType;
 import net.mcreator.element.parts.MItemBlock;
 import net.mcreator.element.parts.Material;
 import net.mcreator.element.parts.StepSound;
+import net.mcreator.element.parts.TabEntry;
 import net.mcreator.element.types.Block;
 import net.mcreator.generator.GeneratorConfiguration;
 import net.mcreator.generator.GeneratorStats;
@@ -29,6 +30,7 @@ import net.mcreator.minecraft.ElementUtil;
 import net.mcreator.ui.MCreator;
 import net.mcreator.ui.action.ActionRegistry;
 import net.mcreator.ui.action.BasicAction;
+import net.mcreator.ui.component.JEmptyBox;
 import net.mcreator.ui.component.util.PanelUtils;
 import net.mcreator.ui.dialogs.GeneralTextureSelector;
 import net.mcreator.ui.dialogs.MCreatorDialog;
@@ -53,6 +55,8 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class BuildingPackMakerTool {
+	private static VTextField name;
+	private static TextureHolder texture;
 
 	private static void open(MCreator mcreator){
 		MCreatorDialog dialog = new MCreatorDialog(mcreator, L10N.t("dialog.tools.building_pack.title"), true);
@@ -67,14 +71,18 @@ public class BuildingPackMakerTool {
 
 		dialog.add("Center", scrollPane);
 
-		VTextField name = new VTextField(25);
-		TextureHolder texture = new TextureHolder(new GeneralTextureSelector(mcreator, GeneralTextureSelector.TextureType.BLOCK));
+		name = new VTextField(25);
+		texture = new TextureHolder(new GeneralTextureSelector(mcreator, GeneralTextureSelector.TextureType.BLOCK));
+		texture.setOpaque(false);
+		texture.setPreferredSize(new Dimension(43, 43));
+
 		JSpinner factor = new JSpinner(new SpinnerNumberModel(1.0, 0.01, 1000000000, 1.0));
 
 		name.enableRealtimeValidation();
 
 		props.add(PanelUtils.gridElements(1, 2, L10N.label("dialog.tools.building_pack.name"), name));
-		props.add(PanelUtils.gridElements(1, 2, L10N.label("dialog.tools.building_pack.texture"), texture));
+		props.add(PanelUtils.gridElements(1, 2, L10N.label("dialog.tools.building_pack.texture"), PanelUtils.join(
+				new JEmptyBox(), texture, new JEmptyBox())));
 		props.add(PanelUtils.gridElements(1, 2, L10N.label("dialog.tools.building_pack.factor"), factor));
 
 		name.setValidator(new ModElementNameValidator(mcreator.getWorkspace(), name));
@@ -82,28 +90,28 @@ public class BuildingPackMakerTool {
 		List<Consumer<Boolean>> callables = new ArrayList<>();
 		JCheckBox normalBlock = L10N.checkbox("elementgui.common.enable");
 		callables.add(addBlock(mcreator, L10N.label("dialog.tools.building_pack.normal"), normalBlock,
-				props, true, "Normal", name.getText(), texture.getText(), (Double) factor.getValue(), false));
+				props, true, "Normal", (Double) factor.getValue(), false));
 		callables.add(addBlock(mcreator, L10N.label("dialog.tools.building_pack.stairs"), L10N.checkbox("elementgui.common.enable"),
-				props, true, "Stairs", name.getText(), texture.getText(), (Double) factor.getValue(), normalBlock.isSelected()));
+				props, true, "Stairs", (Double) factor.getValue(), normalBlock.isSelected()));
 		callables.add(addBlock(mcreator, L10N.label("dialog.tools.building_pack.slab"), L10N.checkbox("elementgui.common.enable"),
-				props, true, "Slab", name.getText(), texture.getText(), (Double) factor.getValue(), normalBlock.isSelected()));
+				props, true, "Slab", (Double) factor.getValue(), normalBlock.isSelected()));
 		callables.add(addBlock(mcreator, L10N.label("dialog.tools.building_pack.wall"), L10N.checkbox("elementgui.common.enable"),
-				props, true, "Wall", name.getText(), texture.getText(), (Double) factor.getValue(), normalBlock.isSelected()));
+				props, true, "Wall", (Double) factor.getValue(), normalBlock.isSelected()));
 		callables.add(addBlock(mcreator, L10N.label("dialog.tools.building_pack.fence"), L10N.checkbox("elementgui.common.enable"),
-				props, true, "Fence", name.getText(), texture.getText(), (Double) factor.getValue(), normalBlock.isSelected()));
+				props, true, "Fence", (Double) factor.getValue(), normalBlock.isSelected()));
 		callables.add(addBlock(mcreator, L10N.label("dialog.tools.building_pack.fencegate"), L10N.checkbox("elementgui.common.enable"),
-				props, true, "Fence Gate", name.getText(), texture.getText(), (Double) factor.getValue(), normalBlock.isSelected()));
+				props, true, "Fence Gate", (Double) factor.getValue(), normalBlock.isSelected()));
 		callables.add(addBlock(mcreator, L10N.label("dialog.tools.building_pack.trapdoor"), L10N.checkbox("elementgui.common.enable"),
-				props, true, "Trap Door", name.getText(), texture.getText(), (Double) factor.getValue(), normalBlock.isSelected()));
+				props, true, "Trap Door", (Double) factor.getValue(), normalBlock.isSelected()));
 		callables.add(addBlock(mcreator, L10N.label("dialog.tools.building_pack.door"), L10N.checkbox("elementgui.common.enable"),
-				props, true, "Door", name.getText(), texture.getText(), (Double) factor.getValue(), normalBlock.isSelected()));
+				props, true, "Door", (Double) factor.getValue(), normalBlock.isSelected()));
 		callables.add(addBlock(mcreator, L10N.label("dialog.tools.building_pack.button"), L10N.checkbox("elementgui.common.enable"),
-				props, true, "Stone Button", name.getText(), texture.getText(), (Double) factor.getValue(), normalBlock.isSelected()));
+				props, true, "Stone Button", (Double) factor.getValue(), normalBlock.isSelected()));
 		callables.add(addBlock(mcreator, L10N.label("dialog.tools.building_pack.pressureplate"), L10N.checkbox("elementgui.common.enable"),
-				props, true, "Pressure Plate", name.getText(), texture.getText(), (Double) factor.getValue(), normalBlock.isSelected()));
+				props, true, "Pressure Plate", (Double) factor.getValue(), normalBlock.isSelected()));
 
 		dialog.add("Center", scrollPane);
-		JButton ok = L10N.button("dialog.tools.building_pack_create");
+		JButton ok = L10N.button("dialog.tools.building_pack.create");
 		JButton cancel = L10N.button(UIManager.getString("OptionPane.cancelButtonText"));
 		cancel.addActionListener(e -> dialog.setVisible(false));
 		dialog.add("South", PanelUtils.join(ok, cancel));
@@ -116,77 +124,83 @@ public class BuildingPackMakerTool {
 			dialog.setVisible(false);
 		});
 
-		dialog.setSize(740, 420);
+		dialog.setSize(640, 620);
 		dialog.setLocationRelativeTo(mcreator);
 		dialog.setVisible(true);
 	}
 
 	private static Consumer<Boolean> addBlock(MCreator mcreator, JLabel text, JCheckBox box, JPanel panel, boolean checked,
-			String type, String name, String texture, double factor, boolean generateRecipe) {
+			String type , double factor, boolean generateRecipe) {
 		box.setSelected(checked);
 		panel.add(PanelUtils.centerAndEastElement(text, box));
 
 		return altcondition -> {
 			if (box.isSelected() || altcondition)
-				addBlockToWorkspace(mcreator, mcreator.getWorkspace(), type, name, texture, factor, generateRecipe);
+				addBlockToWorkspace(mcreator, mcreator.getWorkspace(), type, factor, generateRecipe);
 		};
 	}
 
-	private static void addBlockToWorkspace(MCreator mcreator, Workspace workspace, String type, String name, String texture,
+	private static void addBlockToWorkspace(MCreator mcreator, Workspace workspace, String type,
 			double factor, boolean generateRecipe) {
-		String fullname = type.equals("Normal") ? name : name + type.replace(" ", "");
+		String fullname;
+		if(type.equals("Normal"))
+			fullname = name.getText();
+		else
+			fullname = name.getText() + type.replace(" ", "");
 		Block block = new Block(new ModElement(workspace, fullname, ModElementType.BLOCK));
-		block.name = type.equals("Normal") ? name : name + " " + type;;
+		block.name = type.equals("Normal") ? name.getText() : name.getText() + " " + type;;
 		if(!type.equals("Normal"))
 			block.blockBase = type.replace(" ", "");
+		block.creativeTab = new TabEntry(workspace, "BUILDING_BLOCKS");
 		block.material = new Material(workspace, "ROCK");
-		block.texture = texture;
+		block.texture = texture.getID();
 		block.renderType = 11; // single texture
+		block.transparencyType = "SOLID";
 		block.customModelName = "Single texture";
 		block.soundOnStep = new StepSound(workspace, "STONE");
 		block.hardness = 1.5 * factor;
 		block.resistance = 6.0 * factor;
 		block.destroyTool = "pickaxe";
-		if(type.equals("Pressure Plate"))
-			block.sensitivity = "EVERYTHING";
 		mcreator.getWorkspace().getModElementManager().storeModElementPicture(block);
 		mcreator.getWorkspace().addModElement(block.getModElement());
 		mcreator.getWorkspace().getGenerator().generateElement(block);
 		mcreator.getWorkspace().getModElementManager().storeModElement(block);
 
 		if(generateRecipe) {
-			String blockName = name;
+			String blockName = name.getText();
+			String recipeName = fullname + "Recipe";
+			String scname = recipeName.replace("Recipe", "StoneCutter");
 			switch (type) {
 			case "Stairs":
-				RecipeUtils.stairs(mcreator, workspace, blockName, fullname + "Recipe", block.getModElement().getName());
-				RecipeUtils.stoneCutting(mcreator, workspace, blockName, fullname + "Recipe", block.getModElement().getName(), 1);
+				RecipeUtils.stairs(mcreator, workspace, blockName, recipeName, block.getModElement().getName());
+				RecipeUtils.stoneCutting(mcreator, workspace, blockName, scname, block.getModElement().getName(), 1);
 				break;
 			case "Slab":
-				RecipeUtils.slab(mcreator, workspace, blockName, fullname + "Recipe", block.getModElement().getName());
-				RecipeUtils.stoneCutting(mcreator, workspace, blockName, fullname + "Recipe", block.getModElement().getName(), 2);
+				RecipeUtils.slab(mcreator, workspace, blockName, recipeName, block.getModElement().getName());
+				RecipeUtils.stoneCutting(mcreator, workspace, blockName, scname, block.getModElement().getName(), 2);
 				break;
 			case "Wall":
-				RecipeUtils.wall(mcreator, workspace, blockName, fullname + "Recipe", block.getModElement().getName());
-				RecipeUtils.stoneCutting(mcreator, workspace, blockName, fullname + "Recipe", block.getModElement().getName(), 1);
+				RecipeUtils.wall(mcreator, workspace, blockName, recipeName, block.getModElement().getName());
+				RecipeUtils.stoneCutting(mcreator, workspace, blockName, scname, block.getModElement().getName(), 1);
 				break;
 			case "Fence":
-				RecipeUtils.fence(mcreator, workspace, blockName, fullname + "Recipe", block.getModElement().getName());
+				RecipeUtils.fence(mcreator, workspace, blockName, recipeName, block.getModElement().getName());
 				break;
 			case "Fence Gate":
-				RecipeUtils.fenceGate(mcreator, workspace, blockName, fullname + "Recipe", block.getModElement().getName());
+				RecipeUtils.fenceGate(mcreator, workspace, blockName, recipeName, block.getModElement().getName());
 				break;
 			case "Trap Door":
-				RecipeUtils.wall(mcreator, workspace, blockName, fullname + "Recipe", block.getModElement().getName());
+				RecipeUtils.wall(mcreator, workspace, blockName, recipeName, block.getModElement().getName());
 				break;
 			case "Door":
-				RecipeUtils.door(mcreator, workspace, blockName, fullname + "Recipe", block.getModElement().getName());
+				RecipeUtils.door(mcreator, workspace, blockName, recipeName, block.getModElement().getName());
 				break;
 			case "Stone Button":
-				RecipeUtils.button(mcreator, workspace, blockName,  fullname + "Recipe", block.getModElement().getName());
-				RecipeUtils.stoneCutting(mcreator, workspace, blockName, fullname + "Recipe", block.getModElement().getName(), 1);
+				RecipeUtils.button(mcreator, workspace, blockName,  recipeName, block.getModElement().getName());
+				RecipeUtils.stoneCutting(mcreator, workspace, blockName, recipeName.replace("Recipe", "StoneCutter"), block.getModElement().getName(), 1);
 				break;
 			case "Pressure Plate":
-				RecipeUtils.pressurePlate(mcreator, workspace, blockName, fullname + "Recipe", block.getModElement().getName());
+				RecipeUtils.pressurePlate(mcreator, workspace, blockName, recipeName, block.getModElement().getName());
 				break;
 			}
 		}
