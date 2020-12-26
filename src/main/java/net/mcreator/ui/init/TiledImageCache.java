@@ -33,8 +33,6 @@ public class TiledImageCache {
 
 	private static final Logger LOG = LogManager.getLogger("TImage Chache");
 
-	private static TiledImageUtils modTypes;
-
 	public static ImageIcon plantGrowingYes;
 	public static ImageIcon plantGrowingNo;
 	public static ImageIcon plantStaticYes;
@@ -67,7 +65,6 @@ public class TiledImageCache {
 			TiledImageUtils modTabTile = new TiledImageUtils(UIRES.get("taboverlaytile"), 64, 64);
 			TiledImageUtils workspaceIcons = new TiledImageUtils(UIRES.get("wrktile"), 45, 45);
 			TiledImageUtils armorIcons = new TiledImageUtils(UIRES.get("armortile"), 32, 32);
-			modTypes = new TiledImageUtils(UIRES.get("modtypes"), 64, 64);
 
 			plantGrowingYes = plantGrowthTile.getIcon(1, 1);
 			plantGrowingNo = plantGrowthTile.getIcon(2, 1);
@@ -103,14 +100,14 @@ public class TiledImageCache {
 
 	public static ImageIcon getModTypeIcon(ModElementType modType) {
 		if (modType == null)
-			return modTypes.getIcon(1, 1);
+			return UIRES.get("modtypes.empty");
 
 		ModElementTypeRegistry.ModTypeRegistration<?> modRegistration = ModElementTypeRegistry.REGISTRY.get(modType);
 		if (modRegistration != null) {
-			return modTypes.getIcon(modRegistration.getIconID(), 1);
+			return UIRES.get("modtypes." + modRegistration.getIconID());
 		}
 
-		return modTypes.getIcon(1, 1);
+		return UIRES.get("modtypes.empty");
 	}
 
 }

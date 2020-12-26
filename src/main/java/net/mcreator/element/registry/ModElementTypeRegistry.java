@@ -54,42 +54,42 @@ public final class ModElementTypeRegistry {
 	public static List<ModElementType> elements = new ArrayList<>();
 
 	public static final Map<ModElementType, ModTypeRegistration<?>> REGISTRY = new LinkedHashMap<ModElementType, ModTypeRegistration<?>>() {{
-		put(ModElementType.BLOCK, new ModTypeRegistration<>('b', 16, BlockGUI::new, Block.class));
-		put(ModElementType.ITEM, new ModTypeRegistration<>('i', 6, ItemGUI::new, Item.class));
-		put(ModElementType.TOOL, new ModTypeRegistration<>('t', 15, ToolGUI::new, Tool.class));
-		put(ModElementType.FOOD, new ModTypeRegistration<>('f', 3, FoodGUI::new, Food.class));
-		put(ModElementType.FLUID, new ModTypeRegistration<>('l', 2, FluidGUI::new, Fluid.class));
-		put(ModElementType.ARMOR, new ModTypeRegistration<>('a', 21, ArmorGUI::new, Armor.class));
-		put(ModElementType.RANGEDITEM, new ModTypeRegistration<>('n', 5, RangedItemGUI::new, RangedItem.class));
-		put(ModElementType.RECIPE, new ModTypeRegistration<>('r', 11, RecipeGUI::new, Recipe.class));
-		put(ModElementType.FUEL, new ModTypeRegistration<>(null, 4, FuelGUI::new, Fuel.class));
-		put(ModElementType.TAB, new ModTypeRegistration<>('w', 14, TabGUI::new, Tab.class));
-		put(ModElementType.MOB, new ModTypeRegistration<>('e', 8, LivingEntityGUI::new, Mob.class));
-		put(ModElementType.PLANT, new ModTypeRegistration<>('y', 10, PlantGUI::new, Plant.class));
-		put(ModElementType.STRUCTURE, new ModTypeRegistration<>('s', 13, StructureGenGUI::new, Structure.class));
-		put(ModElementType.BIOME, new ModTypeRegistration<>('o', 20, BiomeGUI::new, Biome.class));
-		put(ModElementType.DIMENSION, new ModTypeRegistration<>('d', 12, DimensionGUI::new, Dimension.class));
-		put(ModElementType.ACHIEVEMENT, new ModTypeRegistration<>('h', 18, AchievementGUI::new, Achievement.class));
-		put(ModElementType.COMMAND, new ModTypeRegistration<>('c', 22, CommandGUI::new, Command.class));
-		put(ModElementType.KEYBIND, new ModTypeRegistration<>('k', 7, KeyBindGUI::new, KeyBinding.class));
-		put(ModElementType.GUI, new ModTypeRegistration<>('g', 19, CustomGUIGUI::new, GUI.class));
-		put(ModElementType.OVERLAY, new ModTypeRegistration<>('v', 9, OverlayGUI::new, Overlay.class));
-		put(ModElementType.PROCEDURE, new ModTypeRegistration<>('p', 17, ProcedureGUI::new, Procedure.class));
-		put(ModElementType.POTIONEFFECT, new ModTypeRegistration<>('z', 32, PotionEffectGUI::new, PotionEffect.class));
-		put(ModElementType.ENCHANTMENT, new ModTypeRegistration<>('m', 29, EnchantmentGUI::new, Enchantment.class));
-		put(ModElementType.CODE, new ModTypeRegistration<>(null, 24, CustomElementGUI::new, CustomElement.class));
-		put(ModElementType.TAG, new ModTypeRegistration<>('j', 25, TagGUI::new, Tag.class));
-		put(ModElementType.LOOTTABLE, new ModTypeRegistration<>('q', 26, LootTableGUI::new, LootTable.class));
-		put(ModElementType.FUNCTION, new ModTypeRegistration<>('u', 27, FunctionGUI::new, Function.class));
-		put(ModElementType.MUSICDISC, new ModTypeRegistration<>(null, 28, MusicDiscGUI::new, MusicDisc.class));
-		put(ModElementType.PAINTING, new ModTypeRegistration<>(null, 30, PaintingGUI::new, Painting.class));
-		put(ModElementType.PARTICLE, new ModTypeRegistration<>(null, 31, ParticleGUI::new, Particle.class));
-		put(ModElementType.POTIONITEM, new ModTypeRegistration<>(null, 23, PotionItemGUI::new, PotionItem.class));
+		put(ModElementType.BLOCK, new ModTypeRegistration<>('b', "block", BlockGUI::new, Block.class));
+		put(ModElementType.ITEM, new ModTypeRegistration<>('i', "item", ItemGUI::new, Item.class));
+		put(ModElementType.TOOL, new ModTypeRegistration<>('t', "tool", ToolGUI::new, Tool.class));
+		put(ModElementType.FOOD, new ModTypeRegistration<>('f', "food", FoodGUI::new, Food.class));
+		put(ModElementType.FLUID, new ModTypeRegistration<>('l', "fluid", FluidGUI::new, Fluid.class));
+		put(ModElementType.ARMOR, new ModTypeRegistration<>('a', "armor", ArmorGUI::new, Armor.class));
+		put(ModElementType.RANGEDITEM, new ModTypeRegistration<>('n', "rangeditem", RangedItemGUI::new, RangedItem.class));
+		put(ModElementType.RECIPE, new ModTypeRegistration<>('r', "recipe", RecipeGUI::new, Recipe.class));
+		put(ModElementType.FUEL, new ModTypeRegistration<>(null, "fuel", FuelGUI::new, Fuel.class));
+		put(ModElementType.TAB, new ModTypeRegistration<>('w', "tab", TabGUI::new, Tab.class));
+		put(ModElementType.MOB, new ModTypeRegistration<>('e', "entity", LivingEntityGUI::new, Mob.class));
+		put(ModElementType.PLANT, new ModTypeRegistration<>('y', "plant", PlantGUI::new, Plant.class));
+		put(ModElementType.STRUCTURE, new ModTypeRegistration<>('s', "structure", StructureGenGUI::new, Structure.class));
+		put(ModElementType.BIOME, new ModTypeRegistration<>('o', "biome", BiomeGUI::new, Biome.class));
+		put(ModElementType.DIMENSION, new ModTypeRegistration<>('d', "dimension", DimensionGUI::new, Dimension.class));
+		put(ModElementType.ACHIEVEMENT, new ModTypeRegistration<>('h', "advancement", AchievementGUI::new, Achievement.class));
+		put(ModElementType.COMMAND, new ModTypeRegistration<>('c', "command", CommandGUI::new, Command.class));
+		put(ModElementType.KEYBIND, new ModTypeRegistration<>('k', "keybinding", KeyBindGUI::new, KeyBinding.class));
+		put(ModElementType.GUI, new ModTypeRegistration<>('g', "gui", CustomGUIGUI::new, GUI.class));
+		put(ModElementType.OVERLAY, new ModTypeRegistration<>('v', "overlay", OverlayGUI::new, Overlay.class));
+		put(ModElementType.PROCEDURE, new ModTypeRegistration<>('p', "procedure", ProcedureGUI::new, Procedure.class));
+		put(ModElementType.POTIONEFFECT, new ModTypeRegistration<>('z', "potioneffect", PotionEffectGUI::new, PotionEffect.class));
+		put(ModElementType.ENCHANTMENT, new ModTypeRegistration<>('m', "enchantment", EnchantmentGUI::new, Enchantment.class));
+		put(ModElementType.CODE, new ModTypeRegistration<>(null, "code", CustomElementGUI::new, CustomElement.class));
+		put(ModElementType.TAG, new ModTypeRegistration<>('j', "tag", TagGUI::new, Tag.class));
+		put(ModElementType.LOOTTABLE, new ModTypeRegistration<>('q', "loottable", LootTableGUI::new, LootTable.class));
+		put(ModElementType.FUNCTION, new ModTypeRegistration<>('u', "function", FunctionGUI::new, Function.class));
+		put(ModElementType.MUSICDISC, new ModTypeRegistration<>(null, "musicdisc", MusicDiscGUI::new, MusicDisc.class));
+		put(ModElementType.PAINTING, new ModTypeRegistration<>(null, "painting", PaintingGUI::new, Painting.class));
+		put(ModElementType.PARTICLE, new ModTypeRegistration<>(null, "particle", ParticleGUI::new, Particle.class));
+		put(ModElementType.POTIONITEM, new ModTypeRegistration<>(null, "potionitem", PotionItemGUI::new, PotionItem.class));
 	}};
 
 	public static class ModTypeRegistration<GE extends GeneratableElement> {
 
-		private final int icon_id;
+		private final String icon_id;
 		private final Character shortcut;
 
 		private final ModElementGUIProvider<GE> modElementGUIProvider;
@@ -97,7 +97,7 @@ public final class ModElementTypeRegistry {
 
 		private boolean hasProcedureTriggers;
 
-		ModTypeRegistration(Character shortcut, int icon_id, ModElementGUIProvider<GE> modElementGUIProvider,
+		ModTypeRegistration(Character shortcut, String icon_id, ModElementGUIProvider<GE> modElementGUIProvider,
 				Class<? extends GE> modElementStorageClass) {
 			this.icon_id = icon_id;
 			this.modElementGUIProvider = modElementGUIProvider;
@@ -115,7 +115,7 @@ public final class ModElementTypeRegistry {
 			return shortcut;
 		}
 
-		public int getIconID() {
+		public String getIconID() {
 			return icon_id;
 		}
 
