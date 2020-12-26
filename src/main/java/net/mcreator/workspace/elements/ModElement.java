@@ -117,7 +117,7 @@ public class ModElement implements Serializable {
 			if (getMetadata("ep") != null && (Boolean) getMetadata("ep"))
 				mcItems.add(new MCItem.Custom(this, null));
 		} else if (getType().getRecipeElementType() == RecipeElementType.ITEM
-				|| type.getRecipeElementType() == RecipeElementType.BLOCK) {
+				|| getType().getRecipeElementType() == RecipeElementType.BLOCK) {
 			mcItems.add(new MCItem.Custom(this, null));
 		} else if (getType().getBaseType() == BaseType.ARMOR) {
 			if (getMetadata("eh") != null && (Boolean) getMetadata("eh"))

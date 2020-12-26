@@ -58,7 +58,7 @@ public class ModElementType implements Comparable<ModElementType> {
 	public static final ModElementType PAINTING = new ModElementType("painting", BaseType.OTHER, RecipeElementType.NONE);
 	public static final ModElementType PARTICLE = new ModElementType("particle", BaseType.PARTICLE, RecipeElementType.NONE);
 	public static final ModElementType PLANT = new ModElementType("plant", BaseType.BLOCK, RecipeElementType.BLOCK);
-	public static final ModElementType POTIONEFFECT = new ModElementType("potion", "potionitem", BaseType.POTIONEFFECT, RecipeElementType.NONE);
+	public static final ModElementType POTIONEFFECT = new ModElementType("potion", "potioneffect", BaseType.POTIONEFFECT, RecipeElementType.NONE);
 	public static final ModElementType POTIONITEM = new ModElementType("potionitem", BaseType.POTIONITEM, RecipeElementType.NONE);
 	public static final ModElementType PROCEDURE = new ModElementType("procedure", BaseType.PROCEDURE, RecipeElementType.NONE);
 	public static final ModElementType RANGEDITEM = new ModElementType("gun", "rangeditem", BaseType.ITEM, RecipeElementType.ITEM);
@@ -68,6 +68,7 @@ public class ModElementType implements Comparable<ModElementType> {
 	public static final ModElementType TAG = new ModElementType("tag", BaseType.OTHER, RecipeElementType.NONE);
 	public static final ModElementType TOOL = new ModElementType("tool", BaseType.ITEM, RecipeElementType.ITEM);
 
+	//Constructor used for the same registry name and localization ID.
 	ModElementType(String registryName, BaseType baseType, RecipeElementType recipeElementType) {
 		this.baseType = baseType;
 		this.recipeElementType = recipeElementType;
