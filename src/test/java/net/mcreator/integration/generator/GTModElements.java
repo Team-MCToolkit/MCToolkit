@@ -55,7 +55,7 @@ public class GTModElements {
 				.entrySet()) {
 			if (workspace.getGenerator().getGeneratorStats().getModElementTypeCoverageInfo()
 					.get(modElementRegistration.getKey()) == GeneratorStats.CoverageStatus.NONE) {
-				LOG.warn("Skipping unsupported mod element type " + modElementRegistration.getKey() + " for generator "
+				LOG.warn("Skipping unsupported mod element type " + modElementRegistration.getKey().getReadableName() + " for generator "
 						+ generatorName);
 				continue;
 			}

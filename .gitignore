@@ -8,6 +8,7 @@
 **/.idea/deployment.xml
 **/.idea/discord.xml
 **/.idea/shelf
+**/.logs/latest.log
 
 #FILES FOR GRADLE
 #=======================

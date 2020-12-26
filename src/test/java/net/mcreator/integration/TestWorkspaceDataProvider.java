@@ -49,6 +49,7 @@ import java.awt.image.RenderedImage;
 import java.io.File;
 import java.util.List;
 import java.util.*;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class TestWorkspaceDataProvider {
@@ -943,7 +944,7 @@ public class TestWorkspaceDataProvider {
 			item.renderType = 0;
 			item.customModelName = "Normal";
 			return item;
-		} else if (ModElementType.RANGEDITEM.equals(modElement.getType())) {
+		} else if (modElement.getType().equals(ModElementType.RANGEDITEM.getRegistryName())) {
 			RangedItem rangedItem = new RangedItem(modElement);
 			rangedItem.name = modElement.getName();
 			rangedItem.creativeTab = new TabEntry(modElement.getWorkspace(),
@@ -996,7 +997,7 @@ public class TestWorkspaceDataProvider {
 			rangedItem.enableMeleeDamage = !_true;
 			rangedItem.damageVsEntity = 2;
 			return rangedItem;
-		} else if (ModElementType.POTIONEFFECT.equals(modElement.getType())) {
+		} else if (ModElementType.POTIONEFFECT.getRegistryName().equals(modElement.getType())) {
 			PotionEffect potion = new PotionEffect(modElement);
 			potion.effectName = modElement.getName() + " Effect Name";
 			potion.color = Color.magenta;
