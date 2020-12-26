@@ -61,7 +61,7 @@ public class BuildingPackMakerTool {
 	private static void open(MCreator mcreator){
 		MCreatorDialog dialog = new MCreatorDialog(mcreator, L10N.t("dialog.tools.building_pack.title"), true);
 		dialog.setLayout(new BorderLayout(10, 10));
-		dialog.setIconImage(UIRES.get("16px.woodpack").getImage());
+		dialog.setIconImage(UIRES.get("16px.buildpack").getImage());
 		dialog.add("North", PanelUtils.centerInPanel(L10N.label("dialog.tools.building_pack.info")));
 
 		JPanel props = new JPanel(new GridLayout(0, 1, 2, 2));
@@ -207,7 +207,7 @@ public class BuildingPackMakerTool {
 	}
 
 	public static BasicAction getAction(ActionRegistry actionRegistry) {
-		return new BasicAction(actionRegistry, L10N.t("action.pack_tools.stone"),
+		return new BasicAction(actionRegistry, L10N.t("action.pack_tools.building"),
 				e -> open(actionRegistry.getMCreator())) {
 			@Override public boolean isEnabled() {
 				GeneratorConfiguration gc = actionRegistry.getMCreator().getWorkspace().getGenerator()
@@ -217,7 +217,7 @@ public class BuildingPackMakerTool {
 						&& gc.getGeneratorStats().getModElementTypeCoverageInfo().get(ModElementType.BLOCK)
 						!= GeneratorStats.CoverageStatus.NONE;
 			}
-		}.setIcon(UIRES.get("16px.woodpack"));
+		}.setIcon(UIRES.get("16px.buildpack"));
 	}
 
 }
