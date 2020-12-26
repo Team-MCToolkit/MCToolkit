@@ -203,6 +203,7 @@ public class MainMenuBar extends JMenuBar {
 		tools.add(mcreator.actionRegistry.openMaterialPackMaker);
 		tools.add(mcreator.actionRegistry.openOrePackMaker);
 		tools.add(mcreator.actionRegistry.openArmorPackMaker);
+		tools.add(mcreator.actionRegistry.openBuildingPackMaker);
 		for(PackMakerTool pmt : PackMakerToolLoader.getPackMakersList()){
 			BasicAction action = CustomPackMakerTool.getAction(mcreator.actionRegistry, pmt);
 			if(pmt.ui.icon != null){

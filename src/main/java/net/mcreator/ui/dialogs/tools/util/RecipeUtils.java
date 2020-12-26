@@ -69,6 +69,24 @@ public class RecipeUtils {
 		mcreator.getWorkspace().getModElementManager().storeModElement(slabRecipe);
 	}
 
+	public static void wall(MCreator mcreator, Workspace workspace, String block, String recipeName, String name) {
+		Recipe wallRecipe = (Recipe) ModElementTypeRegistry.REGISTRY.get(ModElementType.RECIPE)
+				.getModElement(mcreator, new ModElement(workspace, recipeName, ModElementType.RECIPE), false)
+				.getElementFromGUI();
+		wallRecipe.recipeSlots[3] = new MItemBlock(workspace, "CUSTOM:" + block);
+		wallRecipe.recipeSlots[4] = new MItemBlock(workspace, "CUSTOM:" + block);
+		wallRecipe.recipeSlots[5] = new MItemBlock(workspace, "CUSTOM:" + block);
+		wallRecipe.recipeSlots[6] = new MItemBlock(workspace, "CUSTOM:" + block);
+		wallRecipe.recipeSlots[7] = new MItemBlock(workspace, "CUSTOM:" + block);
+		wallRecipe.recipeSlots[8] = new MItemBlock(workspace, "CUSTOM:" + block);
+		wallRecipe.recipeReturnStack = new MItemBlock(workspace, "CUSTOM:" + wallRecipe);
+		wallRecipe.recipeRetstackSize = 6;
+		mcreator.getWorkspace().getModElementManager().storeModElementPicture(wallRecipe);
+		mcreator.getWorkspace().addModElement(wallRecipe.getModElement());
+		mcreator.getWorkspace().getGenerator().generateElement(wallRecipe);
+		mcreator.getWorkspace().getModElementManager().storeModElement(wallRecipe);
+	}
+
 	public static void fence(MCreator mcreator, Workspace workspace, String block, String recipeName, String resultBlock){
 		Recipe fenceRecipe = (Recipe) ModElementTypeRegistry.REGISTRY.get(ModElementType.RECIPE)
 				.getModElement(mcreator, new ModElement(workspace, recipeName, ModElementType.RECIPE), false)
@@ -103,6 +121,24 @@ public class RecipeUtils {
 		mcreator.getWorkspace().addModElement(fenceGateRecipe.getModElement());
 		mcreator.getWorkspace().getGenerator().generateElement(fenceGateRecipe);
 		mcreator.getWorkspace().getModElementManager().storeModElement(fenceGateRecipe);
+	}
+
+	public static void door(MCreator mcreator, Workspace workspace, String block, String recipeName, String name) {
+		Recipe recipe = (Recipe) ModElementTypeRegistry.REGISTRY.get(ModElementType.RECIPE)
+				.getModElement(mcreator, new ModElement(workspace, recipeName, ModElementType.RECIPE), false)
+				.getElementFromGUI();
+		recipe.recipeSlots[0] = new MItemBlock(workspace, "CUSTOM:" + block);
+		recipe.recipeSlots[1] = new MItemBlock(workspace, "CUSTOM:" + block);
+		recipe.recipeSlots[3] = new MItemBlock(workspace, "CUSTOM:" + block);
+		recipe.recipeSlots[4] = new MItemBlock(workspace, "CUSTOM:" + block);
+		recipe.recipeSlots[6] = new MItemBlock(workspace, "CUSTOM:" + block);
+		recipe.recipeSlots[7] = new MItemBlock(workspace, "CUSTOM:" + block);
+		recipe.recipeReturnStack = new MItemBlock(workspace, "CUSTOM:" + recipe);
+		recipe.recipeRetstackSize = 6;
+		mcreator.getWorkspace().getModElementManager().storeModElementPicture(recipe);
+		mcreator.getWorkspace().addModElement(recipe.getModElement());
+		mcreator.getWorkspace().getGenerator().generateElement(recipe);
+		mcreator.getWorkspace().getModElementManager().storeModElement(recipe);
 	}
 
 	public static void button(MCreator mcreator, Workspace workspace, String block, String recipeName, String resultBlock){
@@ -324,6 +360,20 @@ public class RecipeUtils {
 		stoneCuttingRecipe.stoneCuttingInputStack = new MItemBlock(workspace, "CUSTOM:" + block);
 		stoneCuttingRecipe.stoneCuttingReturnStack = new MItemBlock(workspace, recipe.returnItem);
 		stoneCuttingRecipe.recipeRetstackSize = recipe.stackSize;
+		mcreator.getWorkspace().getModElementManager().storeModElementPicture(stoneCuttingRecipe);
+		mcreator.getWorkspace().addModElement(stoneCuttingRecipe.getModElement());
+		mcreator.getWorkspace().getGenerator().generateElement(stoneCuttingRecipe);
+		mcreator.getWorkspace().getModElementManager().storeModElement(stoneCuttingRecipe);
+	}
+
+	public static void stoneCutting(MCreator mcreator, Workspace workspace, String block, String recipeName, String returnItem, int stackSize){
+		Recipe stoneCuttingRecipe = (Recipe) ModElementTypeRegistry.REGISTRY.get(ModElementType.RECIPE)
+				.getModElement(mcreator, new ModElement(workspace, recipeName, ModElementType.RECIPE), false)
+				.getElementFromGUI();
+		stoneCuttingRecipe.recipeType = "Stone cutting";
+		stoneCuttingRecipe.stoneCuttingInputStack = new MItemBlock(workspace, "CUSTOM:" + block);
+		stoneCuttingRecipe.stoneCuttingReturnStack = new MItemBlock(workspace, "CUSTOM:" + returnItem);
+		stoneCuttingRecipe.recipeRetstackSize = stackSize;
 		mcreator.getWorkspace().getModElementManager().storeModElementPicture(stoneCuttingRecipe);
 		mcreator.getWorkspace().addModElement(stoneCuttingRecipe.getModElement());
 		mcreator.getWorkspace().getGenerator().generateElement(stoneCuttingRecipe);
