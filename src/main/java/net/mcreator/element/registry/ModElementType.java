@@ -70,7 +70,7 @@ public class ModElementType implements Comparable<ModElementType> {
 
 	//Constructor used for the same registry name and localization ID.
 	ModElementType(String registryName, BaseType baseType, RecipeElementType recipeElementType) {
-		this(registryName, registryName, baseType, recipeElementType)
+		this(registryName, registryName, baseType, recipeElementType);
 	}
 
 	//Used to have a different name and registry name
