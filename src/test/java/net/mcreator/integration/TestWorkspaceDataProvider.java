@@ -927,6 +927,7 @@ public class TestWorkspaceDataProvider {
 					getRandomMCItem(random, ElementUtil.loadBlocksAndItems(modElement.getWorkspace())).getName());
 			item.stayInGridWhenCrafting = _true;
 			item.damageOnCrafting = _true;
+			item.immuneToFire = _true;
 			item.hasGlow = _true;
 			item.hasTooltip = !_true;
 			item.ttxml = "<xml><block type=\"tooltip_start\" deletable=\"false\" x=\"40\" y=\"40\"></block></xml>";
@@ -1421,6 +1422,7 @@ public class TestWorkspaceDataProvider {
 		tool.usageCount = 24;
 		tool.stayInGridWhenCrafting = _true;
 		tool.damageOnCrafting = _true;
+		tool.immuneToFire = _true;
 		tool.blocksAffected = new ArrayList<>();
 		tool.hasGlow = _true;
 		tool.onShiftOnly = _true;

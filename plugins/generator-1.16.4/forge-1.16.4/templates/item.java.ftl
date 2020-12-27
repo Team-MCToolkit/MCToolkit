@@ -98,6 +98,9 @@ package ${package}.item;
 					<#else>
 					.maxStackSize(${data.stackSize})
 					</#if>
+					<#if data.immuneToFire>
+					.isImmuneToFire()
+					</#if>
 					.rarity(Rarity.${data.rarity})
 			);
 			setRegistryName("${registryname}");
