@@ -1,1 +1,1 @@
-Ceci est le son joué lorsqu'il est brisé.
+Ceci est le son joué lorsque le bloc est brisé.
