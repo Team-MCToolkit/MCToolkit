@@ -1,1 +1,1 @@
-Ceci est le son joué lorsqu'une entité marche sur celui-ci.
+Ceci est le son joué lorsqu'une entité marche sur ce bloc.
