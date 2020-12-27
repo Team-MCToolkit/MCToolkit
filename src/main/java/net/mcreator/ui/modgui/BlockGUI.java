@@ -102,6 +102,7 @@ public class BlockGUI extends ModElementGUI<Block> {
 	private ProcedureSelector onRedstoneOff;
 
 	private ProcedureSelector particleCondition;
+	private ProcedureSelector redstoneCondition;
 	private ProcedureSelector generateCondition;
 
 	private final JSpinner hardness = new JSpinner(new SpinnerNumberModel(1, -1, 64000, 0.05));
@@ -308,6 +309,10 @@ public class BlockGUI extends ModElementGUI<Block> {
 
 		particleCondition = new ProcedureSelector(this.withEntry("block/particle_condition"), mcreator,
 				L10N.t("elementgui.block.event_particle_condition"), ProcedureSelector.Side.CLIENT, true,
+				VariableElementType.LOGIC, Dependency.fromString("x:number/y:number/z:number/world:world"));
+
+		redstoneCondition = new ProcedureSelector(this.withEntry("block/redstone_condition"), mcreator,
+				L10N.t("elementgui.block.event_redstone_condition"), ProcedureSelector.Side.CLIENT, true,
 				VariableElementType.LOGIC, Dependency.fromString("x:number/y:number/z:number/world:world"));
 
 		generateCondition = new ProcedureSelector(this.withEntry("block/generation_condition"), mcreator,
@@ -1167,10 +1172,6 @@ public class BlockGUI extends ModElementGUI<Block> {
 
 		JPanel redstoneParameters = new JPanel(new GridLayout(3, 2, 0, 2));
 		redstoneParameters.setOpaque(false);
-		redstoneParameters.setBorder(BorderFactory.createTitledBorder(
-				BorderFactory.createLineBorder((Color) UIManager.get("MCreatorLAF.BRIGHT_COLOR"), 1),
-				L10N.t("elementgui.block.properties_redstone"), 0, 0, getFont().deriveFont(12.0f),
-				(Color) UIManager.get("MCreatorLAF.BRIGHT_COLOR")));
 
 		redstoneParameters.add(HelpUtils.wrapWithHelpButton(this.withEntry("block/redstone_connect"),
 				L10N.label("elementgui.block.redstone_connect")));
@@ -1184,7 +1185,13 @@ public class BlockGUI extends ModElementGUI<Block> {
 				L10N.label("elementgui.block.redstone_power")));
 		redstoneParameters.add(emittedRedstonePower);
 
-		JComponent parred = PanelUtils.centerAndSouthElement(parpar, PanelUtils.pullElementUp(redstoneParameters));
+		JComponent redCond = PanelUtils.northAndCenterElement(redstoneParameters,
+				PanelUtils.join(FlowLayout.LEFT, redstoneCondition));
+		redCond.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder((Color) UIManager.get("MCreatorLAF.BRIGHT_COLOR"), 1),
+				L10N.t("elementgui.block.properties_redstone"), 0, 0, getFont().deriveFont(12.0f),
+				(Color) UIManager.get("MCreatorLAF.BRIGHT_COLOR")));
+
+		JComponent parred = PanelUtils.centerAndSouthElement(parpar, PanelUtils.pullElementUp(redCond));
 
 		emitsRedstone.addActionListener(e -> refreshRedstoneEmitted());
 		refreshRedstoneEmitted();
@@ -1345,6 +1352,7 @@ public class BlockGUI extends ModElementGUI<Block> {
 		onRedstoneOff.refreshListKeepSelected();
 
 		particleCondition.refreshListKeepSelected();
+		redstoneCondition.refreshListKeepSelected();
 		generateCondition.refreshListKeepSelected();
 
 		ComboBoxUtil.updateComboBoxContents(renderType, ListUtils
@@ -1433,6 +1441,7 @@ public class BlockGUI extends ModElementGUI<Block> {
 		particleToSpawn.setSelectedItem(block.particleToSpawn);
 		particleSpawningShape.setSelectedItem(block.particleSpawningShape);
 		particleCondition.setSelectedProcedure(block.particleCondition);
+		redstoneCondition.setSelectedProcedure(block.redstoneCondition);
 		generateCondition.setSelectedProcedure(block.generateCondition);
 		particleSpawningRadious.setValue(block.particleSpawningRadious);
 		particleAmount.setValue(block.particleAmount);
@@ -1604,6 +1613,7 @@ public class BlockGUI extends ModElementGUI<Block> {
 		block.particleSpawningRadious = (double) particleSpawningRadious.getValue();
 		block.particleAmount = (int) particleAmount.getValue();
 		block.particleCondition = particleCondition.getSelectedProcedure();
+		block.redstoneCondition = redstoneCondition.getSelectedProcedure();
 		block.generateCondition = generateCondition.getSelectedProcedure();
 		block.hasInventory = hasInventory.isSelected();
 		block.useLootTableForDrops = useLootTableForDrops.isSelected();

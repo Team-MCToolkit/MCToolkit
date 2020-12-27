@@ -1,0 +1,1 @@
+Lorsque cette procédure conditionnelle est vraie, le bloc en x, y et z va générer du courant de redstone en fonction des paramètres

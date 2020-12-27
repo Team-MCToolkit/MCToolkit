@@ -459,8 +459,17 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
         </#if>
 
         <#if data.emitsRedstone>
-        @Override public boolean canProvidePower(BlockState state) {
-            return true;
+        public boolean canProvidePower(BlockState state, BlockPos pos) {
+			<#if hasCondition(data.redstoneCondition)>
+			int x = pos.getX();
+			int y = pos.getY();
+			int z = pos.getZ();
+			if (!<@procedureOBJToConditionCode data.redstoneCondition/>) {
+				return false;
+			} else {
+				return true;
+			}
+			</#if>
         }
 
         @Override public int getWeakPower(BlockState blockState, IBlockReader blockAccess, BlockPos pos, Direction side) {

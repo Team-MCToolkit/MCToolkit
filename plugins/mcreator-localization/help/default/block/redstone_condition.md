@@ -1,0 +1,1 @@
+When this conditional procedure is true, the block at x, y, and z will emit redstone based on the settings.
