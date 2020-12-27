@@ -61,13 +61,6 @@ import net.minecraft.block.material.Material;import java.util.ArrayList;import j
 									${mappedBlockToBlockStateCode(data.undergroundBlock)},
 									${mappedBlockToBlockStateCode(data.undergroundBlock)})));
 
-				<#list data.defaultFeatures as defaultFeature>
-					<#assign mfeat = generator.map(defaultFeature, "defaultfeatures")>
-					<#if mfeat != "null">
-						DefaultBiomeFeatures.with${mfeat}(biomeGenerationSettings);
-					</#if>
-				</#list>
-
 				<#if data.spawnStronghold>
 				biomeGenerationSettings.withStructure(StructureFeatures.STRONGHOLD);
 				</#if>
@@ -125,7 +118,7 @@ import net.minecraft.block.material.Material;import java.util.ArrayList;import j
 								new JungleFoliagePlacer(FeatureSpread.func_242252_a(2), FeatureSpread.func_242252_a(0), 2),
 								new MegaJungleTrunkPlacer(${ct?then(data.minHeight, 10)}, 2, 19),
 								new TwoLayerFeature(1, 1, 2)))
-								<#if !data.treeVines.isEmpty() || !data.treeFruits.isEmpty()>
+								<#if (data.treeVines?has_content && !data.treeVines.isEmpty()) || (data.treeFruits?has_content && !data.treeFruits.isEmpty())>
 									<@vinesAndCocoa/>
 								<#else>
 									.setDecorators(ImmutableList.of(TrunkVineTreeDecorator.field_236879_b_, LeaveVineTreeDecorator.field_236871_b_))
@@ -142,7 +135,7 @@ import net.minecraft.block.material.Material;import java.util.ArrayList;import j
 								new AcaciaFoliagePlacer(FeatureSpread.func_242252_a(2), FeatureSpread.func_242252_a(0)),
 								new ForkyTrunkPlacer(${ct?then(data.minHeight, 5)}, 2, 2),
 								new TwoLayerFeature(1, 0, 2)))
-								<#if !data.treeVines.isEmpty() || !data.treeFruits.isEmpty()>
+								<#if (data.treeVines?has_content && !data.treeVines.isEmpty()) || (data.treeFruits?has_content && !data.treeFruits.isEmpty())>
 									<@vinesAndCocoa/>
 								<#else>
 									.setIgnoreVines()
@@ -159,7 +152,7 @@ import net.minecraft.block.material.Material;import java.util.ArrayList;import j
 								new MegaPineFoliagePlacer(FeatureSpread.func_242252_a(0), FeatureSpread.func_242252_a(0), FeatureSpread.func_242253_a(3, 4)),
 								new GiantTrunkPlacer(${ct?then(data.minHeight, 13)}, 2, 14),
 								new TwoLayerFeature(1, 1, 2)))
-								<#if !data.treeVines.isEmpty() || !data.treeFruits.isEmpty()>
+								<#if (data.treeVines?has_content && !data.treeVines.isEmpty()) || (data.treeFruits?has_content && !data.treeFruits.isEmpty())>
 									<@vinesAndCocoa/>
 								</#if>
 							.build())
@@ -174,7 +167,7 @@ import net.minecraft.block.material.Material;import java.util.ArrayList;import j
 								new MegaPineFoliagePlacer(FeatureSpread.func_242252_a(0), FeatureSpread.func_242252_a(0), FeatureSpread.func_242253_a(13, 4)),
 								new GiantTrunkPlacer(${ct?then(data.minHeight, 13)}, 2, 14),
 								new TwoLayerFeature(1, 1, 2)))
-								<#if !data.treeVines.isEmpty() || !data.treeFruits.isEmpty()>
+								<#if (data.treeVines?has_content && !data.treeVines.isEmpty()) || (data.treeFruits?has_content && !data.treeFruits.isEmpty())>
 									<@vinesAndCocoa/>
 								</#if>
 							.build())
@@ -189,7 +182,7 @@ import net.minecraft.block.material.Material;import java.util.ArrayList;import j
 								new BlobFoliagePlacer(FeatureSpread.func_242252_a(2), FeatureSpread.func_242252_a(0), 3),
 								new StraightTrunkPlacer(${ct?then(data.minHeight, 5)}, 2, 0),
 								new TwoLayerFeature(1, 0, 1)))
-								<#if !data.treeVines.isEmpty() || !data.treeFruits.isEmpty()>
+								<#if (data.treeVines?has_content && !data.treeVines.isEmpty()) || (data.treeFruits?has_content && !data.treeFruits.isEmpty())>
 									<@vinesAndCocoa/>
 								<#else>
 									.setIgnoreVines()
@@ -206,7 +199,7 @@ import net.minecraft.block.material.Material;import java.util.ArrayList;import j
 								new BlobFoliagePlacer(FeatureSpread.func_242252_a(2), FeatureSpread.func_242252_a(0), 3),
 								new StraightTrunkPlacer(${ct?then(data.minHeight, 4)}, 2, 0),
 								new TwoLayerFeature(1, 0, 1)))
-								<#if !data.treeVines.isEmpty() || !data.treeFruits.isEmpty()>
+								<#if (data.treeVines?has_content && !data.treeVines.isEmpty()) || (data.treeFruits?has_content && !data.treeFruits.isEmpty())>
 									<@vinesAndCocoa/>
 								<#else>
 									.setIgnoreVines()
@@ -289,6 +282,13 @@ import net.minecraft.block.material.Material;import java.util.ArrayList;import j
 								.tries(${data.cactiPerChunk}).func_227317_b_().build()));
 				</#if>
 
+				<#list data.defaultFeatures as defaultFeature>
+					<#assign mfeat = generator.map(defaultFeature, "defaultfeatures")>
+					<#if mfeat != "null">
+						DefaultBiomeFeatures.with${mfeat}(biomeGenerationSettings);
+					</#if>
+				</#list>
+
 				MobSpawnInfo.Builder mobSpawnInfo = new MobSpawnInfo.Builder().isValidSpawnBiomeForPlayer();
 				<#list data.spawnEntries as spawnEntry>
 					<#assign entity = generator.map(spawnEntry.entity.getUnmappedValue(), "entities", 1)!"null">
@@ -333,7 +333,7 @@ import net.minecraft.block.material.Material;import java.util.ArrayList;import j
         </#if>
 	}
 
-	<#if !data.treeVines.isEmpty()>
+	<#if (data.treeVines?has_content && !data.treeVines.isEmpty())>
 	private static class CustomLeaveVineTreeDecorator extends LeaveVineTreeDecorator {
 
 		public static final CustomLeaveVineTreeDecorator instance = new CustomLeaveVineTreeDecorator();
@@ -381,7 +381,7 @@ import net.minecraft.block.material.Material;import java.util.ArrayList;import j
 	}
 	</#if>
 
-	<#if !data.treeFruits.isEmpty()>
+	<#if (data.treeFruits?has_content && !data.treeFruits.isEmpty())>
 	private static class CustomCocoaTreeDecorator extends CocoaTreeDecorator {
 
 		public static final CustomCocoaTreeDecorator instance = new CustomCocoaTreeDecorator();
@@ -415,13 +415,13 @@ import net.minecraft.block.material.Material;import java.util.ArrayList;import j
 
 <#macro vinesAndCocoa>
 .setDecorators(ImmutableList.of(
-	<#if !data.treeVines.isEmpty()>
+	<#if (data.treeVines?has_content && !data.treeVines.isEmpty())>
 		CustomLeaveVineTreeDecorator.instance,
 		CustomTrunkVineTreeDecorator.instance
 	</#if>
 
-	<#if !data.treeFruits.isEmpty()>
-		<#if !data.treeVines.isEmpty()>,</#if>
+	<#if (data.treeFruits?has_content && !data.treeFruits.isEmpty())>
+		<#if (data.treeVines?has_content && !data.treeVines.isEmpty())>,</#if>
 		new CustomCocoaTreeDecorator()
 	</#if>
 ))
