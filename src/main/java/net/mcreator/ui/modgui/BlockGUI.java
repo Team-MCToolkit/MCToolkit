@@ -805,23 +805,23 @@ public class BlockGUI extends ModElementGUI<Block> {
 		soundProperties.add(soundOnStep);
 		soundProperties.setOpaque(false);
 
-		soundProperties.add(HelpUtils.wrapWithHelpButton(IHelpContext.NONE.withEntry("common/soundtypes/break_sound"),
+		soundProperties.add(HelpUtils.wrapWithHelpButton(this.withEntry("common/soundtypes/break_sound"),
 				L10N.label("elementgui.soundtypes.break_sound")));
 		soundProperties.add(breakSound);
 
-		soundProperties.add(HelpUtils.wrapWithHelpButton(IHelpContext.NONE.withEntry("common/soundtypes/step_sound"),
+		soundProperties.add(HelpUtils.wrapWithHelpButton(this.withEntry("common/soundtypes/step_sound"),
 				L10N.label("elementgui.soundtypes.step_sound")));
 		soundProperties.add(stepSound);
 
-		soundProperties.add(HelpUtils.wrapWithHelpButton(IHelpContext.NONE.withEntry("common/soundtypes/place_sound"),
+		soundProperties.add(HelpUtils.wrapWithHelpButton(this.withEntry("common/soundtypes/place_sound"),
 				L10N.label("elementgui.soundtypes.place_sound")));
 		soundProperties.add(placeSound);
 
-		soundProperties.add(HelpUtils.wrapWithHelpButton(IHelpContext.NONE.withEntry("common/soundtypes/hit_sound"),
+		soundProperties.add(HelpUtils.wrapWithHelpButton(this.withEntry("common/soundtypes/hit_sound"),
 				L10N.label("elementgui.soundtypes.hit_sound")));
 		soundProperties.add(hitSound);
 
-		soundProperties.add(HelpUtils.wrapWithHelpButton(IHelpContext.NONE.withEntry("common/soundtypes/fall_sound"),
+		soundProperties.add(HelpUtils.wrapWithHelpButton(this.withEntry("common/soundtypes/fall_sound"),
 				L10N.label("elementgui.soundtypes.fall_sound")));
 		soundProperties.add(fallSound);
 
