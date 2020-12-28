@@ -122,7 +122,7 @@ public class Generator implements Closeable, IWorkspaceProvider {
 		}
 	}
 
-	public Workspace getWorkspace() {
+	public @NotNull Workspace getWorkspace() {
 		return workspace;
 	}
 
