@@ -116,7 +116,7 @@ Blockly.Blocks['procedure_retval_time'] = {
         this.appendDummyInput()
             .appendField(javabridge.t("blockly.block.procedure_retval"))
             .appendField(new Blockly.FieldDropdown(arrayToBlocklyDropDownArray(javabridge.getListOf("procedure_retval_time"))), 'procedure');
-        this.setOutput(true, 'MCItemBlock');
+        this.setOutput(true, 'Time');
         this.setColour(115);
     }
 };

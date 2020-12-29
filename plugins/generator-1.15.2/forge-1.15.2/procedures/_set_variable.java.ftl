@@ -99,6 +99,6 @@
     <#elseif type == "BLOCKSTATE">
         ${name} = ${mappedBlockToBlockStateCode(value)};
     <#elseif type == "TIME">
-        ${name} =(DATE)${value};
+        ${name} =(Date)${value};
     </#if>
 </#if>
