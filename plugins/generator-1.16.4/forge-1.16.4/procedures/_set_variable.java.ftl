@@ -98,5 +98,7 @@
         ${name} = ${mappedMCItemToItemStackCode(value, 1)};
     <#elseif type == "BLOCKSTATE">
         ${name} = ${mappedBlockToBlockStateCode(value)};
+    <#elseif type == "TIME">
+        ${name} = (Date)${value};
     </#if>
 </#if>
