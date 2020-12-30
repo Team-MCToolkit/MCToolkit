@@ -403,9 +403,14 @@ public class TestWorkspaceDataProvider {
 					new String[] { "block", "bow", "crossbow", "drink", "eat", "none", "spear" });
 			food.hasGlow = _true;
 			food.onRightClicked = new Procedure("procedure1");
-			food.onEaten = new Procedure("procedure2");
-			food.onCrafted = new Procedure("procedure3");
+			food.onRightClickedOnBlock = new Procedure("procedure2");
+			food.onEaten = new Procedure("procedure3");
+			food.onEntityHitWith = new Procedure("procedure4");
+			food.onItemInInventoryTick = new Procedure("procedure5");
+			food.onItemInUseTick = new Procedure("procedure6");
+			food.onCrafted = new Procedure("procedure7");
 			food.onEntitySwing = new Procedure("procedure8");
+			food.onDroppedByPlayer = new Procedure("procedure9");
 			food.renderType = 0;
 			food.customModelName = "Normal";
 			return food;
@@ -927,6 +932,7 @@ public class TestWorkspaceDataProvider {
 					getRandomMCItem(random, ElementUtil.loadBlocksAndItems(modElement.getWorkspace())).getName());
 			item.stayInGridWhenCrafting = _true;
 			item.damageOnCrafting = _true;
+			item.immuneToFire = _true;
 			item.hasGlow = _true;
 			item.hasTooltip = !_true;
 			item.ttxml = "<xml><block type=\"tooltip_start\" deletable=\"false\" x=\"40\" y=\"40\"></block></xml>";
@@ -1080,6 +1086,16 @@ public class TestWorkspaceDataProvider {
 			block.tickRate = 24;
 			block.soundOnStep = new StepSound(modElement.getWorkspace(),
 					getRandomDataListEntry(random, ElementUtil.loadStepSounds()));
+			block.breakSound = new Sound(modElement.getWorkspace(),
+					getRandomItem(random, ElementUtil.getAllSounds(modElement.getWorkspace())));
+			block.stepSound = new Sound(modElement.getWorkspace(),
+					getRandomItem(random, ElementUtil.getAllSounds(modElement.getWorkspace())));
+			block.placeSound = new Sound(modElement.getWorkspace(),
+					getRandomItem(random, ElementUtil.getAllSounds(modElement.getWorkspace())));
+			block.hitSound = new Sound(modElement.getWorkspace(),
+					getRandomItem(random, ElementUtil.getAllSounds(modElement.getWorkspace())));
+			block.fallSound = new Sound(modElement.getWorkspace(),
+					getRandomItem(random, ElementUtil.getAllSounds(modElement.getWorkspace())));
 			block.luminance = 3;
 			block.isReplaceable = !_true;
 			block.creativePickItem = new MItemBlock(modElement.getWorkspace(),
@@ -1411,6 +1427,7 @@ public class TestWorkspaceDataProvider {
 		tool.usageCount = 24;
 		tool.stayInGridWhenCrafting = _true;
 		tool.damageOnCrafting = _true;
+		tool.immuneToFire = _true;
 		tool.blocksAffected = new ArrayList<>();
 		tool.hasGlow = _true;
 		tool.onShiftOnly = _true;

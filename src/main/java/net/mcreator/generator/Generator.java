@@ -50,6 +50,7 @@ import net.mcreator.io.writer.JSONWriter;
 import net.mcreator.java.ProjectJarManager;
 import net.mcreator.ui.init.UIRES;
 import net.mcreator.util.image.ImageUtils;
+import net.mcreator.workspace.IWorkspaceProvider;
 import net.mcreator.workspace.Workspace;
 import net.mcreator.workspace.elements.ModElement;
 import net.mcreator.workspace.resources.Model;
@@ -71,7 +72,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-public class Generator implements Closeable {
+public class Generator implements Closeable, IWorkspaceProvider {
 
 	public static final Map<String, GeneratorConfiguration> GENERATOR_CACHE = Collections
 			.synchronizedMap(new LinkedHashMap<>());
@@ -121,7 +122,7 @@ public class Generator implements Closeable {
 		}
 	}
 
-	public Workspace getWorkspace() {
+	public @NotNull Workspace getWorkspace() {
 		return workspace;
 	}
 
