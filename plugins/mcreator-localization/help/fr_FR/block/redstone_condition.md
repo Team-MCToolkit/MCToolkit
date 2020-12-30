@@ -1,1 +1,1 @@
-Lorsque cette procédure conditionnelle est vraie, le bloc en x, y et z va générer du courant de redstone en fonction des paramètres
+Lorsque cette procédure conditionnelle retourne un nombre, la puissance du courant de redstone généré par le bloc en x, y et z sera remplacée par le nombre retourné.

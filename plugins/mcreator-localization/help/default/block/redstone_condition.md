@@ -1,1 +1,1 @@
-When this conditional procedure is true, the block at x, y, and z will emit redstone based on the settings.
+When this conditional procedure returns a number, the redstone power emitted by the block at x, y, and z will be overriden by the returned power of the procedure.
