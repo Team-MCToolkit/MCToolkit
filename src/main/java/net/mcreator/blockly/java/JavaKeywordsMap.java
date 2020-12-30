@@ -86,6 +86,7 @@ public final class JavaKeywordsMap {
 		put("String", new String[] { "String", "\"\"" });
 		put("MCItem", new String[] { "ItemStack", "ItemStack.EMPTY" });
 		put("MCItemBlock", new String[] { "BlockState", "Blocks.AIR.getDefaultState()"});
+		put("Time", new String[] { "Date", "new Date()"});
 	}};
 
 }

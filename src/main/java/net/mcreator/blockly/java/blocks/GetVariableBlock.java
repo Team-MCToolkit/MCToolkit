@@ -57,6 +57,9 @@ public class GetVariableBlock implements IBlockGenerator {
 		case "variables_get_blockstate":
 			type = "BLOCKSTATE";
 			break;
+		case "variables_get_time":
+			type = "TIME";
+			break;
 		default:
 			return;
 		}
@@ -123,7 +126,7 @@ public class GetVariableBlock implements IBlockGenerator {
 
 	@Override public String[] getSupportedBlocks() {
 		return new String[] { "variables_get_logic", "variables_get_number", "variables_get_text",
-				"variables_get_itemstack", "variables_get_blockstate" };
+				"variables_get_itemstack", "variables_get_blockstate", "variables_get_time" };
 	}
 
 	@Override public BlockType getBlockType() {
