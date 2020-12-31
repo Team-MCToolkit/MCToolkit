@@ -1187,7 +1187,7 @@ public class TestWorkspaceDataProvider {
 				block.onEntityWalksOn = new Procedure("procedure13");
 				block.generateCondition = new Procedure("condition1");
 				block.particleCondition = new Procedure("condition4");
-				block.redstoneCondition = new Procedure("condition5");
+				block.redstoneCondition = !_true ? null : new Procedure("integer1");
 			}
 			block.itemTexture = emptyLists ? "" : "itest";
 			block.particleTexture = emptyLists ? "" : "test7";
