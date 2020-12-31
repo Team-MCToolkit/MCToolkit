@@ -35,6 +35,7 @@
 package ${package}.block;
 
 import net.minecraft.block.material.Material;
+import net.minecraft.util.SoundEvent;
 
 @${JavaModName}Elements.ModElement.Tag
 public class ${name}Block extends ${JavaModName}Elements.ModElement {
@@ -126,12 +127,32 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
 			super(
 			<#elseif data.blockBase?has_content && data.blockBase == "Fence">
 			super(
+			<#elseif data.blockBase?has_content && data.blockBase == "StoneButton">
+			super(
+			<#elseif data.blockBase?has_content && data.blockBase == "PressurePlate">
+			super(Sensitivity.${data.sensitivity},
+			<#elseif data.blockBase?has_content && data.blockBase == "Cake">
+			super(
+			<#elseif data.blockBase?has_content && data.blockBase == "Lever">
+			super(
+			<#elseif data.blockBase?has_content && data.blockBase == "Slime">
+			super(
+			<#elseif data.blockBase?has_content && data.blockBase == "Honey">
+			super(
 			<#else>
 			super(
 			</#if>
 
 			Block.Properties.create(Material.${data.material})
+					<#if data.isCustomSoundType>
+					.sound(new SoundType(1.0f, 1.0f, new SoundEvent(new ResourceLocation("${data.breakSound}")),
+					                     new SoundEvent(new ResourceLocation("${data.stepSound}")),
+					                     new SoundEvent(new ResourceLocation("${data.placeSound}")),
+					                     new SoundEvent(new ResourceLocation("${data.hitSound}")),
+					                     new SoundEvent(new ResourceLocation("${data.fallSound}"))))
+                     <#else>
 					.sound(SoundType.${data.soundOnStep})
+					</#if>
 					<#if data.unbreakable>
 					.hardnessAndResistance(-1, 3600000)
 					<#else>

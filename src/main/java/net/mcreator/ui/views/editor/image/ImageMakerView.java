@@ -205,7 +205,7 @@ public class ImageMakerView extends ViewBase implements MouseListener, MouseMoti
 
 	public void saveAs() {
 		Image image = canvasRenderer.render();
-		Object[] options = { "Block", "Item", "Other" };
+		Object[] options = { "Block", "Entity", "Item", "Painting", "Other" };
 		int n = JOptionPane.showOptionDialog(mcreator, "What kind of texture is this?", "Texture type",
 				JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 		String namec = VOptionPane
@@ -216,15 +216,29 @@ public class ImageMakerView extends ViewBase implements MouseListener, MouseMoti
 								return new RegistryNameValidator((VTextField) component, "Texture name").validate();
 							}
 						});
+		String folderName = JOptionPane.showInputDialog("Folder name of the texture (without spaces): ");
+		if(folderName == null)
+			folderName = "";
+		folderName = RegistryNameFixer.fix(folderName);
+
 		if (namec != null) {
 			File exportFile;
-			if (n == 0)
-				exportFile = mcreator.getFolderManager().getBlockTextureFile(RegistryNameFixer.fix(namec));
-			else if (n == 1)
-				exportFile = mcreator.getFolderManager().getItemTextureFile(RegistryNameFixer.fix(namec));
-			else if (n == 2)
-				exportFile = mcreator.getFolderManager().getOtherTextureFile(RegistryNameFixer.fix(namec));
-			else
+			if (n == 0) {
+				exportFile = mcreator.getFolderManager().getBlockTextureFile(
+						RegistryNameFixer.fix(folderName + "/" + namec));
+			} else if (n == 1) {
+				exportFile = mcreator.getFolderManager().getEntityTextureFile(
+						RegistryNameFixer.fix(folderName + "/" + namec));
+			} else if (n == 2) {
+				exportFile = mcreator.getFolderManager().getItemTextureFile(
+						RegistryNameFixer.fix(folderName + "/" + namec));
+			} else if (n == 3) {
+				exportFile = mcreator.getFolderManager().getPaintingTextureFile(
+						RegistryNameFixer.fix(folderName + "/" + namec));
+			} else if (n == 4) {
+				exportFile = mcreator.getFolderManager().getOtherTextureFile(
+						RegistryNameFixer.fix(folderName + "/" + namec));
+			} else
 				return;
 
 			if (exportFile.isFile())

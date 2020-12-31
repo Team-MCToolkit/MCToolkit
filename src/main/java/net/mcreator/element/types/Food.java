@@ -45,6 +45,10 @@ import java.util.Map;
 	public String name;
 	public String rarity;
 	public List<String> specialInfo;
+	public boolean onShiftOnly;
+	public List<String> onShiftInfo;
+	public boolean onCommandOnly;
+	public List<String> onCommandInfo;
 	public TabEntry creativeTab;
 	public int stackSize;
 
@@ -105,6 +109,18 @@ import java.util.Map;
 
 	@Override public BufferedImage generateModElementPicture() {
 		return ImageUtils.resizeAndCrop(getModElement().getFolderManager().getItemImageIcon(texture).getImage(), 32);
+	}
+
+	public boolean foodInfoOnly() {
+		return !specialInfo.isEmpty();
+	}
+
+	public boolean foodShiftOnly() {
+		return onShiftOnly;
+	}
+
+	public boolean foodCommandOnly() {
+		return onCommandOnly;
 	}
 
 	@Override public TabEntry getCreativeTab() {

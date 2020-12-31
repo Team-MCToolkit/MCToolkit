@@ -1,0 +1,18 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "var",
+      "check": "Time"
+    }
+  ],
+  "inputsInline": false,
+  "output": "String",
+  "colour": "%{BKY_TEXTS_HUE}",
+  "mcreator": {
+    "toolbox_id": "time",
+	"inputs": [
+      "var"
+    ]
+  }
+}
