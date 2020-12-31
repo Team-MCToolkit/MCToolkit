@@ -228,8 +228,9 @@ public class TestWorkspaceDataProvider {
 					getRandomMCItem(random, ElementUtil.loadBlocks(modElement.getWorkspace())).getName());
 			biome.undergroundBlock = new MItemBlock(modElement.getWorkspace(),
 					getRandomMCItem(random, ElementUtil.loadBlocks(modElement.getWorkspace())).getName());
-			biome.vanillaTreeType = getRandomItem(random, new String[]{ "Default", "Big trees", "Birch trees", "Savanna trees", "Mega pine trees",
-					"Mega spruce trees" });
+			biome.vanillaTreeType = getRandomItem(random,
+					new String[] { "Default", "Big trees", "Birch trees", "Savanna trees", "Mega pine trees",
+							"Mega spruce trees" });
 			biome.airColor = Color.red;
 			biome.treeType = _true ? 0 : 1;
 			if (!emptyLists) {
@@ -238,6 +239,19 @@ public class TestWorkspaceDataProvider {
 				biome.waterColor = Color.blue;
 				biome.waterFogColor = Color.cyan;
 			}
+			biome.ambientSound = new Sound(modElement.getWorkspace(),
+					getRandomItem(random, ElementUtil.getAllSounds(modElement.getWorkspace())));
+			biome.moodSound = new Sound(modElement.getWorkspace(),
+					getRandomItem(random, ElementUtil.getAllSounds(modElement.getWorkspace())));
+			biome.moodSoundDelay = new int[] {1, 266, 479, 393}[valueIndex];
+			biome.additionsSound = new Sound(modElement.getWorkspace(),
+					getRandomItem(random, ElementUtil.getAllSounds(modElement.getWorkspace())));
+			biome.music = new Sound(modElement.getWorkspace(),
+					getRandomItem(random, ElementUtil.getAllSounds(modElement.getWorkspace())));
+			biome.spawnParticles = _true;
+			biome.particleToSpawn = new Particle(modElement.getWorkspace(),
+					getRandomDataListEntry(random, ElementUtil.loadAllParticles(modElement.getWorkspace())));
+			biome.particlesProbability = 0.0123;
 			biome.treesPerChunk = new int[] { 0, 5, 10, 16 }[valueIndex];
 			biome.grassPerChunk = new int[] { 0, 5, 10, 16 }[valueIndex] + 1;
 			biome.seagrassPerChunk = new int[] { 0, 5, 10, 16 }[valueIndex] + 2;
@@ -599,10 +613,10 @@ public class TestWorkspaceDataProvider {
 			}
 			mob.hasAI = _true;
 			mob.aiBase = "(none)";
-			if(!emptyLists) {
-				Set<String> aiTasks = modElement.getWorkspace().getGenerator().getGeneratorStats().getGeneratorAITasks();
-				if (aiTasks.contains("wander") && aiTasks.contains("look_around")
-						&& aiTasks.contains("panic_when_attacked") && aiTasks.contains("attack_action")) {
+			if (!emptyLists) {
+				Set<String> aiTasks = modElement.getGeneratorStats().getGeneratorAITasks();
+				if (aiTasks.contains("wander") && aiTasks.contains("look_around") && aiTasks
+						.contains("panic_when_attacked") && aiTasks.contains("attack_action")) {
 					mob.aixml = "<xml><block type=\"aitasks_container\" deletable=\"!_true\">"
 							+ "<next><block type=\"wander\"><field name=\"speed\">1</field>"
 							+ "<next><block type=\"look_around\"><next><block type=\"swim_in_water\">"
@@ -1064,7 +1078,8 @@ public class TestWorkspaceDataProvider {
 			block.useLootTableForDrops = !_true;
 			block.creativeTab = new TabEntry(modElement.getWorkspace(),
 					getRandomDataListEntry(random, ElementUtil.loadAllTabs(modElement.getWorkspace())));
-			block.destroyTool = getRandomItem(random, new String[] { "Not specified", "pickaxe", "axe", "shovel", "hoe" });
+			block.destroyTool = getRandomItem(random,
+					new String[] { "Not specified", "pickaxe", "axe", "shovel", "hoe" });
 			block.customDrop = new MItemBlock(modElement.getWorkspace(),
 					getRandomMCItem(random, ElementUtil.loadBlocksAndItems(modElement.getWorkspace())).getName());
 			block.flammability = 5;
