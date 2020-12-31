@@ -25,6 +25,7 @@ import net.mcreator.util.locale.UTF8Control;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.text.MessageFormat;
