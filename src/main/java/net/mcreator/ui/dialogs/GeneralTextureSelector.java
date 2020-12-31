@@ -138,21 +138,15 @@ public class GeneralTextureSelector extends MCreatorDialog {
 			TextureImportDialogs.importTexturesGeneral(mcreator, type);
 			List<File> block1;
 			if (type == TextureType.BLOCK) {
-<<<<<<< HEAD:src/main/java/net/mcreator/ui/dialogs/BlockItemTextureSelector.java
 				block1 = mcreator.getFolderManager().getBlockTexturesList();
-			} else {
-				block1 = mcreator.getFolderManager().getItemTexturesList();
-=======
-				block1 = mcreator.getWorkspace().getFolderManager().getBlockTexturesList();
 			} else if (type == TextureType.ARMOR) {
-				block1 = mcreator.getWorkspace().getFolderManager().getArmorTexturesList();
+				block1 = mcreator.getFolderManager().getArmorTexturesList();
 			} else if (type == TextureType.ENTITY) {
-				block1 = mcreator.getWorkspace().getFolderManager().getEntityTexturesList();
+				block1 = mcreator.getFolderManager().getEntityTexturesList();
 			} else if (type == TextureType.PAINTING) {
-				block1 = mcreator.getWorkspace().getFolderManager().getPaintingTexturesList();
+				block1 = mcreator.getFolderManager().getPaintingTexturesList();
 			} else  {
-				block1 = mcreator.getWorkspace().getFolderManager().getItemTexturesList();
->>>>>>> e92d8adad4c671a63097cc40ce395a61fde95f4a:src/main/java/net/mcreator/ui/dialogs/GeneralTextureSelector.java
+				block1 = mcreator.getFolderManager().getItemTexturesList();
 			}
 			model.removeAllElements();
 			for (File element : block1) {
@@ -178,21 +172,15 @@ public class GeneralTextureSelector extends MCreatorDialog {
 	@Override public void setVisible(boolean b) {
 		List<File> block;
 		if (type == TextureType.BLOCK) {
-<<<<<<< HEAD:src/main/java/net/mcreator/ui/dialogs/BlockItemTextureSelector.java
 			block = mcreator.getFolderManager().getBlockTexturesList();
-		} else {
-			block = mcreator.getFolderManager().getItemTexturesList();
-=======
-			block = mcreator.getWorkspace().getFolderManager().getBlockTexturesList();
 		} else if (type == TextureType.ARMOR) {
-			block = mcreator.getWorkspace().getFolderManager().getArmorTexturesList();
+			block = mcreator.getFolderManager().getArmorTexturesList();
 		} else if (type == TextureType.ENTITY) {
-			block = mcreator.getWorkspace().getFolderManager().getEntityTexturesList();
+			block = mcreator.getFolderManager().getEntityTexturesList();
 		} else if (type == TextureType.PAINTING) {
-			block = mcreator.getWorkspace().getFolderManager().getPaintingTexturesList();
+			block = mcreator.getFolderManager().getPaintingTexturesList();
 		} else  {
-			block = mcreator.getWorkspace().getFolderManager().getItemTexturesList();
->>>>>>> e92d8adad4c671a63097cc40ce395a61fde95f4a:src/main/java/net/mcreator/ui/dialogs/GeneralTextureSelector.java
+			block = mcreator.getFolderManager().getItemTexturesList();
 		}
 		model.removeAllElements();
 		for (File element : block) {
