@@ -301,7 +301,7 @@ public class ItemGUI extends ModElementGUI<Item> {
 
 		visual.setOpaque(false);
 
-		JPanel generalProperties = new JPanel(new GridLayout(13, 2, 2, 2));
+		JPanel generalProperties = new JPanel(new GridLayout(14, 2, 2, 2));
 
 		ComponentUtils.deriveFont(name, 16);
 
