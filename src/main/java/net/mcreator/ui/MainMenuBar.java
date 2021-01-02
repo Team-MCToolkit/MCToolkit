@@ -18,6 +18,7 @@
 
 package net.mcreator.ui;
 
+import net.mcreator.preferences.PreferencesManager;
 import net.mcreator.ui.action.BasicAction;
 import net.mcreator.ui.component.SocialButtons;
 import net.mcreator.ui.component.util.ComponentUtils;
@@ -103,6 +104,8 @@ public class MainMenuBar extends JMenuBar {
 		file.add(mcreator.actionRegistry.closeWorkspace);
 		file.addSeparator();
 		file.add(mcreator.actionRegistry.preferences);
+		if(PreferencesManager.PREFERENCES.ui.developerFeatures)
+			file.add(mcreator.actionRegistry.reloadPlugins);
 		file.addSeparator();
 		file.add(mcreator.actionRegistry.exitMCreator);
 		add(file);
