@@ -313,7 +313,7 @@ public class BlockGUI extends ModElementGUI<Block> {
 
 		redstoneCondition = new ProcedureSelector(this.withEntry("block/redstone_condition"), mcreator,
 				L10N.t("elementgui.block.event_redstone_condition"), ProcedureSelector.Side.CLIENT, true,
-				VariableElementType.NUMBER, Dependency.fromString("x:number/y:number/z:number"))
+				VariableElementType.NUMBER, Dependency.fromString("x:number/y:number/z:number/world:world"))
 				.setDefaultName(L10N.t("elementgui.common.no_additional_condition"));
 
 		generateCondition = new ProcedureSelector(this.withEntry("block/generation_condition"), mcreator,
