@@ -20,10 +20,7 @@ package net.mcreator.ui.action;
 
 import net.mcreator.ui.MCreator;
 import net.mcreator.ui.MCreatorApplication;
-import net.mcreator.ui.action.impl.AboutAction;
-import net.mcreator.ui.action.impl.CheckForUpdatesAction;
-import net.mcreator.ui.action.impl.MinecraftFolderActions;
-import net.mcreator.ui.action.impl.ShowDataListAction;
+import net.mcreator.ui.action.impl.*;
 import net.mcreator.ui.action.impl.gradle.*;
 import net.mcreator.ui.action.impl.vcs.*;
 import net.mcreator.ui.action.impl.workspace.*;
@@ -70,6 +67,7 @@ public class ActionRegistry {
 	public final BasicAction preferences;
 	public final BasicAction closeWorkspace;
 	public final BasicAction exitMCreator;
+	public final BasicAction reloadPlugins;
 
 	// File menu
 	public final BasicAction openWorkspace;
@@ -157,6 +155,7 @@ public class ActionRegistry {
 	public final BasicAction openMaterialPackMaker;
 	public final BasicAction openOrePackMaker;
 	public final BasicAction openArmorPackMaker;
+	public final BasicAction openBuildingPackMaker;
 	public final BasicAction showEntityIDList;
 	public final BasicAction showItemBlockList;
 	public final BasicAction showParticleIDList;
@@ -205,6 +204,7 @@ public class ActionRegistry {
 				MCreatorApplication.SERVER_DOMAIN + "/node/add/modification/");
 		this.preferences = new BasicAction(this, L10N.t("action.preferences"),
 				e -> new PreferencesDialog(mcreator, null)).setIcon(UIRES.get("settings"));
+		this.reloadPlugins = new ReloadPlugins(this);
 		this.exitMCreator = new BasicAction(this, L10N.t("action.exit"),
 				e -> mcreator.getApplication().closeApplication());
 		this.aboutMCreator = new AboutAction(this);
@@ -282,7 +282,7 @@ public class ActionRegistry {
 		this.newWorkspace = new NewWorkspaceAction(this);
 		this.importWorkspace = new ImportWorkspaceAction(this);
 		this.openWorkspaceFolder = new BasicAction(this, L10N.t("action.open_workspace_folder"),
-				e -> DesktopUtils.openSafe(mcreator.getWorkspace().getFolderManager().getWorkspaceFolder()));
+				e -> DesktopUtils.openSafe(mcreator.getWorkspaceFolder()));
 		this.setupVCS = new SetupVCSAction(this);
 		this.unlinkVCS = new UnlinkVCSAction(this);
 		this.setupVCSOrSettings = new SetupOrSettingsVCSAction(this);
@@ -293,6 +293,7 @@ public class ActionRegistry {
 		this.openMaterialPackMaker = MaterialPackMakerTool.getAction(this);
 		this.openOrePackMaker = OrePackMakerTool.getAction(this);
 		this.openArmorPackMaker = ArmorPackMakerTool.getAction(this);
+		this.openBuildingPackMaker = BuildingPackMakerTool.getAction(this);
 		this.showShortcuts = new BasicAction(this, L10N.t("action.keyboard_shortcuts"),
 				e -> AcceleratorDialog.showAcceleratorMapDialog(mcreator, this.acceleratorMap));
 		this.showEntityIDList = new ShowDataListAction.EntityIDs(this);

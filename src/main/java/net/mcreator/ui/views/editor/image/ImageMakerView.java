@@ -24,13 +24,11 @@ import net.mcreator.ui.MCreator;
 import net.mcreator.ui.MCreatorTabs;
 import net.mcreator.ui.component.util.PanelUtils;
 import net.mcreator.ui.component.zoompane.JZoomPane;
-import net.mcreator.ui.dialogs.GeneralTextureSelector;
 import net.mcreator.ui.dialogs.imageeditor.FromTemplateDialog;
 import net.mcreator.ui.validation.component.VTextField;
 import net.mcreator.ui.validation.optionpane.OptionPaneValidatior;
 import net.mcreator.ui.validation.optionpane.VOptionPane;
 import net.mcreator.ui.validation.validators.RegistryNameValidator;
-import net.mcreator.ui.validation.validators.TextFieldValidator;
 import net.mcreator.ui.views.ViewBase;
 import net.mcreator.ui.views.editor.image.canvas.Canvas;
 import net.mcreator.ui.views.editor.image.canvas.CanvasRenderer;
@@ -226,20 +224,20 @@ public class ImageMakerView extends ViewBase implements MouseListener, MouseMoti
 		if (namec != null) {
 			File exportFile;
 			if (n == 0) {
-				exportFile = mcreator.getWorkspace().getFolderManager()
-						.getBlockTextureFile(RegistryNameFixer.fix(folderName + "/" + namec));
+				exportFile = mcreator.getFolderManager().getBlockTextureFile(
+						RegistryNameFixer.fix(folderName + "/" + namec));
 			} else if (n == 1) {
-				exportFile = mcreator.getWorkspace().getFolderManager()
-						.getEntityTextureFile(RegistryNameFixer.fix(folderName + "/" + namec));
+				exportFile = mcreator.getFolderManager().getEntityTextureFile(
+						RegistryNameFixer.fix(folderName + "/" + namec));
 			} else if (n == 2) {
-				exportFile = mcreator.getWorkspace().getFolderManager()
-						.getItemTextureFile(RegistryNameFixer.fix(folderName + "/" + namec));
+				exportFile = mcreator.getFolderManager().getItemTextureFile(
+						RegistryNameFixer.fix(folderName + "/" + namec));
 			} else if (n == 3) {
-				exportFile = mcreator.getWorkspace().getFolderManager()
-						.getPaintingTextureFile(RegistryNameFixer.fix(folderName + "/" + namec));
+				exportFile = mcreator.getFolderManager().getPaintingTextureFile(
+						RegistryNameFixer.fix(folderName + "/" + namec));
 			} else if (n == 4) {
-				exportFile = mcreator.getWorkspace().getFolderManager()
-						.getOtherTextureFile(RegistryNameFixer.fix(folderName + "/" + namec));
+				exportFile = mcreator.getFolderManager().getOtherTextureFile(
+						RegistryNameFixer.fix(folderName + "/" + namec));
 			} else
 				return;
 

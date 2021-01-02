@@ -53,9 +53,9 @@ public class PotionEffect extends GeneratableElement {
 	}
 
 	@Override public void finalizeModElementGeneration() {
-		File originalTextureFileLocation = getModElement().getWorkspace().getFolderManager()
+		File originalTextureFileLocation = getModElement().getFolderManager()
 				.getOtherTextureFile(FilenameUtils.removeExtension(icon));
-		File newLocation = new File(getModElement().getWorkspace().getFolderManager().getOtherTexturesDir(),
+		File newLocation = new File(getModElement().getFolderManager().getOtherTexturesDir(),
 				"mob_effect/" + getModElement().getRegistryName() + ".png");
 		FileIO.copyFile(originalTextureFileLocation, newLocation);
 	}

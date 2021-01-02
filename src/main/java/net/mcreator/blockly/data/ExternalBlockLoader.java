@@ -142,6 +142,7 @@ public class ExternalBlockLoader {
 		toolbox.put("logicoperations", new StringBuilder());
 		toolbox.put("math", new StringBuilder());
 		toolbox.put("text", new StringBuilder());
+		toolbox.put("time", new StringBuilder());
 		toolbox.put("advanced", new StringBuilder());
 
 		for (ToolboxCategory category : toolboxCategories) {

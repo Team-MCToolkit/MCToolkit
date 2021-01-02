@@ -64,9 +64,14 @@ import java.util.Map;
 	public Procedure glowCondition;
 
 	public Procedure onRightClicked;
+	public Procedure onRightClickedOnBlock;
 	public Procedure onEaten;
+	public Procedure onEntityHitWith;
+	public Procedure onItemInInventoryTick;
+	public Procedure onItemInUseTick;
 	public Procedure onCrafted;
 	public Procedure onEntitySwing;
+	public Procedure onDroppedByPlayer;
 
 	private Food() {
 		this(null);
@@ -103,9 +108,7 @@ import java.util.Map;
 	}
 
 	@Override public BufferedImage generateModElementPicture() {
-		return ImageUtils
-				.resizeAndCrop(getModElement().getWorkspace().getFolderManager().getItemImageIcon(texture).getImage(),
-						32);
+		return ImageUtils.resizeAndCrop(getModElement().getFolderManager().getItemImageIcon(texture).getImage(), 32);
 	}
 
 	public boolean foodInfoOnly() {

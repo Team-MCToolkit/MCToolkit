@@ -54,6 +54,7 @@ public class PreferencesData {
 		@PreferencesEntry public boolean use2DAcceleration = false;
 		@PreferencesEntry public boolean autoreloadTabs = true;
 		@PreferencesEntry public boolean discordRichPresenceEnable = true;
+		@PreferencesEntry public boolean developerFeatures = false;
 
 	}
 

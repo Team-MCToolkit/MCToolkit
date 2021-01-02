@@ -139,6 +139,8 @@ public class ProcedureTemplateIO {
 			"<block type=\"(?:variables_set_itemstack|variables_get_itemstack)\"><field name=\"VAR\">local:(.*?)</field>");
 	private static final Pattern blockstateLocalVariables = Pattern.compile(
 			"<block type=\"(?:variables_set_blockstate|variables_get_blockstate)\"><field name=\"VAR\">local:(.*?)</field>");
+	private static final Pattern timeLocalVariables = Pattern.compile(
+			"<block type=\"(?:variables_set_time|variables_get_time)\"><field name=\"VAR\">local:(.*?)</field>");
 
 	public static Set<VariableElement> tryToExtractVariables(String xml) {
 		Set<VariableElement> retval = new HashSet<>();
@@ -181,6 +183,14 @@ public class ProcedureTemplateIO {
 				VariableElement element = new VariableElement();
 				element.setName(m.group(1));
 				element.setType(VariableElementType.BLOCKSTATE);
+				retval.add(element);
+			}
+
+			m = timeLocalVariables.matcher(xml);
+			while (m.find()) {
+				VariableElement element = new VariableElement();
+				element.setName(m.group(1));
+				element.setType(VariableElementType.TIME);
 				retval.add(element);
 			}
 		} catch (Exception ignored) {

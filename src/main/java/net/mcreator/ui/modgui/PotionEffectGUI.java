@@ -123,7 +123,7 @@ public class PotionEffectGUI extends ModElementGUI<PotionEffect> {
 			TextureImportDialogs.importTexturesGeneral(mcreator, GeneralTextureSelector.TextureType.OTHER);
 			icon.removeAllItems();
 			icon.addItem("");
-			mcreator.getWorkspace().getFolderManager().getOtherTexturesList().forEach(el -> icon.addItem(el.getName()));
+			mcreator.getFolderManager().getOtherTexturesList().forEach(el -> icon.addItem(el.getName()));
 		});
 
 		selp.add(HelpUtils.wrapWithHelpButton(this.withEntry("potioneffect/color"), L10N.label("elementgui.potioneffect.color")));
