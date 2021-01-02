@@ -107,6 +107,8 @@ public class Dependency implements Comparable<Dependency> {
 			return new Color(0xA6A65C);
 		case "dimensiontype":
 			return new Color(0x609963);
+		case "time":
+			return new Color(0x40bf60);
 		default:
 			return Color.white;
 		}

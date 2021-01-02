@@ -7,10 +7,13 @@
     }
   ],
   "inputsInline": false,
-  "output": "String",
-  "colour": "%{BKY_TEXTS_HUE}",
+  "output": "Number",
+  "colour": "%{BKY_MATH_HUE}",
   "mcreator": {
     "toolbox_id": "time",
+    "toolbox_init": [
+      "<value name=\"var\"><block type=\"time_get_current_time\"></block></value>"
+    ],
 	"inputs": [
       "var"
     ]

@@ -284,6 +284,11 @@ public class GTProcedureBlocks {
 					procedure.procedurexml = wrapWithBaseTestXML(
 							"<block type=\"return_blockstate\"><value name=\"return\">" + testXML + "</value></block>");
 					break;
+				case "Time":
+					procedure.procedurexml = wrapWithBaseTestXML(
+							"<block type=\"return_time\"><value name=\"return\">" + testXML + "</value></block>"
+					);
+					break;
 				default:
 					procedure.procedurexml = wrapWithBaseTestXML(
 							"<block type=\"text_print\"><value name=\"TEXT\">" + testXML + "</value></block>");
@@ -308,7 +313,8 @@ public class GTProcedureBlocks {
 				+ "<variables><variable type=\"Number\" id=\"test\">test</variable>"
 				+ "<variable type=\"Boolean\" id=\"flag\">flag</variable>"
 				+ "<variable type=\"MCItem\" id=\"stackvar\">stackvar</variable>"
-				+ "<variable type=\"MCItemBlock\" id =\"blockvar\">blockvar</variable></variables>"
+				+ "<variable type=\"MCItemBlock\" id =\"blockvar\">blockvar</variable>"
+				+ "<variable type=\"Time\" id =\"timevar\">timevar</variable></variables>"
 				+ "<block type=\"event_trigger\" deletable=\"false\" x=\"59\" y=\"38\">"
 				+ "<field name=\"trigger\">no_ext_trigger</field><next><block type=\"variables_set_logic\">"
 				+ "<field name=\"VAR\">local:flag</field><value name=\"VAL\"><block type=\"logic_negate\">"
@@ -321,8 +327,9 @@ public class GTProcedureBlocks {
 				+ "<field name=\"VAR\">local:stackvar</field><value name=\"VAL\"><block type=\"mcitem_all\"><field name=\"value\">"
 				+ "Blocks.STONE</field></block></value><next><block type=\"variables_set_blockstate\">"
 				+ "<field name=\"VAR\">local:blockvar</field><value name=\"VAL\"><block type=\"mcitem_allblocks\"><field name=\"value\">"
-				+ "Blocks.STONE</field></block></value><next>" + customXML
-				+ "</next></block></next></block></next></block></next></block></next></block></xml>";
+				+ "Blocks.STONE</field></block></value><next><block type=\"variables_set_time\"><field name=\"VAR\">local:timevar</field>"
+				+ "<value name=\"VAL\"><block type=\"time_get_current_time\"></block></value><next>"
+				+ customXML	+ "</next></block></next></block></next></block></next></block></next></block></next></block></xml>";
 	}
 
 }
