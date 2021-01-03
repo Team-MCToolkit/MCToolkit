@@ -180,7 +180,9 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
 
             <#if data.rotationMode != 0 || data.isWaterloggable>
             this.setDefaultState(this.stateContainer.getBaseState()
-                                     <#if data.rotationMode == 1 || data.rotationMode == 3>
+                                     <#if data.blockBase?has_content && data.blockBase == "Hopper">
+                                     .with(FACING, Direction.DOWN)
+                                     <#elseif data.rotationMode == 1 || data.rotationMode == 3>
                                      .with(FACING, Direction.NORTH)
                                      <#elseif data.rotationMode == 2 || data.rotationMode == 4>
                                      .with(FACING, Direction.NORTH)
@@ -398,6 +400,9 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
 		    <#if data.rotationMode == 4>
 		    Direction facing = context.getFace();
 		    </#if>
+		    <#if data.blockBase?has_content && data.blockBase == "Hopper">
+		    Direction direction = context.getFace().getOpposite();
+		    </#if>
 		    <#if data.rotationMode == 5>
             Direction facing = context.getFace();
             if (facing == Direction.WEST || facing == Direction.EAST)
@@ -412,7 +417,10 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
             </#if>;
 			<#if data.rotationMode != 3>
 			return this.getDefaultState()
-			        <#if data.rotationMode == 1>
+					<#if data.blockBase?has_content && data.blockBase == "Hopper">
+					.with(FACING, direction.getAxis() == Direction.Axis.Y ? Direction.DOWN : direction)
+					.with(ENABLED, Boolean.valueOf(true))
+			        <#elseif data.rotationMode == 1>
 			        .with(FACING, context.getPlacementHorizontalFacing().getOpposite())
 			        <#elseif data.rotationMode == 2>
 			        .with(FACING, context.getNearestLookingDirection().getOpposite())
