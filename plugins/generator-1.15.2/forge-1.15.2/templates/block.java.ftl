@@ -133,6 +133,8 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
 			super(
 			<#elseif data.blockBase?has_content && data.blockBase == "Honey">
 			super(
+			<#elseif data.blockBase?has_content && data.blockBase == "Hopper">
+			super(
 			<#else>
 			super(
 			</#if>
