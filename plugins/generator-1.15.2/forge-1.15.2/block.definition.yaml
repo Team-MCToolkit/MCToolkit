@@ -411,6 +411,24 @@ templates:
     writer: json
     name: "@MODASSETSROOT/models/block/@registryname.json"
 
+  # TX: Hopper templates
+  - template: json/block_item.json.ftl
+    condition: "blockBase %= Hopper"
+    writer: json
+    name: "@MODASSETSROOT/models/item/@registryname.json"
+  - template: json/txblock/hopper_states.json.ftl
+    condition: "blockBase %= Hopper"
+    writer: json
+    name: "@MODASSETSROOT/blockstates/@registryname.json"
+  - template: json/txblock/hopper.json.ftl
+    condition: "blockBase %= Hopper"
+    writer: json
+    name: "@MODASSETSROOT/models/block/@registryname.json"
+  - template: json/txblock/hopper_side.json.ftl
+    condition: "blockBase %= Hopper"
+    writer: json
+    name: "@MODASSETSROOT/models/block/@registryname_side.json"
+
 localizationkeys:
   - key: block.@modid.@registryname
     mapto: name
