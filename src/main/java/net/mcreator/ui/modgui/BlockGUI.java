@@ -392,7 +392,7 @@ public class BlockGUI extends ModElementGUI<Block> {
 				onCommandOnly.setSelected(false);
 				hasGravity.setSelected(false);
 				if (blockBase.getSelectedItem() != null && blockBase.getSelectedItem().equals("Hopper")) {
-					rotationMode.setSelectedIndex(5);
+					rotationMode.setSelectedIndex(4);
 				} else {
 					rotationMode.setSelectedIndex(0);
 				}

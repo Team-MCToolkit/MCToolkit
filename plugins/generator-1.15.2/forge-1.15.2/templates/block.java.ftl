@@ -102,7 +102,12 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
 		<#if data.rotationMode == 1 || data.rotationMode == 3>
 		public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
 		<#elseif data.rotationMode == 2 || data.rotationMode == 4 || data.rotationMode == 5>
-		public static final DirectionProperty FACING = DirectionalBlock.FACING;
+			<#if data.blockBase?has_content && data.blockBase == "Hopper">
+        		public static final DirectionProperty FACING = BlockStateProperties.FACING_EXCEPT_UP;
+        		public static final BooleanProperty ENABLED = BlockStateProperties.ENABLED;
+        	<#else>
+				public static final DirectionProperty FACING = DirectionalBlock.FACING;
+			</#if>
         </#if>
         <#if data.isWaterloggable>
         public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
@@ -181,6 +186,9 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
                                      .with(FACING, Direction.NORTH)
                                      <#elseif data.rotationMode == 5>
                                      .with(FACING, Direction.SOUTH)
+                                     </#if>
+                                     <#if data.blockBase?has_content && data.blockBase == "Hopper">
+                                     .with(ENABLED, Boolean.valueOf(true))
                                      </#if>
                                      <#if data.isWaterloggable>
                                      .with(WATERLOGGED, false)
@@ -352,7 +360,13 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
 		<#if data.rotationMode != 0>
 		@Override protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
 		    <#if data.isWaterloggable>
-      		    builder.add(FACING, WATERLOGGED);
+				<#if data.blockBase?has_content && data.blockBase == "Hopper">
+					builder.add(FACING, ENABLED, WATERLOGGED);
+				<#else>
+					builder.add(FACING, WATERLOGGED);
+				</#if>
+			<#elseif data.blockBase?has_content && data.blockBase == "Hopper">
+				builder.add(FACING, ENABLED);
       		<#else>
       		    builder.add(FACING);
       		</#if>
