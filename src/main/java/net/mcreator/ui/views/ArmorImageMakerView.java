@@ -116,7 +116,7 @@ public class ArmorImageMakerView extends ViewBase {
 				System.out.println(folderName);
 				folderName = RegistryNameFixer.fix(folderName);
 				System.out.println(folderName);
-				File[] armorPars = mcreator.getWorkspace().getFolderManager().getArmorTextureFilesForName(namec);
+				File[] armorPars = mcreator.getFolderManager().getArmorTextureFilesForName(namec);
 				if (armorPars[0].isFile() || armorPars[1].isFile()) {
 					JOptionPane.showMessageDialog(mcreator, "Armor with this name already exists!", "Resource error",
 							JOptionPane.ERROR_MESSAGE);

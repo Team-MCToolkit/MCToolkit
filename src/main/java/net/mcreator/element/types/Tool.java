@@ -60,6 +60,7 @@ import java.util.Map;
 	public boolean hasGlow;
 	public Procedure glowCondition;
 	public List<MItemBlock> repairItems;
+	public boolean immuneToFire;
 
 	public boolean stayInGridWhenCrafting;
 	public boolean damageOnCrafting;
@@ -87,9 +88,7 @@ import java.util.Map;
 	}
 
 	@Override public BufferedImage generateModElementPicture() {
-		return ImageUtils
-				.resizeAndCrop(getModElement().getWorkspace().getFolderManager().getItemImageIcon(texture).getImage(),
-						32);
+		return ImageUtils.resizeAndCrop(getModElement().getFolderManager().getItemImageIcon(texture).getImage(), 32);
 	}
 
 	@Override public Model getItemModel() {

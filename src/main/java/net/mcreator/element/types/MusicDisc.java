@@ -57,9 +57,7 @@ public class MusicDisc extends GeneratableElement implements ITabContainedElemen
 	}
 
 	@Override public BufferedImage generateModElementPicture() {
-		return ImageUtils
-				.resizeAndCrop(getModElement().getWorkspace().getFolderManager().getItemImageIcon(texture).getImage(),
-						32);
+		return ImageUtils.resizeAndCrop(getModElement().getFolderManager().getItemImageIcon(texture).getImage(), 32);
 	}
 
 	public boolean musicInfoOnly() {

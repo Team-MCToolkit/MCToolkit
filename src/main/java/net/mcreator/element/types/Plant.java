@@ -138,9 +138,7 @@ import java.util.Map;
 	}
 
 	@Override public BufferedImage generateModElementPicture() {
-		return ImageUtils
-				.resizeAndCrop(getModElement().getWorkspace().getFolderManager().getBlockImageIcon(texture).getImage(),
-						32);
+		return ImageUtils.resizeAndCrop(getModElement().getFolderManager().getBlockImageIcon(texture).getImage(), 32);
 	}
 
 	public boolean plantInfoOnly() {

@@ -69,6 +69,7 @@ public class TestWorkspaceDataProvider {
 			generatableElements.add(getRecipeExample(me(workspace, type, "6"), "Stone cutting", random, true));
 			generatableElements.add(getRecipeExample(me(workspace, type, "7"), "Campfire cooking", random, true));
 			generatableElements.add(getRecipeExample(me(workspace, type, "8"), "Smithing", random, true));
+			generatableElements.add(getRecipeExample(me(workspace, type, "9"), "Brewing", random, true));
 		} else if (type == ModElementType.TOOL) {
 			generatableElements.add(getToolExample(me(workspace, type, "1"), "Pickaxe", random, false, false));
 			generatableElements.add(getToolExample(me(workspace, type, "2"), "Pickaxe", random, true, false));
@@ -228,21 +229,37 @@ public class TestWorkspaceDataProvider {
 					getRandomMCItem(random, ElementUtil.loadBlocks(modElement.getWorkspace())).getName());
 			biome.undergroundBlock = new MItemBlock(modElement.getWorkspace(),
 					getRandomMCItem(random, ElementUtil.loadBlocks(modElement.getWorkspace())).getName());
-			biome.vanillaTreeType = "Mega spruce trees";
+			biome.vanillaTreeType = getRandomItem(random,
+					new String[] { "Default", "Big trees", "Birch trees", "Savanna trees", "Mega pine trees",
+							"Mega spruce trees" });
 			biome.airColor = Color.red;
+			biome.treeType = _true ? 0 : 1;
 			if (!emptyLists) {
 				biome.grassColor = Color.green;
 				biome.foliageColor = Color.magenta;
 				biome.waterColor = Color.blue;
 				biome.waterFogColor = Color.cyan;
 			}
+			biome.ambientSound = new Sound(modElement.getWorkspace(),
+					getRandomItem(random, ElementUtil.getAllSounds(modElement.getWorkspace())));
+			biome.moodSound = new Sound(modElement.getWorkspace(),
+					getRandomItem(random, ElementUtil.getAllSounds(modElement.getWorkspace())));
+			biome.moodSoundDelay = new int[] {1, 266, 479, 393}[valueIndex];
+			biome.additionsSound = new Sound(modElement.getWorkspace(),
+					getRandomItem(random, ElementUtil.getAllSounds(modElement.getWorkspace())));
+			biome.music = new Sound(modElement.getWorkspace(),
+					getRandomItem(random, ElementUtil.getAllSounds(modElement.getWorkspace())));
+			biome.spawnParticles = _true;
+			biome.particleToSpawn = new Particle(modElement.getWorkspace(),
+					getRandomDataListEntry(random, ElementUtil.loadAllParticles(modElement.getWorkspace())));
+			biome.particlesProbability = 0.0123;
 			biome.treesPerChunk = new int[] { 0, 5, 10, 16 }[valueIndex];
 			biome.grassPerChunk = new int[] { 0, 5, 10, 16 }[valueIndex] + 1;
 			biome.seagrassPerChunk = new int[] { 0, 5, 10, 16 }[valueIndex] + 2;
 			biome.flowersPerChunk = new int[] { 0, 5, 10, 16 }[valueIndex] + 3;
 			biome.mushroomsPerChunk = new int[] { 0, 5, 10, 16 }[valueIndex] + 4;
 			biome.bigMushroomsChunk = new int[] { 0, 5, 10, 16 }[valueIndex] + 5;
-			biome.sandPathcesPerChunk = new int[] { 0, 5, 10, 16 }[valueIndex] + 6;
+			biome.sandPatchesPerChunk = new int[] { 0, 5, 10, 16 }[valueIndex] + 6;
 			biome.gravelPatchesPerChunk = new int[] { 0, 5, 10, 16 }[valueIndex] + 7;
 			biome.reedsPerChunk = new int[] { 0, 5, 10, 16 }[valueIndex] + 8;
 			biome.cactiPerChunk = new int[] { 0, 5, 10, 16 }[valueIndex] + 9;
@@ -324,7 +341,6 @@ public class TestWorkspaceDataProvider {
 				biomeDefaultFeatures.add(getRandomItem(random, ElementUtil.loadDefaultFeatures()));
 			}
 			biome.defaultFeatures = biomeDefaultFeatures;
-			biome.spawnVines = _true;
 			biome.treeVines = new MItemBlock(modElement.getWorkspace(),
 					getRandomMCItem(random, ElementUtil.loadBlocks(modElement.getWorkspace())).getName());
 			biome.treeStem = new MItemBlock(modElement.getWorkspace(),
@@ -402,9 +418,14 @@ public class TestWorkspaceDataProvider {
 					new String[] { "block", "bow", "crossbow", "drink", "eat", "none", "spear" });
 			food.hasGlow = _true;
 			food.onRightClicked = new Procedure("procedure1");
-			food.onEaten = new Procedure("procedure2");
-			food.onCrafted = new Procedure("procedure3");
+			food.onRightClickedOnBlock = new Procedure("procedure2");
+			food.onEaten = new Procedure("procedure3");
+			food.onEntityHitWith = new Procedure("procedure4");
+			food.onItemInInventoryTick = new Procedure("procedure5");
+			food.onItemInUseTick = new Procedure("procedure6");
+			food.onCrafted = new Procedure("procedure7");
 			food.onEntitySwing = new Procedure("procedure8");
+			food.onDroppedByPlayer = new Procedure("procedure9");
 			food.renderType = 0;
 			food.customModelName = "Normal";
 			return food;
@@ -593,10 +614,10 @@ public class TestWorkspaceDataProvider {
 			}
 			mob.hasAI = _true;
 			mob.aiBase = "(none)";
-			if(!emptyLists) {
-				Set<String> aiTasks = modElement.getWorkspace().getGenerator().getGeneratorStats().getGeneratorAITasks();
-				if (aiTasks.contains("wander") && aiTasks.contains("look_around")
-						&& aiTasks.contains("panic_when_attacked") && aiTasks.contains("attack_action")) {
+			if (!emptyLists) {
+				Set<String> aiTasks = modElement.getGeneratorStats().getGeneratorAITasks();
+				if (aiTasks.contains("wander") && aiTasks.contains("look_around") && aiTasks
+						.contains("panic_when_attacked") && aiTasks.contains("attack_action")) {
 					mob.aixml = "<xml><block type=\"aitasks_container\" deletable=\"!_true\">"
 							+ "<next><block type=\"wander\"><field name=\"speed\">1</field>"
 							+ "<next><block type=\"look_around\"><next><block type=\"swim_in_water\">"
@@ -926,6 +947,7 @@ public class TestWorkspaceDataProvider {
 					getRandomMCItem(random, ElementUtil.loadBlocksAndItems(modElement.getWorkspace())).getName());
 			item.stayInGridWhenCrafting = _true;
 			item.damageOnCrafting = _true;
+			item.immuneToFire = _true;
 			item.hasGlow = _true;
 			item.hasTooltip = !_true;
 			item.ttxml = "<xml><block type=\"tooltip_start\" deletable=\"false\" x=\"40\" y=\"40\"></block></xml>";
@@ -1057,7 +1079,8 @@ public class TestWorkspaceDataProvider {
 			block.useLootTableForDrops = !_true;
 			block.creativeTab = new TabEntry(modElement.getWorkspace(),
 					getRandomDataListEntry(random, ElementUtil.loadAllTabs(modElement.getWorkspace())));
-			block.destroyTool = getRandomItem(random, new String[] { "Not specified", "pickaxe", "axe", "shovel", "hoe" });
+			block.destroyTool = getRandomItem(random,
+					new String[] { "Not specified", "pickaxe", "axe", "shovel", "hoe" });
 			block.customDrop = new MItemBlock(modElement.getWorkspace(),
 					getRandomMCItem(random, ElementUtil.loadBlocksAndItems(modElement.getWorkspace())).getName());
 			block.flammability = 5;
@@ -1079,6 +1102,16 @@ public class TestWorkspaceDataProvider {
 			block.tickRate = 24;
 			block.soundOnStep = new StepSound(modElement.getWorkspace(),
 					getRandomDataListEntry(random, ElementUtil.loadStepSounds()));
+			block.breakSound = new Sound(modElement.getWorkspace(),
+					getRandomItem(random, ElementUtil.getAllSounds(modElement.getWorkspace())));
+			block.stepSound = new Sound(modElement.getWorkspace(),
+					getRandomItem(random, ElementUtil.getAllSounds(modElement.getWorkspace())));
+			block.placeSound = new Sound(modElement.getWorkspace(),
+					getRandomItem(random, ElementUtil.getAllSounds(modElement.getWorkspace())));
+			block.hitSound = new Sound(modElement.getWorkspace(),
+					getRandomItem(random, ElementUtil.getAllSounds(modElement.getWorkspace())));
+			block.fallSound = new Sound(modElement.getWorkspace(),
+					getRandomItem(random, ElementUtil.getAllSounds(modElement.getWorkspace())));
 			block.luminance = 3;
 			block.isReplaceable = !_true;
 			block.creativePickItem = new MItemBlock(modElement.getWorkspace(),
@@ -1208,7 +1241,7 @@ public class TestWorkspaceDataProvider {
 		case TAG:
 			Tag tag = new Tag(modElement);
 			tag.namespace = getRandomItem(random, new String[] { "forge", "minecraft", "test1", "test2" });
-			tag.type = getRandomItem(random, new String[] { "Items", "Blocks" });
+			tag.type = getRandomItem(random, new String[] { "Items", "Blocks", "Functions" });
 			tag.name = modElement.getName();
 			tag.items = new ArrayList<>();
 			tag.blocks = new ArrayList<>();
@@ -1410,6 +1443,7 @@ public class TestWorkspaceDataProvider {
 		tool.usageCount = 24;
 		tool.stayInGridWhenCrafting = _true;
 		tool.damageOnCrafting = _true;
+		tool.immuneToFire = _true;
 		tool.blocksAffected = new ArrayList<>();
 		tool.hasGlow = _true;
 		tool.onShiftOnly = _true;
@@ -1566,6 +1600,15 @@ public class TestWorkspaceDataProvider {
 					getRandomMCItem(random, ElementUtil.loadBlocksAndItemsAndTags(modElement.getWorkspace()))
 							.getName());
 			recipe.smithingReturnStack = new MItemBlock(modElement.getWorkspace(),
+					getRandomMCItem(random, ElementUtil.loadBlocksAndItems(modElement.getWorkspace())).getName());
+		} else if ("Brewing".equals(recipe.recipeType)) {
+			recipe.brewingInputStack = new MItemBlock(modElement.getWorkspace(),
+					getRandomMCItem(random, ElementUtil.loadBlocksAndItemsAndTags(modElement.getWorkspace()))
+							.getName());
+			recipe.brewingIngredientStack = new MItemBlock(modElement.getWorkspace(),
+					getRandomMCItem(random, ElementUtil.loadBlocksAndItemsAndTags(modElement.getWorkspace()))
+							.getName());
+			recipe.brewingReturnStack = new MItemBlock(modElement.getWorkspace(),
 					getRandomMCItem(random, ElementUtil.loadBlocksAndItems(modElement.getWorkspace())).getName());
 		} else {
 			throw new RuntimeException("Unknown recipe type");

@@ -4,6 +4,7 @@ number: double
 entity: Entity
 itemstack: ItemStack
 blockstate: BlockState
+time: Date
 map: HashMap
 string: String
 boolean: boolean

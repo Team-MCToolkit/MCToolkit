@@ -78,8 +78,7 @@ public class PaintingGUI extends ModElementGUI<Painting> {
 			TextureImportDialogs.importTexturesGeneral(mcreator, GeneralTextureSelector.TextureType.PAINTING);
 			texture.removeAllItems();
 			texture.addItem("");
-			mcreator.getWorkspace().getFolderManager().getPaintingTexturesList()
-					.forEach(el -> texture.addItem(el.getName()));
+			mcreator.getWorkspace().getFolderManager().getPaintingTexturesList().forEach(el -> texture.addItem(el.getName()));
 		});
 
 		selp.add(HelpUtils.wrapWithHelpButton(this.withEntry("painting/texture"),

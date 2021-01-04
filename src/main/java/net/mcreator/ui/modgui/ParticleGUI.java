@@ -80,7 +80,8 @@ public class ParticleGUI extends ModElementGUI<Particle> {
 		additionalExpiryCondition = new ProcedureSelector(this.withEntry("particle/additional_expiry_condition"),
 				mcreator, L10N.t("elementgui.particle.expiry_condition"), ProcedureSelector.Side.CLIENT, true,
 				VariableElementType.LOGIC,
-				Dependency.fromString("x:number/y:number/z:number/world:world/age:number/onGround:boolean"));
+				Dependency.fromString("x:number/y:number/z:number/world:world/age:number/onGround:boolean"))
+				.setDefaultName("(no additional condition)");
 
 		JPanel pane3 = new JPanel(new BorderLayout());
 		pane3.setOpaque(false);
@@ -105,8 +106,7 @@ public class ParticleGUI extends ModElementGUI<Particle> {
 			TextureImportDialogs.importTexturesGeneral(mcreator, GeneralTextureSelector.TextureType.OTHER);
 			texture.removeAllItems();
 			texture.addItem("");
-			mcreator.getWorkspace().getFolderManager().getOtherTexturesList()
-					.forEach(el -> texture.addItem(el.getName()));
+			mcreator.getFolderManager().getOtherTexturesList().forEach(el -> texture.addItem(el.getName()));
 		});
 
 		spo2.add(HelpUtils
@@ -178,7 +178,7 @@ public class ParticleGUI extends ModElementGUI<Particle> {
 		super.reloadDataLists();
 
 		ComboBoxUtil.updateComboBoxContents(texture, ListUtils.merge(Collections.singleton(""),
-				mcreator.getWorkspace().getFolderManager().getOtherTexturesList().stream().map(File::getName)
+				mcreator.getFolderManager().getOtherTexturesList().stream().map(File::getName)
 						.collect(Collectors.toList())), "");
 
 		additionalExpiryCondition.refreshListKeepSelected();
