@@ -463,12 +463,13 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
 			return true;
 		}
 
-		@Override public int getWeakPower(BlockState blockState, IBlockReader blockAccess, BlockPos pos, Direction side) {
+		@Override public int getWeakPower(BlockState blockState, IBlockReader worldIn, BlockPos pos, Direction side) {
 			int x = pos.getX();
 			int y = pos.getY();
 			int z = pos.getZ();
+			World world = (World) worldIn;
 			<#if hasProcedure(data.redstoneCondition)>
-				return <@procedureOBJToIntegerCode data.redstoneCondition/>;
+				return (int) <@procedureOBJToIntegerCode data.redstoneCondition/>;
 			<#else>
 				return ${data.emittedRedstonePower};
 			</#if>
