@@ -86,7 +86,7 @@
     </#if>
 </#macro>
 
-<#macro procedureOBJToIntegerCode object"">
+<#macro procedureOBJToIntegerCode object="">
     <#if object?? && object?has_content && object.getName() != "null">
         <@procedureToRetvalCode name=object.getName() dependencies=object.getDependencies(generator.getWorkspace()) type="integer" />
     <#else>
