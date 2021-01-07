@@ -44,14 +44,14 @@ import static org.junit.Assert.fail;
 public class GTProcedureBlocks {
 
 	public static void runTest(Logger LOG, String generatorName, Random random, Workspace workspace) {
-		if (workspace.getGenerator().getGeneratorStats().getModElementTypeCoverageInfo().get(ModElementType.PROCEDURE)
+		if (workspace.getGeneratorStats().getModElementTypeCoverageInfo().get(ModElementType.PROCEDURE)
 				== GeneratorStats.CoverageStatus.NONE) {
 			LOG.warn("[" + generatorName
 					+ "] Skipping procedure blocks test as the current generator does not support them.");
 			return;
 		}
 
-		Set<String> generatorBlocks = workspace.getGenerator().getGeneratorStats().getGeneratorProcedures();
+		Set<String> generatorBlocks = workspace.getGeneratorStats().getGeneratorProcedures();
 
 		for (ToolboxBlock procedureBlock : BlocklyLoader.INSTANCE.getProcedureBlockLoader().getDefinedBlocks()
 				.values()) {
@@ -232,11 +232,15 @@ public class GTProcedureBlocks {
 			testXML = testXML.replace("<block type=\"logic_boolean\"><field name=\"BOOL\">FALSE</field></block>",
 					"<block type=\"variables_get_logic\"><field name=\"VAR\">local:flag</field></block>");
 
-			// replace common itemstack blocks with blocks that contain logic variable
+			// replace common itemstack blocks with blocks that contain itemstack variable
 			testXML = testXML.replace("<block type=\"itemstack_to_mcitem\"></block>",
 					"<block type=\"variables_get_itemstack\"><field name=\"VAR\">local:stackvar</field></block>");
 			testXML = testXML.replace("<block type=\"mcitem_all\"><field name=\"value\"></field></block>",
 					"<block type=\"variables_get_itemstack\"><field name=\"VAR\">local:stackvar</field></block>");
+
+			// replace common blockstate blocks with blocks that contain blockstate variable
+			testXML = testXML.replace("<block type=\"mcitem_allblocks\"><field name=\"value\"></field></block>",
+					"<block type=\"variables_get_blockstate\"><field name=\"VAR\">local:blockvar</field></block>");
 
 			// set MCItem blocks to some value
 			testXML = testXML.replace("<block type=\"mcitem_allblocks\"><field name=\"value\"></field></block>",
@@ -267,7 +271,6 @@ public class GTProcedureBlocks {
 				case "Boolean":
 					procedure.procedurexml = wrapWithBaseTestXML(
 							"<block type=\"return_logic\"><value name=\"return\">" + testXML + "</value></block>");
-
 					break;
 				case "String":
 					procedure.procedurexml = wrapWithBaseTestXML(
@@ -276,6 +279,15 @@ public class GTProcedureBlocks {
 				case "MCItem":
 					procedure.procedurexml = wrapWithBaseTestXML(
 							"<block type=\"return_itemstack\"><value name=\"return\">" + testXML + "</value></block>");
+					break;
+				case "MCItemBlock":
+					procedure.procedurexml = wrapWithBaseTestXML(
+							"<block type=\"return_blockstate\"><value name=\"return\">" + testXML + "</value></block>");
+					break;
+				case "Time":
+					procedure.procedurexml = wrapWithBaseTestXML(
+							"<block type=\"return_time\"><value name=\"return\">" + testXML + "</value></block>"
+					);
 					break;
 				default:
 					procedure.procedurexml = wrapWithBaseTestXML(
@@ -300,7 +312,9 @@ public class GTProcedureBlocks {
 		return "<xml xmlns=\"https://developers.google.com/blockly/xml\">"
 				+ "<variables><variable type=\"Number\" id=\"test\">test</variable>"
 				+ "<variable type=\"Boolean\" id=\"flag\">flag</variable>"
-				+ "<variable type=\"MCItem\" id=\"stackvar\">stackvar</variable></variables>"
+				+ "<variable type=\"MCItem\" id=\"stackvar\">stackvar</variable>"
+				+ "<variable type=\"MCItemBlock\" id =\"blockvar\">blockvar</variable>"
+				+ "<variable type=\"Time\" id =\"timevar\">timevar</variable></variables>"
 				+ "<block type=\"event_trigger\" deletable=\"false\" x=\"59\" y=\"38\">"
 				+ "<field name=\"trigger\">no_ext_trigger</field><next><block type=\"variables_set_logic\">"
 				+ "<field name=\"VAR\">local:flag</field><value name=\"VAL\"><block type=\"logic_negate\">"
@@ -311,8 +325,11 @@ public class GTProcedureBlocks {
 				+ "<field name=\"VAR\">local:test</field></block></value><value name=\"B\"><block type=\"math_number\">"
 				+ "<field name=\"NUM\">1.23</field></block></value></block></value><next><block type=\"variables_set_itemstack\">"
 				+ "<field name=\"VAR\">local:stackvar</field><value name=\"VAL\"><block type=\"mcitem_all\"><field name=\"value\">"
-				+ "Blocks.STONE</field></block></value><next>" + customXML
-				+ "</next></block></next></block></next></block></next></block></xml>";
+				+ "Blocks.STONE</field></block></value><next><block type=\"variables_set_blockstate\">"
+				+ "<field name=\"VAR\">local:blockvar</field><value name=\"VAL\"><block type=\"mcitem_allblocks\"><field name=\"value\">"
+				+ "Blocks.STONE</field></block></value><next><block type=\"variables_set_time\"><field name=\"VAR\">local:timevar</field>"
+				+ "<value name=\"VAL\"><block type=\"time_get_current_time\"></block></value><next>"
+				+ customXML	+ "</next></block></next></block></next></block></next></block></next></block></next></block></xml>";
 	}
 
 }

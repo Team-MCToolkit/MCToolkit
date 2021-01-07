@@ -54,6 +54,14 @@ public class ProcedureRetvalBlock implements IBlockGenerator {
 			type = "ITEMSTACK";
 			java_type = "itemstack";
 			break;
+		case "procedure_retval_blockstate":
+			type = "BLOCKSTATE";
+			java_type = "blockstate";
+			break;
+		case "procedure_retval_time":
+			type = "TIME";
+			java_type = "time";
+			break;
 		default:
 			return;
 		}
@@ -89,7 +97,7 @@ public class ProcedureRetvalBlock implements IBlockGenerator {
 
 	@Override public String[] getSupportedBlocks() {
 		return new String[] { "procedure_retval_logic", "procedure_retval_number", "procedure_retval_string",
-				"procedure_retval_itemstack" };
+				"procedure_retval_itemstack", "procedure_retval_blockstate", "procedure_retval_time" };
 	}
 
 	@Override public BlockType getBlockType() {

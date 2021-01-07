@@ -48,6 +48,7 @@ import java.util.Map;
 	public int damageCount;
 	public MItemBlock recipeRemainder;
 	public boolean destroyAnyBlock;
+	public boolean immuneToFire;
 
 	public boolean stayInGridWhenCrafting;
 	public boolean damageOnCrafting;
@@ -92,9 +93,7 @@ import java.util.Map;
 	}
 
 	@Override public BufferedImage generateModElementPicture() {
-		return ImageUtils
-				.resizeAndCrop(getModElement().getWorkspace().getFolderManager().getItemImageIcon(texture).getImage(),
-						32);
+		return ImageUtils.resizeAndCrop(getModElement().getFolderManager().getItemImageIcon(texture).getImage(), 32);
 	}
 
 	@Override public Model getItemModel() {

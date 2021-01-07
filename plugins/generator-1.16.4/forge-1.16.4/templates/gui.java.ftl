@@ -55,11 +55,19 @@ import ${package}.${JavaModName};
 
 		containerType = new ContainerType<>(new GuiContainerModFactory());
 
-		FMLJavaModLoadingContext.get().getModEventBus().register(this);
+		FMLJavaModLoadingContext.get().getModEventBus().register(new ContainerRegisterHandler());
 
 		<#if hasProcedure(data.onTick)>
 		MinecraftForge.EVENT_BUS.register(this);
 		</#if>
+	}
+
+	private static class ContainerRegisterHandler {
+
+		@SubscribeEvent public void registerContainer(RegistryEvent.Register<ContainerType<?>> event) {
+			event.getRegistry().register(containerType.setRegistryName("${registryname}"));
+		}
+
 	}
 
 	@OnlyIn(Dist.CLIENT) public void initElements() {
@@ -78,10 +86,6 @@ import ${package}.${JavaModName};
 			}
 		}
 	</#if>
-
-	@SubscribeEvent public void registerContainer(RegistryEvent.Register<ContainerType<?>> event) {
-		event.getRegistry().register(containerType.setRegistryName("${registryname}"));
-	}
 
 	public static class GuiContainerModFactory implements IContainerFactory {
 
@@ -310,7 +314,7 @@ import ${package}.${JavaModName};
 		}
 
 		private void slotChanged(int slotid, int ctype, int meta) {
-			if(this.world != null && this.world.isRemote) {
+			if(this.world != null && this.world.isRemote()) {
 				${JavaModName}.PACKET_HANDLER.sendToServer(new GUISlotChangedMessage(slotid, x, y, z, ctype, meta));
 				handleSlotAction(entity, slotid, ctype, meta, x, y, z);
 			}

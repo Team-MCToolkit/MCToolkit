@@ -48,6 +48,12 @@ public class ReturnBlock implements IBlockGenerator {
 		case "return_itemstack":
 			returnType = VariableElementType.ITEMSTACK;
 			break;
+		case "return_blockstate":
+			returnType = VariableElementType.BLOCKSTATE;
+			break;
+		case "return_time":
+			returnType = VariableElementType.TIME;
+			break;
 		}
 
 		Element value = XMLUtil.getFirstChildrenWithName(block, "value");
@@ -77,7 +83,7 @@ public class ReturnBlock implements IBlockGenerator {
 	}
 
 	@Override public String[] getSupportedBlocks() {
-		return new String[] { "return_logic", "return_number", "return_text", "return_itemstack" };
+		return new String[] { "return_logic", "return_number", "return_text", "return_itemstack", "return_blockstate", "return_time" };
 	}
 
 	@Override public BlockType getBlockType() {

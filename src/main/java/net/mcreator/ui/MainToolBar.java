@@ -64,6 +64,7 @@ public class MainToolBar extends JToolBar {
 		add(mcreator.actionRegistry.openMaterialPackMaker);
 		add(mcreator.actionRegistry.openOrePackMaker);
 		add(mcreator.actionRegistry.openArmorPackMaker);
+		add(mcreator.actionRegistry.openBuildingPackMaker);
 		for(PackMakerTool pmt : PackMakerToolLoader.getPackMakersList()){
 			if(pmt.ui.icon != null){
 				if(PackMakerToolIcons.CACHE.containsKey(pmt.ui.icon)){
@@ -76,6 +77,7 @@ public class MainToolBar extends JToolBar {
 
 		addSeparator(new Dimension(10, 4));
 		add(mcreator.actionRegistry.setCreativeTabItemOrder);
+		add(mcreator.actionRegistry.injectDefaultTags);
 
 		add(Box.createHorizontalGlue());
 

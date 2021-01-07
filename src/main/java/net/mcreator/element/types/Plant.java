@@ -62,7 +62,7 @@ import java.util.Map;
 	public TabEntry creativeTab;
 	public double hardness;
 	public double resistance;
-	public double luminance;
+	public int luminance;
 	public boolean unbreakable;
 	public StepSound soundOnStep;
 	public boolean useLootTableForDrops;
@@ -138,9 +138,7 @@ import java.util.Map;
 	}
 
 	@Override public BufferedImage generateModElementPicture() {
-		return ImageUtils
-				.resizeAndCrop(getModElement().getWorkspace().getFolderManager().getBlockImageIcon(texture).getImage(),
-						32);
+		return ImageUtils.resizeAndCrop(getModElement().getFolderManager().getBlockImageIcon(texture).getImage(), 32);
 	}
 
 	public boolean plantInfoOnly() {

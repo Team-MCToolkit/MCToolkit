@@ -18,6 +18,7 @@
 
 package net.mcreator.ui;
 
+import net.mcreator.preferences.PreferencesManager;
 import net.mcreator.ui.action.BasicAction;
 import net.mcreator.ui.component.SocialButtons;
 import net.mcreator.ui.component.util.ComponentUtils;
@@ -29,6 +30,7 @@ import net.mcreator.ui.ide.CodeEditorView;
 import net.mcreator.ui.init.L10N;
 import net.mcreator.ui.init.UIRES;
 import net.mcreator.ui.views.editor.image.ImageMakerView;
+import net.mcreator.ui.workspace.selector.RecentWorkspaceEntry;
 import net.mcreator.util.DesktopUtils;
 import net.mcreator.util.image.ImageUtils;
 
@@ -76,9 +78,9 @@ public class MainMenuBar extends JMenuBar {
 		if (mcreator.getApplication() != null) {
 			JMenu recentWorkspacesList = new JMenu(L10N.t("menubar.file.recent"));
 			int number = 0;
-			for (WorkspaceSelector.RecentWorkspaceEntry recentWorkspaceEntry : mcreator.getApplication()
+			for (RecentWorkspaceEntry recentWorkspaceEntry : mcreator.getApplication()
 					.getRecentWorkspaces()) {
-				if (recentWorkspaceEntry.getPath().equals(mcreator.getWorkspace().getFileManager().getWorkspaceFile()))
+				if (recentWorkspaceEntry.getPath().equals(mcreator.getFileManager().getWorkspaceFile()))
 					continue;
 
 				JMenuItem recent = new JMenuItem(recentWorkspaceEntry.getName());
@@ -102,6 +104,8 @@ public class MainMenuBar extends JMenuBar {
 		file.add(mcreator.actionRegistry.closeWorkspace);
 		file.addSeparator();
 		file.add(mcreator.actionRegistry.preferences);
+		if(PreferencesManager.PREFERENCES.ui.developerFeatures)
+			file.add(mcreator.actionRegistry.reloadPlugins);
 		file.addSeparator();
 		file.add(mcreator.actionRegistry.exitMCreator);
 		add(file);
@@ -145,6 +149,7 @@ public class MainMenuBar extends JMenuBar {
 
 		workspace.addSeparator();
 		workspace.add(mcreator.actionRegistry.setCreativeTabItemOrder);
+		workspace.add(mcreator.actionRegistry.injectDefaultTags);
 		workspace.addSeparator();
 		workspace.add(mcreator.actionRegistry.openWorkspaceFolder);
 		workspace.addSeparator();
@@ -202,6 +207,7 @@ public class MainMenuBar extends JMenuBar {
 		tools.add(mcreator.actionRegistry.openMaterialPackMaker);
 		tools.add(mcreator.actionRegistry.openOrePackMaker);
 		tools.add(mcreator.actionRegistry.openArmorPackMaker);
+		tools.add(mcreator.actionRegistry.openBuildingPackMaker);
 		for(PackMakerTool pmt : PackMakerToolLoader.getPackMakersList()){
 			BasicAction action = CustomPackMakerTool.getAction(mcreator.actionRegistry, pmt);
 			if(pmt.ui.icon != null){

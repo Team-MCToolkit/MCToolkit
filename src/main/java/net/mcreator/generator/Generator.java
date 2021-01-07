@@ -36,7 +36,6 @@ import net.mcreator.element.types.Procedure;
 import net.mcreator.generator.blockly.BlocklyBlockCodeGenerator;
 import net.mcreator.generator.blockly.OutputBlockCodeGenerator;
 import net.mcreator.generator.blockly.ProceduralBlockCodeGenerator;
-import net.mcreator.generator.mapping.MappingLoader;
 import net.mcreator.generator.setup.WorkspaceGeneratorSetup;
 import net.mcreator.generator.template.MinecraftCodeProvider;
 import net.mcreator.generator.template.TemplateConditionParser;
@@ -71,12 +70,12 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-public class Generator implements Closeable {
+public class Generator implements IGenerator, Closeable {
 
 	public static final Map<String, GeneratorConfiguration> GENERATOR_CACHE = Collections
 			.synchronizedMap(new LinkedHashMap<>());
 
-	private final Logger LOG;
+	protected final Logger LOG;
 	private final String generatorName;
 	private final GeneratorConfiguration generatorConfiguration;
 
@@ -121,20 +120,12 @@ public class Generator implements Closeable {
 		}
 	}
 
-	public Workspace getWorkspace() {
+	@Override public @NotNull Workspace getWorkspace() {
 		return workspace;
 	}
 
-	public String getGeneratorName() {
-		return generatorName;
-	}
-
-	public MappingLoader getMappings() {
-		return generatorConfiguration.getMappingLoader();
-	}
-
-	public String getGeneratorMinecraftVersion() {
-		return generatorConfiguration.getGeneratorMinecraftVersion();
+	@Override public GeneratorConfiguration getGeneratorConfiguration() {
+		return generatorConfiguration;
 	}
 
 	public TemplateGenerator getProcedureGenerator() {
@@ -157,32 +148,8 @@ public class Generator implements Closeable {
 		return jsonTriggerGenerator;
 	}
 
-	public GeneratorConfiguration getGeneratorConfiguration() {
-		return generatorConfiguration;
-	}
-
-	public GeneratorStats getGeneratorStats() {
-		return generatorConfiguration.getGeneratorStats();
-	}
-
-	public String getGeneratorBuildFileVersion() {
-		return generatorConfiguration.getGeneratorBuildFileVersion();
-	}
-
-	public File getSourceRoot() {
-		return GeneratorUtils.getSourceRoot(workspace, generatorConfiguration);
-	}
-
-	public File getResourceRoot() {
-		return GeneratorUtils.getResourceRoot(workspace, generatorConfiguration);
-	}
-
-	public File getModAssetsRoot() {
-		return GeneratorUtils.getModAssetsRoot(workspace, generatorConfiguration);
-	}
-
-	public File getModDataRoot() {
-		return GeneratorUtils.getModDataRoot(workspace, generatorConfiguration);
+	public String getGeneratorName() {
+		return generatorName;
 	}
 
 	public MinecraftCodeProvider getMinecraftCodeProvider() {
@@ -355,8 +322,9 @@ public class Generator implements Closeable {
 										new ProceduralBlockCodeGenerator(blocklyBlockCodeGenerator));
 
 								String triggerCode = blocklyToJSONTrigger.getGeneratedCode();
-								if (triggerCode == null || triggerCode.equals(""))
+								if (triggerCode.equals(""))
 									triggerCode = "{\"trigger\": \"minecraft:impossible\"}";
+
 								additionalData.put("triggercode", triggerCode);
 							});
 				} else if (element instanceof Mob) {
@@ -371,11 +339,7 @@ public class Generator implements Closeable {
 										((Mob) element).aixml, this.getAITaskGenerator(),
 										new ProceduralBlockCodeGenerator(blocklyBlockCodeGenerator));
 
-								String aicode = blocklyToJava.getGeneratedCode();
-								if (aicode == null)
-									aicode = "";
-
-								additionalData.put("aicode", aicode);
+								additionalData.put("aicode", blocklyToJava.getGeneratedCode());
 							});
 				} else if (element instanceof ITooltipContainer) {
 					code = templateGenerator
@@ -780,7 +744,7 @@ public class Generator implements Closeable {
 		if (gradleProjectConnection == null) {
 			try {
 				gradleProjectConnection = GradleConnector.newConnector()
-						.forProjectDirectory(workspace.getFolderManager().getWorkspaceFolder())
+						.forProjectDirectory(workspace.getWorkspaceFolder())
 						.useGradleUserHomeDir(UserFolderManager.getGradleHome()).connect();
 			} catch (Exception e) {
 				LOG.warn("Failed to load Gradle project", e);

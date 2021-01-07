@@ -22,6 +22,7 @@ import net.mcreator.blockly.BlocklyCompileNote;
 import net.mcreator.blockly.BlocklyToCode;
 import net.mcreator.blockly.IBlockGenerator;
 import net.mcreator.blockly.data.Dependency;
+import net.mcreator.blockly.data.StatementInput;
 import net.mcreator.blockly.java.BlocklyToProcedure;
 import net.mcreator.generator.template.TemplateGeneratorException;
 import net.mcreator.util.XMLUtil;
@@ -29,6 +30,7 @@ import net.mcreator.workspace.elements.VariableElement;
 import org.w3c.dom.Element;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -50,6 +52,12 @@ public class GetVariableBlock implements IBlockGenerator {
 			break;
 		case "variables_get_itemstack":
 			type = "ITEMSTACK";
+			break;
+		case "variables_get_blockstate":
+			type = "BLOCKSTATE";
+			break;
+		case "variables_get_time":
+			type = "TIME";
 			break;
 		default:
 			return;
@@ -77,6 +85,17 @@ public class GetVariableBlock implements IBlockGenerator {
 					master.addCompileNote(new BlocklyCompileNote(BlocklyCompileNote.Type.ERROR,
 							"This editor does not support local variables!"));
 					return;
+				} else if (scope.equalsIgnoreCase("local")) {
+					List<StatementInput> statementInputList = master
+							.getStatementInputsMatching(statementInput -> statementInput.disable_local_variables);
+					if (!statementInputList.isEmpty()) {
+						for (StatementInput statementInput : statementInputList) {
+							master.addCompileNote(new BlocklyCompileNote(BlocklyCompileNote.Type.ERROR,
+									"Statement " + statementInput.name + " does not support local variables."));
+							break;
+						}
+						return;
+					}
 				}
 
 				if (scope.equals("global")) {
@@ -106,7 +125,7 @@ public class GetVariableBlock implements IBlockGenerator {
 
 	@Override public String[] getSupportedBlocks() {
 		return new String[] { "variables_get_logic", "variables_get_number", "variables_get_text",
-				"variables_get_itemstack" };
+				"variables_get_itemstack", "variables_get_blockstate", "variables_get_time" };
 	}
 
 	@Override public BlockType getBlockType() {

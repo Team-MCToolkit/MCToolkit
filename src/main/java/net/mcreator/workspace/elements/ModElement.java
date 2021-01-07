@@ -20,8 +20,10 @@ package net.mcreator.workspace.elements;
 
 import net.mcreator.element.GeneratableElement;
 import net.mcreator.element.ModElementType;
+import net.mcreator.generator.IGeneratorProvider;
 import net.mcreator.minecraft.MCItem;
 import net.mcreator.minecraft.RegistryNameFixer;
+import net.mcreator.workspace.IWorkspaceProvider;
 import net.mcreator.workspace.Workspace;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -30,7 +32,7 @@ import javax.swing.*;
 import java.io.Serializable;
 import java.util.*;
 
-public class ModElement implements Serializable {
+public class ModElement implements Serializable, IWorkspaceProvider, IGeneratorProvider {
 
 	private String name;
 	private ModElementType type;
@@ -111,7 +113,10 @@ public class ModElement implements Serializable {
 
 		mcItems = new ArrayList<>();
 
-		if (type.getRecipeElementType() == ModElementType.RecipeElementType.ITEM
+		if (type == ModElementType.DIMENSION) {
+			if (getMetadata("ep") != null && (Boolean) getMetadata("ep"))
+				mcItems.add(new MCItem.Custom(this, null));
+		} else if (type.getRecipeElementType() == ModElementType.RecipeElementType.ITEM
 				|| type.getRecipeElementType() == ModElementType.RecipeElementType.BLOCK) {
 			mcItems.add(new MCItem.Custom(this, null));
 		} else if (type.getBaseType() == ModElementType.BaseType.ARMOR) {
@@ -134,7 +139,7 @@ public class ModElement implements Serializable {
 				workspace.getFolderManager().getModElementPicturesCacheDir().getAbsolutePath() + "/" + name + ".png");
 	}
 
-	public Workspace getWorkspace() {
+	@Override public @NotNull Workspace getWorkspace() {
 		return workspace;
 	}
 
