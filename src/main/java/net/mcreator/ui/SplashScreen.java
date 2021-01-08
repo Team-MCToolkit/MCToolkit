@@ -23,10 +23,11 @@ import net.mcreator.ui.component.ImagePanel;
 import net.mcreator.ui.component.ProgressBar;
 import net.mcreator.ui.component.util.EDTUtils;
 import net.mcreator.ui.init.UIRES;
-import net.mcreator.util.image.ImageUtils;
 
+import java.io.*;
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class SplashScreen extends JWindow {
 
@@ -50,6 +51,13 @@ public class SplashScreen extends JWindow {
 		label.setBounds(30 + 10 - 4, 330 - 10 - 10, 500, 45);
 		imagePanel.add(label);
 
+		JLabel splashText = new JLabel(setSplashText());
+		splashText.setForeground(Color.white);
+		splashText.setFont(splashFont.deriveFont(12f));
+		splashText.setBounds(30 + 10 - 4, 160, 500, 45);
+		imagePanel.add(splashText);
+		System.out.println(splashText.getText());
+
 		JLabel logo = new JLabel(UIRES.get("logo"));
 		logo.setBounds(24 + 8 - 4, 70, 350, 63);
 		imagePanel.add(logo);
@@ -61,10 +69,11 @@ public class SplashScreen extends JWindow {
 		version.setBounds(30 + 10 - 4, 129, 500, 45);
 		imagePanel.add(version);
 
+
 		if (Launcher.version != null && Launcher.version.isSnapshot()) {
 			JLabel snpashot = new JLabel("Snapshot - not for production use!");
 			snpashot.setFont(splashFont.deriveFont(14f));
-			snpashot.setForeground(new Color(255, 92, 82));
+			snpashot.setForeground(new Color(0, 0, 0));
 			snpashot.setBounds(30 + 10 - 4, 165, 500, 45);
 			imagePanel.add(snpashot);
 		}
@@ -89,6 +98,28 @@ public class SplashScreen extends JWindow {
 		requestFocus();
 		requestFocusInWindow();
 		toFront();
+	}
+
+	private String setSplashText() {
+		ArrayList<String> texts = new ArrayList<>();
+		File file = new File(ClassLoader.getSystemClassLoader().getResource("net/mcreator/ui/texts/splashes.txt").getFile());
+		try {
+			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8"));
+			String line = reader.readLine();
+			while (line != null){
+				texts.add(line);
+				line = reader.readLine();
+			}
+			reader.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (IOException exception) {
+			exception.printStackTrace();
+		}
+
+		return texts.get((int) (Math.random() * texts.size()));
 	}
 
 	public void setProgress(int percentage, String message) {
