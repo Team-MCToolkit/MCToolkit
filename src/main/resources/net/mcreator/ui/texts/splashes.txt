@@ -31,3 +31,5 @@ Herobrine is alive!
 Open-source!
 2^5
 Use Ecosia!
+Forge 1.7.10 is not supported anymore!
+Try plugins
