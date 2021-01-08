@@ -1,17 +1,18 @@
 Hello World!
 Klemen had the idea of MCToolkit an April 1st.
-This feature has been implemented in January 2021.
 Better than MCreator!
 Ceci est une phrase en français.
 This is a sentence in English.
 2020-09-14
 Klemen & Matej
 NorthWestTrees, Goldorion & Blackout
-Max, Drop The Mag, SomeoneElse, itayfeder, NOYB, TBroski
+Max, NOYB & SomeoneElse
+itayfeder, Drop The Mag & TBroski
 Covid-19
 2020-03-13
 2021-01-07
 Minecraft
+Not Minecraft
 The 15th line!
 Ostentatious!
 Developed in Java!
@@ -23,7 +24,7 @@ Ping me!
 Dogs > Cats
 Genius!
 Bip... boup... bip!
-Learn how to search
+Learn how to search, please
 Save Australia & Amazon forest
 Revolution!
 This sentence is false.
@@ -36,3 +37,6 @@ Try plugins
 Forge 1.12.2 is not supported anymore!
 Forge 1.14.4 is not supported anymore!
 Put the milk after cereals
+Cats > Dogs
+Dogs = Cats
+34 lines
