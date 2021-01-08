@@ -56,7 +56,6 @@ public class SplashScreen extends JWindow {
 		splashText.setFont(splashFont.deriveFont(12f));
 		splashText.setBounds(30 + 10 - 4, 160, 500, 45);
 		imagePanel.add(splashText);
-		System.out.println(splashText.getText());
 
 		JLabel logo = new JLabel(UIRES.get("logo"));
 		logo.setBounds(24 + 8 - 4, 70, 350, 63);
