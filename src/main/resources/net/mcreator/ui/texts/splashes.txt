@@ -33,3 +33,6 @@ Open-source!
 Use Ecosia!
 Forge 1.7.10 is not supported anymore!
 Try plugins
+Forge 1.12.2 is not supported anymore!
+Forge 1.14.4 is not supported anymore!
+Put the milk after cereals

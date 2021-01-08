@@ -52,8 +52,8 @@ public class SplashScreen extends JWindow {
 		imagePanel.add(label);
 
 		JLabel splashText = new JLabel(setSplashText());
-		splashText.setForeground(Color.white);
-		splashText.setFont(splashFont.deriveFont(12f));
+		splashText.setForeground(Color.yellow);
+		splashText.setFont(splashFont.deriveFont(Font.BOLD, 20));
 		splashText.setBounds(30 + 10 - 4, 160, 500, 45);
 		imagePanel.add(splashText);
 
