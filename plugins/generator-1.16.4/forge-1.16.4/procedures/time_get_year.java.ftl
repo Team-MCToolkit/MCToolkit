@@ -1,0 +1,1 @@
+(${input$var}.getYear() + 1900)
