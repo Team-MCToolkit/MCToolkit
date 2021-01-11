@@ -144,7 +144,7 @@ public class PlantGUI extends ModElementGUI<Plant> {
 	private final JSpinner flammability = new JSpinner(new SpinnerNumberModel(100, 0, 1024, 1));
 	private final JSpinner fireSpreadSpeed = new JSpinner(new SpinnerNumberModel(60, 0, 1024, 1));
 
-	private CollapsiblePanel infoPanel;
+	private CollapsiblePanel tintPane;
 
 	public PlantGUI(MCreator mcreator, ModElement modElement, boolean editingMode) {
 		super(mcreator, modElement, editingMode);
@@ -213,7 +213,7 @@ public class PlantGUI extends ModElementGUI<Plant> {
 		particleTexture = new TextureHolder(new GeneralTextureSelector(mcreator, GeneralTextureSelector.TextureType.BLOCK), 32);
 		particleTexture.setOpaque(false);
 
-		JPanel tintPanel = new JPanel(new GridLayout(1, 2, 0, 2));
+		JPanel tintPanel = new JPanel(new GridLayout(3, 2, 0, 2));
 		tintPanel.setOpaque(false);
 		isItemTinted.setOpaque(false);
 		tintPanel.setBorder(BorderFactory.createTitledBorder(
@@ -225,33 +225,18 @@ public class PlantGUI extends ModElementGUI<Plant> {
 				L10N.label("elementgui.plant.special_information_tip")));
 		tintPanel.add(specialInfo);
 
-		JPanel infopanel = new JPanel(new GridLayout(5, 2, 15, 15));
-		infopanel.setOpaque(false);
-
-		infopanel.add("Center", HelpUtils.wrapWithHelpButton(this.withEntry("item/special_information"),
-				L10N.label("elementgui.plant.special_information_tip")));
-		infopanel.add(specialInfo);
-
-		infopanel.add("Center", PanelUtils.gridElements(1, 1,
+		tintPanel.add("Center", PanelUtils.gridElements(1, 1,
 				HelpUtils.wrapWithHelpButton(this.withEntry("item/description_on_shift"),
 						L10N.label("elementgui.common.description_on_shift")), onShiftOnly));
-		infopanel.add(onShiftInfo);
+		tintPanel.add(onShiftInfo);
 
-		infopanel.add("Center", PanelUtils.gridElements(1, 1,
+		tintPanel.add("Center", PanelUtils.gridElements(1, 1,
 				HelpUtils.wrapWithHelpButton(this.withEntry("item/description_on_command"),
 						L10N.label("elementgui.common.description_on_command")), onCommandOnly));
-		infopanel.add(onCommandInfo);
+		tintPanel.add(onCommandInfo);
 
-		infopanel.add("Center", HelpUtils.wrapWithHelpButton(this.withEntry("block/item_texture"),
-				L10N.label("elementgui.plant.item_texture")));
-		infopanel.add("Center", PanelUtils.centerInPanel(itemTexture));
-
-		infopanel.add("Center", HelpUtils.wrapWithHelpButton(this.withEntry("block/particle_texture"),
-				L10N.label("elementgui.plant.particle_texture")));
-		infopanel.add("Center", PanelUtils.centerInPanel(particleTexture));
-
-		infoPanel = new CollapsiblePanel(L10N.t("elementgui.plant.special_information_title"), infopanel);
-		infoPanel.toggleVisibility(PreferencesManager.PREFERENCES.ui.expandSectionsByDefault);
+		tintPane = new CollapsiblePanel(L10N.t("elementgui.plant.special_information_title"), tintPanel);
+		tintPane.toggleVisibility(PreferencesManager.PREFERENCES.ui.expandSectionsByDefault);
 
 		onShiftOnly.setOpaque(false);
 		onShiftOnly.setEnabled(true);
@@ -266,20 +251,20 @@ public class PlantGUI extends ModElementGUI<Plant> {
 		JPanel rent = new JPanel(new GridLayout(5, 2, 2, 2));
 		rent.setOpaque(false);
 
-		rent.add(HelpUtils
-				.wrapWithHelpButton(this.withEntry("block/model"), L10N.label("elementgui.plant.block_model")));
+		rent.add(HelpUtils.wrapWithHelpButton(this.withEntry("block/model"),
+				L10N.label("elementgui.plant.block_model")));
 		rent.add(renderType);
 
-		rent.add(HelpUtils
-				.wrapWithHelpButton(this.withEntry("block/item_texture"), L10N.label("elementgui.plant.item_texture")));
+		rent.add(HelpUtils.wrapWithHelpButton(this.withEntry("block/item_texture"),
+				L10N.label("elementgui.plant.item_texture")));
 		rent.add(PanelUtils.centerInPanel(itemTexture));
 
 		rent.add(HelpUtils.wrapWithHelpButton(this.withEntry("block/particle_texture"),
 				L10N.label("elementgui.plant.particle_texture")));
 		rent.add(PanelUtils.centerInPanel(particleTexture));
 
-		rent.add(HelpUtils
-				.wrapWithHelpButton(this.withEntry("block/tint_type"), L10N.label("elementgui.common.tint_type")));
+		rent.add(HelpUtils.wrapWithHelpButton(this.withEntry("block/tint_type"),
+				L10N.label("elementgui.common.tint_type")));
 		rent.add(tintType);
 		rent.add(HelpUtils.wrapWithHelpButton(this.withEntry("block/is_item_tinted"),
 				L10N.label("elementgui.plant.is_item_tinted")));
@@ -307,12 +292,11 @@ public class PlantGUI extends ModElementGUI<Plant> {
 		render.setOpaque(false);
 
 		render.add(texturesAndRent);
-		render.add(tintPanel);
+		render.add(tintPane);
 
 		JPanel sbbp2 = new JPanel(new BorderLayout());
 
 		sbbp2.setOpaque(false);
-		sbbp2.add("Center", PanelUtils.northAndCenterElement(rent, infoPanel));
 
 		ButtonGroup bg = new ButtonGroup();
 		bg.add(normalType);
@@ -715,7 +699,7 @@ public class PlantGUI extends ModElementGUI<Plant> {
 
 		tintType.setSelectedItem(plant.tintType);
 		isItemTinted.setSelected(plant.isItemTinted);
-		infoPanel.toggleVisibility(!specialInfo.getText().isEmpty());
+		tintPane.toggleVisibility(!specialInfo.getText().isEmpty());
 
 		customDrop.setEnabled(!useLootTableForDrops.isSelected());
 		dropAmount.setEnabled(!useLootTableForDrops.isSelected());
