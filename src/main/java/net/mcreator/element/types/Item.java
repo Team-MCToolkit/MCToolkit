@@ -28,11 +28,10 @@ import net.mcreator.workspace.resources.Model;
 import net.mcreator.workspace.resources.TexturedModel;
 
 import java.awt.image.BufferedImage;
-import java.util.List;
 import java.util.Map;
 
-@SuppressWarnings("unused") public class Item extends GeneratableElement
-		implements IItemWithModel, ITabContainedElement, IItemWithTexture, ITooltipContainer {
+@SuppressWarnings("unused") public class Item extends TooltipContainerGeneratableElement
+		implements IItemWithModel, ITabContainedElement, IItemWithTexture {
 
 	public int renderType;
 	public String texture;

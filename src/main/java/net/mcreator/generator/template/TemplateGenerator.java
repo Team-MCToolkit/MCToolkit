@@ -45,8 +45,8 @@ public class TemplateGenerator {
 		this.baseDataModelProvider = new BaseDataModelProvider(generator);
 	}
 
-	public String generateElementFromTemplate(GeneratableElement element, String templateName,
-			Map<String, Object> dataModel, @Nullable IAdditionalTemplateDataProvider provider)
+	public String generateElementFromTemplate(GeneratableElement element,
+			String templateName, Map<String, Object> dataModel)
 			throws TemplateGeneratorException {
 		dataModel.putAll(baseDataModelProvider.provide());
 
@@ -54,8 +54,7 @@ public class TemplateGenerator {
 		dataModel.put("registryname", element.getModElement().getRegistryName());
 		dataModel.put("name", element.getModElement().getName());
 
-		if (provider != null)
-			provider.provideAdditionalData(dataModel);
+		element.provideAdditionalData(dataModel, this.generator);
 
 		return generateTemplate(templateName, dataModel);
 	}

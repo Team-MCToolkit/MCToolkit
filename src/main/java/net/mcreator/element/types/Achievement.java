@@ -18,14 +18,22 @@
 
 package net.mcreator.element.types;
 
+import net.mcreator.blockly.data.BlocklyLoader;
+import net.mcreator.blockly.datapack.BlocklyToJSONTrigger;
 import net.mcreator.element.GeneratableElement;
 import net.mcreator.element.parts.AchievementEntry;
 import net.mcreator.element.parts.MItemBlock;
+import net.mcreator.generator.Generator;
+import net.mcreator.generator.blockly.BlocklyBlockCodeGenerator;
+import net.mcreator.generator.blockly.ProceduralBlockCodeGenerator;
+import net.mcreator.generator.template.TemplateGeneratorException;
 import net.mcreator.minecraft.MinecraftImageGenerator;
 import net.mcreator.workspace.elements.ModElement;
 
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @SuppressWarnings("unused") public class Achievement extends GeneratableElement {
 
@@ -59,6 +67,28 @@ import java.util.List;
 	@Override public BufferedImage generateModElementPicture() {
 		return MinecraftImageGenerator.Preview
 				.generateAchievementPreviewPicture(getModElement().getWorkspace(), achievementIcon, achievementName);
+	}
+
+	@Override public void provideAdditionalData(Map<String, Object> additionalData, Generator generator) throws TemplateGeneratorException {
+		super.provideAdditionalData(additionalData, generator);
+		BlocklyBlockCodeGenerator blocklyBlockCodeGenerator = new BlocklyBlockCodeGenerator(
+				BlocklyLoader.INSTANCE.getJSONTriggerLoader().getDefinedBlocks(),
+				generator.getJSONTriggerGenerator(),
+				additionalData
+		).setTemplateExtension("json");
+
+		// load blocklytojava with custom generators loaded
+		BlocklyToJSONTrigger blocklyToJSONTrigger = new BlocklyToJSONTrigger(
+				generator.getWorkspace(),
+				this.triggerxml,
+				generator.getJSONTriggerGenerator(),
+				new ProceduralBlockCodeGenerator(blocklyBlockCodeGenerator)
+		);
+
+		String triggerCode = blocklyToJSONTrigger.getGeneratedCode();
+		if (triggerCode == null || triggerCode.equals(""))
+			triggerCode = "{\"trigger\": \"minecraft:impossible\"}";
+		additionalData.put("triggercode", triggerCode);
 	}
 
 }

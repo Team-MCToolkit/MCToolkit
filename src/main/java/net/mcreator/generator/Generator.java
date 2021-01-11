@@ -19,28 +19,11 @@
 package net.mcreator.generator;
 
 import com.google.gson.GsonBuilder;
-import net.mcreator.blockly.BlocklyToAITasks;
-import net.mcreator.blockly.BlocklyToTooltip;
-import net.mcreator.blockly.data.BlocklyLoader;
-import net.mcreator.blockly.data.Dependency;
-import net.mcreator.blockly.data.ExternalTrigger;
-import net.mcreator.blockly.datapack.BlocklyToJSONTrigger;
-import net.mcreator.blockly.java.BlocklyToProcedure;
 import net.mcreator.element.GeneratableElement;
-import net.mcreator.element.ITooltipContainer;
 import net.mcreator.element.ModElementType;
-import net.mcreator.element.types.Achievement;
-import net.mcreator.element.types.Item;
-import net.mcreator.element.types.Mob;
-import net.mcreator.element.types.Procedure;
-import net.mcreator.generator.blockly.BlocklyBlockCodeGenerator;
-import net.mcreator.generator.blockly.OutputBlockCodeGenerator;
-import net.mcreator.generator.blockly.ProceduralBlockCodeGenerator;
+import net.mcreator.generator.mapping.MappingLoader;
 import net.mcreator.generator.setup.WorkspaceGeneratorSetup;
-import net.mcreator.generator.template.MinecraftCodeProvider;
-import net.mcreator.generator.template.TemplateConditionParser;
-import net.mcreator.generator.template.TemplateGenerator;
-import net.mcreator.generator.template.TemplateGeneratorException;
+import net.mcreator.generator.template.*;
 import net.mcreator.gradle.GradleCacheImportFailedException;
 import net.mcreator.io.FileIO;
 import net.mcreator.io.UserFolderManager;
@@ -262,108 +245,12 @@ public class Generator implements IGenerator, Closeable {
 
 				extractVariables(generatorTemplate, dataModel);
 
-				String code;
-				if (element instanceof Procedure) {
-					code = templateGenerator
-							.generateElementFromTemplate(element, templateFileName, dataModel, additionalData -> {
-								BlocklyBlockCodeGenerator blocklyBlockCodeGenerator = new BlocklyBlockCodeGenerator(
-										BlocklyLoader.INSTANCE.getProcedureBlockLoader().getDefinedBlocks(),
-										this.getProcedureGenerator(), additionalData);
-
-								// load blocklytojava with custom generators loaded
-								BlocklyToProcedure blocklyToJava = new BlocklyToProcedure(this.getWorkspace(),
-										((Procedure) element).procedurexml, this.getProcedureGenerator(),
-										new ProceduralBlockCodeGenerator(blocklyBlockCodeGenerator),
-										new OutputBlockCodeGenerator(blocklyBlockCodeGenerator));
-
-								List<ExternalTrigger> externalTriggers = BlocklyLoader.INSTANCE
-										.getExternalTriggerLoader().getExternalTrigers();
-								ExternalTrigger trigger = null;
-								for (ExternalTrigger externalTrigger : externalTriggers) {
-									if (externalTrigger.getID().equals(blocklyToJava.getExternalTrigger()))
-										trigger = externalTrigger;
-								}
-
-								// we update the dependency list of the procedure
-								List<Dependency> dependenciesArrayList = blocklyToJava.getDependencies();
-
-								element.getModElement().clearMetadata()
-										.putMetadata("dependencies", dependenciesArrayList).putMetadata("return_type",
-										blocklyToJava.getReturnType() == null ?
-												null :
-												blocklyToJava.getReturnType().name());
-
-								((Procedure) element).reloadDependencies();
-
-								String triggerCode = "";
-								if (trigger != null) {
-									TemplateGenerator templateGenerator = this.getTriggerGenerator();
-									triggerCode = templateGenerator
-											.generateFromTemplate(trigger.getID() + ".java.ftl", additionalData);
-								}
-
-								additionalData.put("procedurecode", blocklyToJava.getGeneratedCode());
-								additionalData.put("return_type", blocklyToJava.getReturnType());
-								additionalData.put("has_trigger", trigger != null);
-								additionalData.put("trigger_code", triggerCode);
-								additionalData.put("dependencies", dependenciesArrayList);
-							});
-				} else if (element instanceof Achievement) {
-					code = templateGenerator
-							.generateElementFromTemplate(element, templateFileName, dataModel, additionalData -> {
-								BlocklyBlockCodeGenerator blocklyBlockCodeGenerator = new BlocklyBlockCodeGenerator(
-										BlocklyLoader.INSTANCE.getJSONTriggerLoader().getDefinedBlocks(),
-										this.getJSONTriggerGenerator(), additionalData).setTemplateExtension("json");
-
-								// load blocklytojava with custom generators loaded
-								BlocklyToJSONTrigger blocklyToJSONTrigger = new BlocklyToJSONTrigger(
-										this.getWorkspace(), ((Achievement) element).triggerxml,
-										this.getJSONTriggerGenerator(),
-										new ProceduralBlockCodeGenerator(blocklyBlockCodeGenerator));
-
-								String triggerCode = blocklyToJSONTrigger.getGeneratedCode();
-								if (triggerCode.equals(""))
-									triggerCode = "{\"trigger\": \"minecraft:impossible\"}";
-
-								additionalData.put("triggercode", triggerCode);
-							});
-				} else if (element instanceof Mob) {
-					code = templateGenerator
-							.generateElementFromTemplate(element, templateFileName, dataModel, additionalData -> {
-								BlocklyBlockCodeGenerator blocklyBlockCodeGenerator = new BlocklyBlockCodeGenerator(
-										BlocklyLoader.INSTANCE.getAITaskBlockLoader().getDefinedBlocks(),
-										this.getAITaskGenerator(), additionalData).setTemplateExtension(
-										generatorConfiguration.getGeneratorFlavor().getBaseLanguage().name()
-												.toLowerCase(Locale.ENGLISH));
-								BlocklyToAITasks blocklyToJava = new BlocklyToAITasks(this.getWorkspace(),
-										((Mob) element).aixml, this.getAITaskGenerator(),
-										new ProceduralBlockCodeGenerator(blocklyBlockCodeGenerator));
-
-								additionalData.put("aicode", blocklyToJava.getGeneratedCode());
-							});
-				} else if (element instanceof ITooltipContainer) {
-					code = templateGenerator
-							.generateElementFromTemplate(element, templateFileName, dataModel, additionalData -> {
-								BlocklyBlockCodeGenerator blocklyBlockCodeGenerator = new BlocklyBlockCodeGenerator(
-										BlocklyLoader.INSTANCE.getTooltipBlockLoader().getDefinedBlocks(),
-										this.getTooltipGenerator(), additionalData).setTemplateExtension(
-										generatorConfiguration.getGeneratorFlavor().getBaseLanguage().name()
-												.toLowerCase(Locale.ENGLISH));
-								BlocklyToTooltip blocklyToJava = new BlocklyToTooltip(this.getWorkspace(),
-										((ITooltipContainer) element).getXml(), this.getTooltipGenerator(),
-										new ProceduralBlockCodeGenerator(blocklyBlockCodeGenerator),
-										new OutputBlockCodeGenerator(blocklyBlockCodeGenerator));
-
-								String tooltipCode = blocklyToJava.getGeneratedCode();
-								if (tooltipCode == null)
-									tooltipCode = "";
-
-								additionalData.put("tooltipCode", tooltipCode);
-							});
-
-				} else {
-					code = templateGenerator.generateElementFromTemplate(element, templateFileName, dataModel, null);
-				}
+				final String code = templateGenerator
+						.generateElementFromTemplate(
+								element,
+								templateFileName,
+								dataModel
+						);
 
 				generatorFiles.add(new GeneratorFile(code, generatorTemplate.getFile(),
 						(String) ((Map<?, ?>) generatorTemplate.getTemplateData()).get("writer")));

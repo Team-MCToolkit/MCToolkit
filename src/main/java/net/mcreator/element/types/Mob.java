@@ -18,12 +18,18 @@
 
 package net.mcreator.element.types;
 
+import net.mcreator.blockly.BlocklyToAITasks;
+import net.mcreator.blockly.data.BlocklyLoader;
 import net.mcreator.element.GeneratableElement;
 import net.mcreator.element.IEntityWithModel;
 import net.mcreator.element.ITabContainedElement;
 import net.mcreator.element.parts.Particle;
 import net.mcreator.element.parts.Procedure;
 import net.mcreator.element.parts.*;
+import net.mcreator.generator.Generator;
+import net.mcreator.generator.blockly.BlocklyBlockCodeGenerator;
+import net.mcreator.generator.blockly.ProceduralBlockCodeGenerator;
+import net.mcreator.generator.template.TemplateGeneratorException;
 import net.mcreator.minecraft.MinecraftImageGenerator;
 import net.mcreator.ui.modgui.LivingEntityGUI;
 import net.mcreator.workspace.elements.ModElement;
@@ -31,7 +37,7 @@ import net.mcreator.workspace.resources.Model;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
 
 @SuppressWarnings("unused") public class Mob extends GeneratableElement
@@ -177,5 +183,29 @@ import java.util.List;
 
 	public boolean hasDrop() {
 		return !mobDrop.isEmpty();
+	}
+
+	@Override public void provideAdditionalData(Map<String, Object> additionalData, Generator generator) throws TemplateGeneratorException {
+		super.provideAdditionalData(additionalData, generator);
+		BlocklyBlockCodeGenerator blocklyBlockCodeGenerator = new BlocklyBlockCodeGenerator(
+				BlocklyLoader.INSTANCE.getAITaskBlockLoader().getDefinedBlocks(),
+				generator.getAITaskGenerator(),
+				additionalData
+		).setTemplateExtension(generator.getGeneratorConfiguration()
+				.getGeneratorFlavor().getBaseLanguage().name()
+				.toLowerCase(Locale.ENGLISH));
+
+		BlocklyToAITasks blocklyToJava = new BlocklyToAITasks(
+				generator.getWorkspace(),
+				this.aixml,
+				generator.getAITaskGenerator(),
+				new ProceduralBlockCodeGenerator(blocklyBlockCodeGenerator)
+		);
+
+		String aicode = blocklyToJava.getGeneratedCode();
+		if (aicode == null)
+			aicode = "";
+
+		additionalData.put("aicode", aicode);
 	}
 }
