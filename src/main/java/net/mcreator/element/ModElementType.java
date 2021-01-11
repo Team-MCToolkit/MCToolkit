@@ -85,6 +85,8 @@ public enum ModElementType {
 
 	@SerializedName("painting") PAINTING(BaseType.OTHER, RecipeElementType.NONE),
 
+	@SerializedName("gamerule") GAMERULE(BaseType.OTHER, RecipeElementType.NONE),
+
 	@SerializedName("potionitem") POTIONITEM(BaseType.POTIONITEM, RecipeElementType.NONE);
 
 	private final BaseType baseType;
