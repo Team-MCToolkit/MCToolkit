@@ -14,7 +14,7 @@ item_textures_dir: "@MODASSETSROOT/textures/item"
 armor_textures_dir: "@MODASSETSROOT/textures/models/armor"
 entity_textures_dir: "@MODASSETSROOT/textures/entity"
 painting_textures_dir: "@MODASSETSROOT/textures/painting"
-mob_effect_textures_dir: "@MODASSETSROOT/textures/others/mob_effect"
+mob_effect_textures_dir: "@MODASSETSROOT/textures/mob_effect"
 other_textures_dir: "@MODASSETSROOT/textures/others"
 sounds_dir: "@MODASSETSROOT/sounds"
 
