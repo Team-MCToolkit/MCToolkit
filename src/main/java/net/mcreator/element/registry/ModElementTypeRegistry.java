@@ -37,7 +37,6 @@
 package net.mcreator.element.registry;
 
 import net.mcreator.element.GeneratableElement;
-import net.mcreator.element.registry.ModElementType;
 import net.mcreator.element.types.*;
 import net.mcreator.ui.MCreator;
 import net.mcreator.ui.modgui.*;

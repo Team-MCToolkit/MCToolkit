@@ -63,7 +63,7 @@ public class ModElement implements Serializable, IWorkspaceProvider, IGeneratorP
 
 	public ModElement(@NotNull Workspace workspace, @NotNull String name, ModElementType type) {
 		this.name = name;
-		this.type = type.name();
+		this.type = type.getRegistryName();
 		this.registry_name = RegistryNameFixer.fromCamelCase(name);
 
 		setWorkspace(workspace);

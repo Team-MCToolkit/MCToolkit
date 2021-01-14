@@ -36,7 +36,7 @@ public class ModElementType implements Comparable<ModElementType> {
 	private GeneratorStats.CoverageStatus status = GeneratorStats.CoverageStatus.FULL;
 
 	//Mod element variables
-	public static final ModElementType ACHIEVEMENT = new ModElementType("achievement", BaseType.ACHIEVEMENT, RecipeElementType.BLOCK);
+	public static final ModElementType ACHIEVEMENT = new ModElementType("achievement", BaseType.ACHIEVEMENT, RecipeElementType.NONE);
 	public static final ModElementType ARMOR = new ModElementType("armor", BaseType.ARMOR, RecipeElementType.ARMOR);
 	public static final ModElementType BIOME = new ModElementType("biome", BaseType.BIOME, RecipeElementType.NONE);
 	public static final ModElementType BLOCK = new ModElementType("block", BaseType.BLOCK, RecipeElementType.BLOCK);
@@ -48,6 +48,7 @@ public class ModElementType implements Comparable<ModElementType> {
 	public static final ModElementType FOOD = new ModElementType("food", BaseType.ITEM, RecipeElementType.ITEM);
 	public static final ModElementType FUEL = new ModElementType("fuel", BaseType.FUEL, RecipeElementType.NONE);
 	public static final ModElementType FUNCTION = new ModElementType("function", BaseType.DATAPACK, RecipeElementType.NONE);
+	public static final ModElementType GAMERULE = new ModElementType("gamerule", BaseType.GAMERULE, RecipeElementType.NONE);
 	public static final ModElementType GUI = new ModElementType("gui", BaseType.GUI, RecipeElementType.NONE);
 	public static final ModElementType ITEM = new ModElementType("item", BaseType.ITEM, RecipeElementType.ITEM);
 	public static final ModElementType KEYBIND = new ModElementType("keybind", BaseType.KEYBIND, RecipeElementType.NONE);
@@ -123,7 +124,7 @@ public class ModElementType implements Comparable<ModElementType> {
 
 	public static ModElementType get(String modElementName){
 		for(ModElementType me : ModElementTypeRegistry.elements){
-			if(me.name.equals(modElementName)){
+			if(me.registryName.equals(modElementName)){
 				return me;
 			}
 		}

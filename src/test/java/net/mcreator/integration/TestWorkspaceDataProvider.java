@@ -49,7 +49,6 @@ import java.awt.image.RenderedImage;
 import java.io.File;
 import java.util.List;
 import java.util.*;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class TestWorkspaceDataProvider {
@@ -969,7 +968,7 @@ public class TestWorkspaceDataProvider {
 			item.renderType = 0;
 			item.customModelName = "Normal";
 			return item;
-		} else if (modElement.getType().equals(ModElementType.RANGEDITEM.getRegistryName())) {
+		} else if (ModElementType.RANGEDITEM.equals(modElement.getType())) {
 			RangedItem rangedItem = new RangedItem(modElement);
 			rangedItem.name = modElement.getName();
 			rangedItem.creativeTab = new TabEntry(modElement.getWorkspace(),
@@ -1022,7 +1021,7 @@ public class TestWorkspaceDataProvider {
 			rangedItem.enableMeleeDamage = !_true;
 			rangedItem.damageVsEntity = 2;
 			return rangedItem;
-		} else if (ModElementType.POTIONEFFECT.getRegistryName().equals(modElement.getType())) {
+		} else if (ModElementType.POTIONEFFECT.equals(modElement.getType())) {
 			PotionEffect potion = new PotionEffect(modElement);
 			potion.effectName = modElement.getName() + " Effect Name";
 			potion.color = Color.magenta;
@@ -1241,8 +1240,7 @@ public class TestWorkspaceDataProvider {
 			block.isItemTinted = _true;
 			block.renderType = new int[] { 10, block.isBlockTinted() ? 110 : 11, block.isBlockTinted() ? 120 : 12,
 					10 }[valueIndex];
-			block.customModelName = new String[] { "Normal", "Single texture", "Cross model",
-					"Normal" }[valueIndex];
+			block.customModelName = new String[] { "Normal", "Single texture", "Cross model", "Normal" }[valueIndex];
 			return block;
 		} else if (ModElementType.TAG.equals(modElement.getType())) {
 			Tag tag = new Tag(modElement);
@@ -1431,17 +1429,19 @@ public class TestWorkspaceDataProvider {
 			particle.renderType = new String[] { "OPAQUE", "OPAQUE", "TRANSLUCENT", "LIT" }[valueIndex];
 			particle.additionalExpiryCondition = new Procedure("condition1");
 			return particle;
-		case GAMERULE:
+		} else if (ModElementType.GAMERULE.equals(modElement.getType())) {
 			GameRule gamerule = new GameRule(modElement);
 			gamerule.name = modElement.getName();
 			gamerule.description = modElement.getName();
-			gamerule.category = getRandomString(random, Arrays.asList("PLAYER", "UPDATES", "CHAT", "DROPS", "MISC", "MOBS", "SPAWNING"));
+			gamerule.category = getRandomString(random,
+					Arrays.asList("PLAYER", "UPDATES", "CHAT", "DROPS", "MISC", "MOBS", "SPAWNING"));
 			gamerule.type = new String[] { "Number", "Logic", "Number", "Logic" }[valueIndex];
 			gamerule.defaultValueLogic = _true;
 			gamerule.defaultValueNumber = -45;
-		default:
+		} else {
 			return null;
 		}
+		return null;
 	}
 
 	private static GeneratableElement getToolExample(ModElement modElement, String recipeType, Random random,
