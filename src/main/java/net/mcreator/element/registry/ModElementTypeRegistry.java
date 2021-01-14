@@ -71,6 +71,7 @@ public final class ModElementTypeRegistry {
 		put(ModElementType.ACHIEVEMENT, new ModTypeRegistration<>('h', "advancement", AchievementGUI::new, Achievement.class));
 		put(ModElementType.COMMAND, new ModTypeRegistration<>('c', "command", CommandGUI::new, Command.class));
 		put(ModElementType.KEYBIND, new ModTypeRegistration<>('k', "keybinding", KeyBindGUI::new, KeyBinding.class));
+		put(ModElementType.GAMERULE, new ModTypeRegistration<>(null, "gamerule", GameRuleGUI::new, GameRule.class));
 		put(ModElementType.GUI, new ModTypeRegistration<>('g', "gui", CustomGUIGUI::new, GUI.class));
 		put(ModElementType.OVERLAY, new ModTypeRegistration<>('v', "overlay", OverlayGUI::new, Overlay.class));
 		put(ModElementType.PROCEDURE, new ModTypeRegistration<>('p', "procedure", ProcedureGUI::new, Procedure.class));
