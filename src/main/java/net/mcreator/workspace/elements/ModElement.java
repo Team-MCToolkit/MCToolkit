@@ -22,8 +22,10 @@ import net.mcreator.element.GeneratableElement;
 import net.mcreator.element.registry.ModElementType;
 import net.mcreator.element.registry.BaseType;
 import net.mcreator.element.registry.RecipeElementType;
+import net.mcreator.generator.IGeneratorProvider;
 import net.mcreator.minecraft.MCItem;
 import net.mcreator.minecraft.RegistryNameFixer;
+import net.mcreator.workspace.IWorkspaceProvider;
 import net.mcreator.workspace.Workspace;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -32,7 +34,7 @@ import javax.swing.*;
 import java.io.Serializable;
 import java.util.*;
 
-public class ModElement implements Serializable {
+public class ModElement implements Serializable, IWorkspaceProvider, IGeneratorProvider {
 
 	private String name;
 	private String type;
@@ -139,7 +141,7 @@ public class ModElement implements Serializable {
 				workspace.getFolderManager().getModElementPicturesCacheDir().getAbsolutePath() + "/" + name + ".png");
 	}
 
-	public Workspace getWorkspace() {
+	@Override public @NotNull Workspace getWorkspace() {
 		return workspace;
 	}
 

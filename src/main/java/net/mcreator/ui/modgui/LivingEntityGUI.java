@@ -244,7 +244,7 @@ public class LivingEntityGUI extends ModElementGUI<Mob> {
 
 	private void regenerateAITasks() {
 		BlocklyBlockCodeGenerator blocklyBlockCodeGenerator = new BlocklyBlockCodeGenerator(externalBlocks,
-				mcreator.getWorkspace().getGenerator().getGeneratorStats().getGeneratorAITasks());
+				mcreator.getGeneratorStats().getGeneratorAITasks());
 
 		BlocklyToAITasks blocklyToJava;
 		try {
@@ -449,12 +449,10 @@ public class LivingEntityGUI extends ModElementGUI<Mob> {
 			TextureImportDialogs.importTexturesGeneral(mcreator, GeneralTextureSelector.TextureType.ENTITY);
 			mobModelTexture.removeAllItems();
 			mobModelTexture.addItem("");
-			mcreator.getWorkspace().getFolderManager().getEntityTexturesList()
-					.forEach(el -> mobModelTexture.addItem(el.getName()));
+			mcreator.getWorkspace().getFolderManager().getEntityTexturesList().forEach(el -> mobModelTexture.addItem(el.getName()));
 			mobModelGlowTexture.removeAllItems();
 			mobModelGlowTexture.addItem("");
-			mcreator.getWorkspace().getFolderManager().getEntityTexturesList()
-					.forEach(el -> mobModelGlowTexture.addItem(el.getName()));
+			mcreator.getWorkspace().getFolderManager().getEntityTexturesList().forEach(el -> mobModelGlowTexture.addItem(el.getName()));
 		});
 
 		spo2.add(HelpUtils

@@ -300,7 +300,7 @@ public class ItemGUI extends ModElementGUI<Item> {
 
 		visual.setOpaque(false);
 
-		JPanel generalProperties = new JPanel(new GridLayout(13, 2, 2, 2));
+		JPanel generalProperties = new JPanel(new GridLayout(14, 2, 2, 2));
 
 		ComponentUtils.deriveFont(name, 16);
 
@@ -336,6 +336,10 @@ public class ItemGUI extends ModElementGUI<Item> {
 				L10N.label("elementgui.item.number_of_uses")));
 		generalProperties.add(damageCount);
 
+		generalProperties.add(HelpUtils.wrapWithHelpButton(this.withEntry("item/immune_to_fire"),
+				L10N.label("elementgui.item.is_immune_to_fire")));
+		generalProperties.add(immuneToFire);
+
 		generalProperties.add(HelpUtils.wrapWithHelpButton(this.withEntry("item/can_destroy_any_block"),
 				L10N.label("elementgui.item.can_destroy_any_block")));
 		generalProperties.add(destroyAnyBlock);
@@ -360,6 +364,7 @@ public class ItemGUI extends ModElementGUI<Item> {
 		useDuration.setOpaque(false);
 		toolType.setOpaque(false);
 		damageCount.setOpaque(false);
+		immuneToFire.setOpaque(false);
 		destroyAnyBlock.setOpaque(false);
 		stayInGridWhenCrafting.setOpaque(false);
 		damageOnCrafting.setOpaque(false);
@@ -542,6 +547,7 @@ public class ItemGUI extends ModElementGUI<Item> {
 		useDuration.setValue(item.useDuration);
 		damageCount.setValue(item.damageCount);
 		recipeRemainder.setBlock(item.recipeRemainder);
+		immuneToFire.setSelected(item.immuneToFire);
 		destroyAnyBlock.setSelected(item.destroyAnyBlock);
 		stayInGridWhenCrafting.setSelected(item.stayInGridWhenCrafting);
 		damageOnCrafting.setSelected(item.damageOnCrafting);
@@ -586,6 +592,7 @@ public class ItemGUI extends ModElementGUI<Item> {
 		item.toolType = (double) toolType.getValue();
 		item.damageCount = (int) damageCount.getValue();
 		item.recipeRemainder = recipeRemainder.getBlock();
+		item.immuneToFire = immuneToFire.isSelected();
 		item.destroyAnyBlock = destroyAnyBlock.isSelected();
 		item.stayInGridWhenCrafting = stayInGridWhenCrafting.isSelected();
 		item.damageOnCrafting = damageOnCrafting.isSelected();

@@ -263,7 +263,7 @@ public class ProcedureSelector extends JPanel {
 
 		procedures.setPrototypeDisplayValue(new CBoxEntry("XXXXXXXXX"));
 
-		GeneratorConfiguration gc = mcreator.getWorkspace().getGenerator().getGeneratorConfiguration();
+		GeneratorConfiguration gc = mcreator.getGeneratorConfiguration();
 		if (gc.getGeneratorStats().getModElementTypeCoverageInfo().get(ModElementType.PROCEDURE)
 				== GeneratorStats.CoverageStatus.NONE)
 			setEnabled(false);
@@ -275,7 +275,7 @@ public class ProcedureSelector extends JPanel {
 	}
 
 	@Override public void setEnabled(boolean enabled) {
-		GeneratorConfiguration gc = mcreator.getWorkspace().getGenerator().getGeneratorConfiguration();
+		GeneratorConfiguration gc = mcreator.getGeneratorConfiguration();
 		if (gc.getGeneratorStats().getModElementTypeCoverageInfo().get(ModElementType.PROCEDURE)
 				== GeneratorStats.CoverageStatus.NONE)
 			enabled = false;

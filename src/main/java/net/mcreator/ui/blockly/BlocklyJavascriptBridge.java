@@ -219,6 +219,17 @@ public class BlocklyJavascriptBridge {
 				return false;
 			}).map(ModElement::getName).collect(Collectors.toList());
 			break;
+		case "procedure_retval_time":
+			retval = workspace.getModElements().stream().filter(mod -> {
+				if (mod.getType() == ModElementType.PROCEDURE) {
+					VariableElementType returnTypeCurrent = mod.getMetadata("return_type") != null ?
+							VariableElementType.valueOf((String) mod.getMetadata("return_type")) :
+							null;
+					return returnTypeCurrent == VariableElementType.TIME;
+				}
+				return false;
+			}).map(ModElement::getName).collect(Collectors.toList());
+			break;
 		case "entity":
 			return ElementUtil.loadAllEntities(workspace).stream().map(DataListEntry::getName).toArray(String[]::new);
 		case "gui":
@@ -237,9 +248,11 @@ public class BlocklyJavascriptBridge {
 			return ElementUtil.loadAllPotionEffects(workspace).stream().map(DataListEntry::getName)
 					.toArray(String[]::new);
 		case "gamerulesboolean":
-			return ElementUtil.getAllBooleanGamerules();
+			return ElementUtil.getAllBooleanGameRules(workspace).stream().map(DataListEntry::getName)
+					.toArray(String[]::new);
 		case "gamerulesnumber":
-			return ElementUtil.getAllNumberGamerules();
+			return ElementUtil.getAllNumberGameRules(workspace).stream().map(DataListEntry::getName)
+					.toArray(String[]::new);
 		case "fluid":
 			return ElementUtil.loadAllFluids(workspace);
 		case "sound":

@@ -58,6 +58,9 @@ import java.util.Map;
 
 	public String blockBase;
 
+	public String tintType;
+	public boolean isItemTinted;
+
 	public boolean hasTransparency;
 	public boolean connectedSides;
 	public String transparencyType;
@@ -104,9 +107,16 @@ import java.util.Map;
 	public boolean isLadder;
 	public double slipperiness;
 	public String reactionToPushing;
-
 	public boolean isNotColidable;
+
+	public boolean isCustomSoundType;
 	public StepSound soundOnStep;
+	public Sound breakSound;
+	public Sound stepSound;
+	public Sound placeSound;
+	public Sound hitSound;
+	public Sound fallSound;
+
 	public int luminance;
 	public boolean unbreakable;
 	public int breakHarvestLevel;
@@ -168,6 +178,7 @@ import java.util.Map;
 	public Block(ModElement element) {
 		super(element);
 
+		this.tintType = "No tint";
 		this.spawnWorldTypes = new ArrayList<>();
 		this.restrictionBiomes = new ArrayList<>();
 		this.reactionToPushing = "NORMAL";
@@ -211,20 +222,24 @@ import java.util.Map;
 		return !spawnWorldTypes.isEmpty();
 	}
 
+	public boolean isBlockTinted() {
+		return !"No tint".equals(tintType);
+	}
+
 	@Override public BufferedImage generateModElementPicture() {
 		if (renderType() == 10 && !textureTop.equals("") && !textureFront.equals("") && !textureLeft.equals("")) {
-			return (BufferedImage) MinecraftImageGenerator.Preview.generateBlockIcon(
-					getModElement().getWorkspace().getFolderManager().getBlockImageIcon(textureTop).getImage(),
-					getModElement().getWorkspace().getFolderManager().getBlockImageIcon(textureLeft).getImage(),
-					getModElement().getWorkspace().getFolderManager().getBlockImageIcon(textureFront).getImage());
+			return (BufferedImage) MinecraftImageGenerator.Preview
+					.generateBlockIcon(getModElement().getFolderManager().getBlockImageIcon(textureTop).getImage(),
+							getModElement().getFolderManager().getBlockImageIcon(textureLeft).getImage(),
+							getModElement().getFolderManager().getBlockImageIcon(textureFront).getImage());
 		} else if (renderType() == 11 && !texture.equals("")) {
-			return (BufferedImage) MinecraftImageGenerator.Preview.generateBlockIcon(
-					getModElement().getWorkspace().getFolderManager().getBlockImageIcon(texture).getImage(),
-					getModElement().getWorkspace().getFolderManager().getBlockImageIcon(texture).getImage(),
-					getModElement().getWorkspace().getFolderManager().getBlockImageIcon(texture).getImage());
+			return (BufferedImage) MinecraftImageGenerator.Preview
+					.generateBlockIcon(getModElement().getFolderManager().getBlockImageIcon(texture).getImage(),
+							getModElement().getFolderManager().getBlockImageIcon(texture).getImage(),
+							getModElement().getFolderManager().getBlockImageIcon(texture).getImage());
 		} else {
-			return ImageUtils.resizeAndCrop(
-					getModElement().getWorkspace().getFolderManager().getBlockImageIcon(texture).getImage(), 32);
+			return ImageUtils
+					.resizeAndCrop(getModElement().getFolderManager().getBlockImageIcon(texture).getImage(), 32);
 		}
 	}
 

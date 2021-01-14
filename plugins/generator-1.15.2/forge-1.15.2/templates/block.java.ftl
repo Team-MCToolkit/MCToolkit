@@ -35,6 +35,7 @@
 package ${package}.block;
 
 import net.minecraft.block.material.Material;
+import net.minecraft.util.SoundEvent;
 
 @${JavaModName}Elements.ModElement.Tag
 public class ${name}Block extends ${JavaModName}Elements.ModElement {
@@ -50,7 +51,7 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
 	public ${name}Block (${JavaModName}Elements instance) {
 		super(instance, ${data.getModElement().getSortID()});
 
-		<#if data.hasInventory>
+		<#if data.hasInventory || data.tintType != "No tint">
 		FMLJavaModLoadingContext.get().getModEventBus().register(this);
 		</#if>
 	}
@@ -85,6 +86,36 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
 		RenderTypeLookup.setRenderLayer(block, RenderType.getCutout());
 	}
 	</#if>
+
+	<#if data.tintType != "No tint">
+	@OnlyIn(Dist.CLIENT) @SubscribeEvent public void blockColorLoad(ColorHandlerEvent.Block event) {
+		event.getBlockColors().register((bs, world, pos, index) -> {
+			return world != null && pos != null ?
+			<#if data.tintType == "Grass">
+				BiomeColors.getGrassColor(world, pos) : GrassColors.get(0.5D, 1.0D);
+			<#elseif data.tintType == "Foliage">
+				BiomeColors.getFoliageColor(world, pos) : FoliageColors.getDefault();
+			<#else>
+				BiomeColors.getWaterColor(world, pos) : -1;
+			</#if>
+		}, block);
+	}
+
+		<#if data.isItemTinted>
+		@OnlyIn(Dist.CLIENT) @SubscribeEvent public void itemColorLoad(ColorHandlerEvent.Item event) {
+			event.getItemColors().register((stack, index) -> {
+				<#if data.tintType == "Grass">
+					return GrassColors.get(0.5D, 1.0D);
+				<#elseif data.tintType == "Foliage">
+					return FoliageColors.getDefault();
+				<#else>
+					return 3694022;
+				</#if>
+			}, block);
+		}
+		</#if>
+	</#if>
+
 
 	public static class CustomBlock extends
 			<#if data.hasGravity>
@@ -137,7 +168,15 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
 			</#if>
 
 			Block.Properties.create(Material.${data.material})
-					.sound(SoundType.${data.soundOnStep})
+					<#if data.isCustomSoundType>
+                    .sound(new SoundType(1.0f, 1.0f, new SoundEvent(new ResourceLocation("${data.breakSound}")),
+					                     new SoundEvent(new ResourceLocation("${data.stepSound}")),
+					                     new SoundEvent(new ResourceLocation("${data.placeSound}")),
+					                     new SoundEvent(new ResourceLocation("${data.hitSound}")),
+					                     new SoundEvent(new ResourceLocation("${data.fallSound}"))))
+                     <#else>
+                    .sound(SoundType.${data.soundOnStep})
+                    </#if>
 					<#if data.unbreakable>
 					.hardnessAndResistance(-1, 3600000)
 					<#else>

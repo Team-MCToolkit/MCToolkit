@@ -133,9 +133,9 @@ public class WorkspacePanelTextures extends JPanel implements IReloadableFiltera
 		createMenu
 				.setBorder(BorderFactory.createMatteBorder(0, 3, 0, 0, (Color) UIManager.get("MCreatorLAF.MAIN_TINT")));
 
-		createMenu.add(workspacePanel.mcreator.actionRegistry.createMCItemTexture);
-		createMenu.add(workspacePanel.mcreator.actionRegistry.createArmorTexture);
-		createMenu.add(workspacePanel.mcreator.actionRegistry.createAnimatedTexture);
+		createMenu.add(workspacePanel.getMcreator().actionRegistry.createMCItemTexture);
+		createMenu.add(workspacePanel.getMcreator().actionRegistry.createArmorTexture);
+		createMenu.add(workspacePanel.getMcreator().actionRegistry.createAnimatedTexture);
 
 		create.addActionListener(e -> createMenu.show(create, 5, create.getHeight() + 5));
 
@@ -152,12 +152,12 @@ public class WorkspacePanelTextures extends JPanel implements IReloadableFiltera
 		importMenu
 				.setBorder(BorderFactory.createMatteBorder(0, 3, 0, 0, (Color) UIManager.get("MCreatorLAF.MAIN_TINT")));
 
-		importMenu.add(workspacePanel.mcreator.actionRegistry.importBlockTexture);
-		importMenu.add(workspacePanel.mcreator.actionRegistry.importEntityTexture);
-		importMenu.add(workspacePanel.mcreator.actionRegistry.importItemTexture);
-		importMenu.add(workspacePanel.mcreator.actionRegistry.importPaintingTexture);
-		importMenu.add(workspacePanel.mcreator.actionRegistry.importArmorTexture);
-		importMenu.add(workspacePanel.mcreator.actionRegistry.importOtherTexture);
+		importMenu.add(workspacePanel.getMcreator().actionRegistry.importBlockTexture);
+		importMenu.add(workspacePanel.getMcreator().actionRegistry.importEntityTexture);
+		importMenu.add(workspacePanel.getMcreator().actionRegistry.importItemTexture);
+		importMenu.add(workspacePanel.getMcreator().actionRegistry.importPaintingTexture);
+		importMenu.add(workspacePanel.getMcreator().actionRegistry.importArmorTexture);
+		importMenu.add(workspacePanel.getMcreator().actionRegistry.importOtherTexture);
 
 		importt.addActionListener(e -> importMenu.show(importt, 5, importt.getHeight() + 5));
 
@@ -196,7 +196,7 @@ public class WorkspacePanelTextures extends JPanel implements IReloadableFiltera
 			List<File> files = listGroup.getSelectedItemsList();
 			if (files.size() > 0) {
 				Object[] options = { "Yes", "No" };
-				int n = JOptionPane.showOptionDialog(workspacePanel.mcreator,
+				int n = JOptionPane.showOptionDialog(workspacePanel.getMcreator(),
 						"<html>Are you sure that you want to delete this file?"
 								+ "<br>NOTE: If you use this file anywhere, you might have broken textures!",
 						"Confirmation", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options,
@@ -232,7 +232,7 @@ public class WorkspacePanelTextures extends JPanel implements IReloadableFiltera
 		}
 		if (files.size() > 0) {
 			files.forEach(f -> {
-				File to = FileDialogs.getSaveDialog(workspacePanel.mcreator, new String[] { ".png" });
+				File to = FileDialogs.getSaveDialog(workspacePanel.getMcreator(), new String[] { ".png" });
 				if (to != null)
 					FileIO.copyFile(f, to);
 			});
@@ -240,18 +240,18 @@ public class WorkspacePanelTextures extends JPanel implements IReloadableFiltera
 	}
 
 	private void duplicateSelectedFile() {
-		File element = listGroup.getSelectedItem();
-		if (element != null) {
-			TextureImportDialogs.importTextureGeneral(workspacePanel.mcreator, element,
+		File file = listGroup.getSelectedItem();
+		if (file != null) {
+			TextureImportDialogs.importTextureGeneral(workspacePanel.getMcreator(), file,
 					"Select the type of texture you would like to duplicate into:");
 		}
 	}
 
 	private void editSelectedFile() {
-		File element = listGroup.getSelectedItem();
-		if (element != null) {
-			ImageMakerView imageMakerView = new ImageMakerView(workspacePanel.mcreator);
-			imageMakerView.openInEditMode(element);
+		File file = listGroup.getSelectedItem();
+		if (file != null) {
+			ImageMakerView imageMakerView = new ImageMakerView(workspacePanel.getMcreator());
+			imageMakerView.openInEditMode(file);
 			imageMakerView.showView();
 		}
 	}
@@ -287,18 +287,12 @@ public class WorkspacePanelTextures extends JPanel implements IReloadableFiltera
 			FilterModel newdmla = new FilterModel();
 			FilterModel newdmlo = new FilterModel();
 
-			workspacePanel.mcreator.getWorkspace().getFolderManager().getBlockTexturesList()
-					.forEach(newdmlb::addElement);
-			workspacePanel.mcreator.getWorkspace().getFolderManager().getItemTexturesList()
-					.forEach(newdmli::addElement);
-			workspacePanel.mcreator.getWorkspace().getFolderManager().getEntityTexturesList()
-					.forEach(newdmle::addElement);
-			workspacePanel.mcreator.getWorkspace().getFolderManager().getPaintingTexturesList()
-					.forEach(newdmlp::addElement);
-			workspacePanel.mcreator.getWorkspace().getFolderManager().getArmorTexturesList()
-					.forEach(newdmla::addElement);
-			workspacePanel.mcreator.getWorkspace().getFolderManager().getOtherTexturesList()
-					.forEach(newdmlo::addElement);
+			workspacePanel.getMcreator().getFolderManager().getBlockTexturesList().forEach(newdmlb::addElement);
+			workspacePanel.getMcreator().getFolderManager().getItemTexturesList().forEach(newdmli::addElement);
+			workspacePanel.getMcreator().getFolderManager().getEntityTexturesList().forEach(newdmle::addElement);
+			workspacePanel.getMcreator().getFolderManager().getPaintingTexturesList().forEach(newdmlp::addElement);
+			workspacePanel.getMcreator().getFolderManager().getArmorTexturesList().forEach(newdmla::addElement);
+			workspacePanel.getMcreator().getFolderManager().getOtherTexturesList().forEach(newdmlo::addElement);
 
 			SwingUtilities.invokeLater(() -> {
 				listb.getList().setModel(dmlb = newdmlb);
