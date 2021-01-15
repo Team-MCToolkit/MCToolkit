@@ -380,7 +380,7 @@ public class BlockGUI extends ModElementGUI<Block> {
 				hasGravity.setEnabled(false);
 				rotationMode.setEnabled(
 						blockBase.getSelectedItem() != null && (blockBase.getSelectedItem().equals("Hopper") ||
-								blockBase.getSelectedItem().equals("EndRod")));
+								blockBase.getSelectedItem().equals("EndRod") || blockBase.getSelectedItem().equals("Torch")));
 				isWaterloggable.setEnabled(false);
 				sensitivity.setEnabled(false);
 
@@ -394,7 +394,7 @@ public class BlockGUI extends ModElementGUI<Block> {
 				onCommandOnly.setSelected(false);
 				hasGravity.setSelected(false);
 				if (blockBase.getSelectedItem() != null && blockBase.getSelectedItem().equals("Hopper") ||
-						blockBase.getSelectedItem().equals("EndRod")) {
+						blockBase.getSelectedItem().equals("EndRod") || blockBase.getSelectedItem().equals("Torch")) {
 					rotationMode.setSelectedIndex(4);
 				} else {
 					rotationMode.setSelectedIndex(0);
