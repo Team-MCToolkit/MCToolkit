@@ -161,7 +161,7 @@ public class NewWorkspaceDialog extends MCreatorDialog {
 			cardLayout.show(workspacePanels, "datapack");
 		});
 
-		JToggleButton resourcepack = new JToggleButton(" Minecraft resource pack", UIRES.get("16px.resourcepack"));
+		JToggleButton resourcepack = new JToggleButton(L10N.t("dialog.new_workspace.resourcepack.toggle"), UIRES.get("16px.resourcepack"));
 		resourcepack.setHorizontalAlignment(SwingConstants.LEFT);
 		resourcepack.setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createMatteBorder(0, 0, 1, 0, (Color) UIManager.get("MCreatorLAF.LIGHT_ACCENT")),

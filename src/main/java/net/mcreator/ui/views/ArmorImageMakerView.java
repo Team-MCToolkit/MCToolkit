@@ -111,7 +111,7 @@ public class ArmorImageMakerView extends ViewBase {
 				true, true, false, true));
 		save.addActionListener(event -> {
 			String namec = JOptionPane.showInputDialog(L10N.t("dialog.armor_image_maker.name"));
-			String folderName = JOptionPane.showInputDialog("Directory name of armor texture (without spaces): ");
+			String folderName = JOptionPane.showInputDialog(L10N.t("dialog.armor_image_maker.directory_name"));
 			if (namec != null && !namec.trim().equals("")) {
 				namec = RegistryNameFixer.fix(namec);
 				System.out.println(folderName);

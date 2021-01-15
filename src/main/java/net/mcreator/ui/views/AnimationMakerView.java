@@ -343,7 +343,7 @@ public class AnimationMakerView extends ViewBase {
 			return;
 
 		String namec = JOptionPane.showInputDialog(L10N.t("dialog.animation_maker.enter_texture_name"));
-		String folderName = JOptionPane.showInputDialog("Folder name of armor texture (without spaces): ");
+		String folderName = JOptionPane.showInputDialog(L10N.t("dialog.animation_maker.enter_texture_folder"));
 		if (namec != null) {
 			File exportFile;
 			namec = RegistryNameFixer.fix(namec);
