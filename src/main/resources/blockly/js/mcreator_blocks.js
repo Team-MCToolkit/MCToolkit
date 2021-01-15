@@ -101,6 +101,26 @@ Blockly.Blocks['procedure_retval_itemstack'] = {
     }
 };
 
+Blockly.Blocks['procedure_retval_blockstate'] = {
+    init: function () {
+        this.appendDummyInput()
+            .appendField(javabridge.t("blockly.block.procedure_retval"))
+            .appendField(new Blockly.FieldDropdown(arrayToBlocklyDropDownArray(javabridge.getListOf("procedure_retval_blockstate"))), 'procedure');
+        this.setOutput(true, 'MCItemBlock');
+        this.setColour(60);
+    }
+};
+
+Blockly.Blocks['procedure_retval_time'] = {
+    init: function () {
+        this.appendDummyInput()
+            .appendField(javabridge.t("blockly.block.procedure_retval"))
+            .appendField(new Blockly.FieldDropdown(arrayToBlocklyDropDownArray(javabridge.getListOf("procedure_retval_time"))), 'procedure');
+        this.setOutput(true, 'Time');
+        this.setColour(115);
+    }
+};
+
 Blockly.Blocks['aitasks_container'] = {
     init: function () {
         this.appendDummyInput().appendField(javabridge.t("blockly.block.aitasks_container"));
@@ -109,6 +129,15 @@ Blockly.Blocks['aitasks_container'] = {
         this.setNextStatement(true);
         this.setColour(350);
         this.setTooltip(javabridge.t("blockly.block.aitasks_container.tooltip"));
+    }
+};
+
+Blockly.Blocks['tooltip_start'] = {
+    init: function () {
+        this.appendDummyInput().appendField(javabridge.t("blockly.block.tooltip_start"));
+        this.setNextStatement(true);
+        this.setStyle('hat_blocks');
+        this.setColour(350);
     }
 };
 
@@ -229,6 +258,54 @@ Blockly.Blocks['variables_get_itemstack'] = {
     }
 };
 
+Blockly.Blocks['variables_set_blockstate'] = {
+    init: function () {
+        this.appendValueInput('VAL').setCheck('MCItemBlock').setAlign(Blockly.ALIGN_RIGHT)
+            .appendField(javabridge.t("blockly.block.set_var"))
+            .appendField(new Blockly.FieldDropdown(getVariablesOfType("MCItemBlock")), 'VAR')
+            .appendField(javabridge.t("blockly.block.set_to"));
+        this.setPreviousStatement(true);
+        this.setNextStatement(true);
+        this.setColour(60);
+    }
+};
+
+Blockly.Blocks['variables_get_blockstate'] = {
+    init: function () {
+        this.appendDummyInput()
+            .appendField(javabridge.t("blockly.block.get_var"))
+            .appendField(new Blockly.FieldDropdown(getVariablesOfType("MCItemBlock")), 'VAR');
+        this.setOutput(true, 'MCItemBlock');
+        this.setPreviousStatement(false);
+        this.setNextStatement(false);
+        this.setColour(60);
+    }
+};
+
+Blockly.Blocks['variables_set_time'] = {
+    init: function () {
+        this.appendValueInput('VAL').setCheck('Time').setAlign(Blockly.ALIGN_RIGHT)
+            .appendField(javabridge.t("blockly.block.set_var"))
+            .appendField(new Blockly.FieldDropdown(getVariablesOfType("Time")), 'VAR')
+            .appendField(javabridge.t("blockly.block.set_to"));
+        this.setPreviousStatement(true);
+        this.setNextStatement(true);
+        this.setColour(115);
+    }
+};
+
+Blockly.Blocks['variables_get_time'] = {
+    init: function () {
+        this.appendDummyInput()
+            .appendField(javabridge.t("blockly.block.get_var"))
+            .appendField(new Blockly.FieldDropdown(getVariablesOfType("Time")), 'VAR');
+        this.setOutput(true, 'Time');
+        this.setPreviousStatement(false);
+        this.setNextStatement(false);
+        this.setColour(115);
+    }
+};
+
 Blockly.Blocks['custom_dependency_logic'] = {
     init: function () {
         this.appendDummyInput()
@@ -269,6 +346,26 @@ Blockly.Blocks['custom_dependency_itemstack'] = {
     }
 };
 
+Blockly.Blocks['custom_dependency_blockstate'] = {
+    init: function () {
+        this.appendDummyInput()
+            .appendField(javabridge.t("blockly.block.custom_dependency_blockstate"))
+            .appendField(new Blockly.FieldTextInput("dependencyName"), 'NAME');
+        this.setColour(60);
+        this.setOutput(true, 'MCItemBlock');
+    }
+};
+
+
+Blockly.Blocks['custom_dependency_time'] = {
+    init: function () {
+        this.appendDummyInput()
+            .appendField(javabridge.t("blockly.block.custom_dependency_time"))
+            .appendField(new Blockly.FieldTextInput("dependencyName"), 'NAME');
+        this.setColour(115);
+        this.setOutput(true, 'Time');
+    }
+};
 Blockly.Blocks['java_code'] = {
     init: function () {
         this.appendDummyInput()
@@ -385,6 +482,25 @@ Blockly.Blocks['return_itemstack'] = {
         this.setColour(350);
     }
 };
+
+Blockly.Blocks['return_blockstate'] = {
+    init: function () {
+        this.appendValueInput('return').setCheck('MCItemBlock').appendField(javabridge.t("blockly.block.return"));
+        this.setPreviousStatement(true);
+        this.setNextStatement(false);
+        this.setColour(60);
+    }
+};
+
+Blockly.Blocks['return_time'] = {
+    init: function () {
+        this.appendValueInput('return').setCheck('Time').appendField(javabridge.t("blockly.block.return"));
+        this.setPreviousStatement(true);
+        this.setNextStatement(false);
+        this.setColour(115);
+    }
+};
+
 
 Blockly.defineBlocksWithJsonArray([
     {
