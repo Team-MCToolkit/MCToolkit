@@ -117,7 +117,8 @@ public class NewWorkspaceDialog extends MCreatorDialog {
 
 		ButtonGroup buttonGroup = new ButtonGroup();
 
-		JToggleButton forge = new JToggleButton(L10N.t("dialog.new_workspace.forge.toogle"), UIRES.get("16px.forge"));
+		JToggleButton forge = new JToggleButton(L10N.t("dialog.new_workspace.forge.toogle"),
+                                            UIRES.get("16px.forge"));
 		forge.setHorizontalAlignment(SwingConstants.LEFT);
 		forge.setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createMatteBorder(0, 0, 1, 0, (Color) UIManager.get("MCreatorLAF.LIGHT_ACCENT")),
@@ -128,7 +129,8 @@ public class NewWorkspaceDialog extends MCreatorDialog {
 			cardLayout.show(workspacePanels, "forge");
 		});
 
-		JToggleButton fabric = new JToggleButton(L10N.t("dialog.new_workspace.fabric.toggle"), UIRES.get("16px.fabric"));
+		JToggleButton fabric = new JToggleButton(L10N.t("dialog.new_workspace.fabric.toggle"),
+                                             UIRES.get("16px.fabric"));
 		fabric.setHorizontalAlignment(SwingConstants.LEFT);
 		fabric.setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createMatteBorder(0, 0, 1, 0, (Color) UIManager.get("MCreatorLAF.LIGHT_ACCENT")),
@@ -139,7 +141,8 @@ public class NewWorkspaceDialog extends MCreatorDialog {
 			cardLayout.show(workspacePanels, "fabric");
 		});
 
-		JToggleButton spigot = new JToggleButton(L10N.t("dialog.new_workspace.spigot.toggle"), UIRES.get("16px.spigot"));
+		JToggleButton spigot = new JToggleButton(L10N.t("dialog.new_workspace.spigot.toggle"),
+                                             UIRES.get("16px.spigot"));
 		spigot.setHorizontalAlignment(SwingConstants.LEFT);
 		spigot.setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createMatteBorder(0, 0, 1, 0, (Color) UIManager.get("MCreatorLAF.LIGHT_ACCENT")),
@@ -150,7 +153,8 @@ public class NewWorkspaceDialog extends MCreatorDialog {
 			cardLayout.show(workspacePanels, "spigot");
 		});
 
-		JToggleButton datapack = new JToggleButton(L10N.t("dialog.new_workspace.datapack.toggle"), UIRES.get("16px.datapack"));
+		JToggleButton datapack = new JToggleButton(L10N.t("dialog.new_workspace.datapack.toggle"),
+                                               UIRES.get("16px.datapack"));
 		datapack.setHorizontalAlignment(SwingConstants.LEFT);
 		datapack.setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createMatteBorder(0, 0, 1, 0, (Color) UIManager.get("MCreatorLAF.LIGHT_ACCENT")),
@@ -172,7 +176,8 @@ public class NewWorkspaceDialog extends MCreatorDialog {
 			cardLayout.show(workspacePanels, "resourcepack");
 		});
 
-		JToggleButton addon = new JToggleButton("dialog.new_workspace.addon.toggle", UIRES.get("16px.bedrock"));
+		JToggleButton addon = new JToggleButton("dialog.new_workspace.addon.toggle",
+                                            UIRES.get("16px.bedrock"));
 		addon.setHorizontalAlignment(SwingConstants.LEFT);
 		addon.setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createMatteBorder(0, 0, 1, 0, (Color) UIManager.get("MCreatorLAF.LIGHT_ACCENT")),

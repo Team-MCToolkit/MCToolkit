@@ -207,16 +207,18 @@ public class ImageMakerView extends ViewBase implements MouseListener, MouseMoti
 	public void saveAs() {
 		Image image = canvasRenderer.render();
 		Object[] options = { "Block", "Entity", "Item", "Painting", "Other" };
-		int n = JOptionPane.showOptionDialog(mcreator, L10N.t("dialog.image_maker.texture_kind"), L10N.t("dialog.image_maker.texture_type"),
-				JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-		String namec = VOptionPane
-				.showInputDialog(mcreator, L10N.t("dialog.image_maker.enter_name"), L10N.t("dialog.image_maker.image_name"), null,
-						new OptionPaneValidatior() {
+		int n = JOptionPane.showOptionDialog(mcreator, L10N.t("dialog.image_maker.texture_kind"),
+        L10N.t("dialog.image_maker.texture_type"), JOptionPane.YES_NO_CANCEL_OPTION,
+        JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+		String namec = VOptionPane.showInputDialog(mcreator, L10N.t("dialog.image_maker.enter_name"),
+        L10N.t("dialog.image_maker.image_name"), null, new OptionPaneValidatior() {
 
 							@Override public ValidationResult validate(JComponent component) {
-								return new RegistryNameValidator((VTextField) component, L10N.t("dialog.image_maker.texture_name")).validate();
+								return new RegistryNameValidator((VTextField) component,
+                                L10N.t("dialog.image_maker.texture_name")).validate();
 							}
-						});
+          
+				});
 		String folderName = JOptionPane.showInputDialog("Folder name of the texture (without spaces): ");
 		if(folderName == null)
 			folderName = "";
