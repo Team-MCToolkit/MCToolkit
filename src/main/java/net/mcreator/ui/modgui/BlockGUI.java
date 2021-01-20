@@ -241,7 +241,7 @@ public class BlockGUI extends ModElementGUI<Block> {
 
 	private final JComboBox<String> blockBase = new JComboBox<>(
 			new String[] { "Default basic block", "Stairs", "Slab", "Fence", "Wall", "Leaves", "TrapDoor", "Pane",
-					"Door", "FenceGate", "StoneButton", "PressurePlate", "Cake", "Lever", "Slime", "Honey" });
+					"Door", "FenceGate", "StoneButton", "PressurePlate", "Cake", "Lever", "Slime", "Honey", "Torch", "EndRod" });
 
 	private final JComboBox<String> sensitivity = new JComboBox<>(
 			new String[] { "EVERYTHING", "MOBS" });
@@ -380,7 +380,8 @@ public class BlockGUI extends ModElementGUI<Block> {
 				onShiftOnly.setEnabled(true);
 				onCommandOnly.setEnabled(true);
 				hasGravity.setEnabled(false);
-				rotationMode.setEnabled(false);
+				rotationMode.setEnabled(
+						blockBase.getSelectedItem().equals("EndRod") || blockBase.getSelectedItem().equals("Torch"));
 				isWaterloggable.setEnabled(false);
 				sensitivity.setEnabled(false);
 
@@ -393,13 +394,18 @@ public class BlockGUI extends ModElementGUI<Block> {
 				onShiftOnly.setSelected(false);
 				onCommandOnly.setSelected(false);
 				hasGravity.setSelected(false);
-				rotationMode.setSelectedIndex(0);
+				if (blockBase.getSelectedItem().equals("EndRod") || blockBase.getSelectedItem().equals("Torch")) {
+					rotationMode.setSelectedIndex(4);
+				} else {
+					rotationMode.setSelectedIndex(0);
+				}
 				isWaterloggable.setSelected(false);
 
 				if (blockBase.getSelectedItem().equals("Wall") || blockBase.getSelectedItem().equals("Fence")
 						|| blockBase.getSelectedItem().equals("TrapDoor") || blockBase.getSelectedItem().equals("Door")
 						|| blockBase.getSelectedItem().equals("FenceGate") || blockBase.getSelectedItem().equals("StoneButton")
-						|| blockBase.getSelectedItem().equals("Lever")) {
+						|| blockBase.getSelectedItem().equals("Lever") || blockBase.getSelectedItem().equals("Torch")
+						|| blockBase.getSelectedItem().equals("EndRod")) {
 					if (!isEditingMode()) {
 						hasTransparency.setSelected(true);
 						lightOpacity.setValue(0);
