@@ -238,8 +238,7 @@ public class BlockGUI extends ModElementGUI<Block> {
 
 	private final JComboBox<String> blockBase = new JComboBox<>(
 			new String[] { "Default basic block", "Stairs", "Slab", "Fence", "Wall", "Leaves", "TrapDoor", "Pane",
-					"Door", "FenceGate", "StoneButton", "PressurePlate", "Cake", "Lever", "Slime", "Honey", "Hopper",
-					"Torch", "EndRod" });
+					"Door", "FenceGate", "StoneButton", "PressurePlate", "Cake", "Lever", "Slime", "Honey", "Hopper" });
 
 	private final JComboBox<String> sensitivity = new JComboBox<>(
 			new String[] { "EVERYTHING", "MOBS" });
@@ -379,8 +378,7 @@ public class BlockGUI extends ModElementGUI<Block> {
 				onCommandOnly.setEnabled(true);
 				hasGravity.setEnabled(false);
 				rotationMode.setEnabled(
-						blockBase.getSelectedItem() != null && (blockBase.getSelectedItem().equals("Hopper") ||
-								blockBase.getSelectedItem().equals("EndRod") || blockBase.getSelectedItem().equals("Torch")));
+						blockBase.getSelectedItem() != null && (blockBase.getSelectedItem().equals("Hopper")));
 				isWaterloggable.setEnabled(false);
 				sensitivity.setEnabled(false);
 
@@ -393,8 +391,7 @@ public class BlockGUI extends ModElementGUI<Block> {
 				onShiftOnly.setSelected(false);
 				onCommandOnly.setSelected(false);
 				hasGravity.setSelected(false);
-				if (blockBase.getSelectedItem() != null && blockBase.getSelectedItem().equals("Hopper") ||
-						blockBase.getSelectedItem().equals("EndRod") || blockBase.getSelectedItem().equals("Torch")) {
+				if (blockBase.getSelectedItem() != null && blockBase.getSelectedItem().equals("Hopper")) {
 					rotationMode.setSelectedIndex(4);
 				} else {
 					rotationMode.setSelectedIndex(0);
@@ -404,8 +401,7 @@ public class BlockGUI extends ModElementGUI<Block> {
 				if (blockBase.getSelectedItem().equals("Wall") || blockBase.getSelectedItem().equals("Fence")
 						|| blockBase.getSelectedItem().equals("TrapDoor") || blockBase.getSelectedItem().equals("Door")
 						|| blockBase.getSelectedItem().equals("FenceGate") || blockBase.getSelectedItem().equals("StoneButton")
-						|| blockBase.getSelectedItem().equals("Lever") || blockBase.getSelectedItem().equals("Hopper")
-						|| blockBase.getSelectedItem().equals("Torch") || blockBase.getSelectedItem().equals("EndRod")) {
+						|| blockBase.getSelectedItem().equals("Lever") || blockBase.getSelectedItem().equals("Hopper")) {
 					if (!isEditingMode()) {
 						hasTransparency.setSelected(true);
 						lightOpacity.setValue(0);
