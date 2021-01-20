@@ -449,7 +449,6 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
         @Override public FluidState getFluidState(BlockState state) {
             return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
         }
-		</#if>
 
 		@Override public BlockState updatePostPlacement(BlockState state, Direction facing, BlockState facingState, IWorld world, BlockPos currentPos, BlockPos facingPos) {
 	        if (state.get(WATERLOGGED)) {
