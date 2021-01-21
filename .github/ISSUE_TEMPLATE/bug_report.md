@@ -22,7 +22,7 @@ Please specify which mod elements to check in your workspace too, if applicable.
 If applicable, add screenshots to help explain your problem.
 
 **Details**
- - MCToolkit/MCreator version: [e.g. 2020.5]
+ - MCToolkit version: [e.g. 2021.2]
  - Generator type: [e.g. forge-1.15.2]
  - OS: [e.g. Windows]
 
