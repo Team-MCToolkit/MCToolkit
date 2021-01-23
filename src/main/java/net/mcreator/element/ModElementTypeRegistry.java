@@ -112,5 +112,4 @@ public final class ModElementTypeRegistry {
 	private interface ModElementGUIProvider<GE extends GeneratableElement> {
 		ModElementGUI<GE> get(MCreator mcreator, ModElement modElement, boolean editingMode);
 	}
-
 }
