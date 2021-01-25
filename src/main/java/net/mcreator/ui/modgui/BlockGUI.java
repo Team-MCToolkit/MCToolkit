@@ -41,7 +41,6 @@ import net.mcreator.ui.component.util.ComponentUtils;
 import net.mcreator.ui.component.util.PanelUtils;
 import net.mcreator.ui.dialogs.GeneralTextureSelector;
 import net.mcreator.ui.help.HelpUtils;
-import net.mcreator.ui.help.IHelpContext;
 import net.mcreator.ui.init.L10N;
 import net.mcreator.ui.init.UIRES;
 import net.mcreator.ui.laf.renderer.ItemTexturesComboBoxRenderer;
@@ -51,7 +50,6 @@ import net.mcreator.ui.validation.AggregatedValidationResult;
 import net.mcreator.ui.validation.ValidationGroup;
 import net.mcreator.ui.validation.component.VTextField;
 import net.mcreator.ui.validation.validators.CommaSeparatedNumbersValidator;
-import net.mcreator.ui.validation.validators.RegistryNameValidator;
 import net.mcreator.ui.validation.validators.TextFieldValidator;
 import net.mcreator.ui.validation.validators.TileHolderValidator;
 import net.mcreator.util.ListUtils;
@@ -212,6 +210,7 @@ public class BlockGUI extends ModElementGUI<Block> {
 	private final Model singleTexture = new Model.BuiltInModel("Single texture");
 	private final Model cross = new Model.BuiltInModel("Cross model");
 	private final Model crop = new Model.BuiltInModel("Crop model");
+	private final Model grassBlock = new Model.BuiltInModel("Grass block");
 	private final SearchableComboBox<Model> renderType = new SearchableComboBox<>();
 
 	private final JComboBox<String> transparencyType = new JComboBox<>(
@@ -473,8 +472,8 @@ public class BlockGUI extends ModElementGUI<Block> {
 		destal.add(new JLabel());
 
 		destal.add(ComponentUtils
-				.squareAndBorder(textureLeft, new Color(126, 196, 255), L10N.t("elementgui.block.texture_place_left")));
-		destal.add(ComponentUtils.squareAndBorder(textureFront, L10N.t("elementgui.block.texture_place_front")));
+				.squareAndBorder(textureLeft, new Color(126, 196, 255), L10N.t("elementgui.block.texture_place_left_overlay")));
+		destal.add(ComponentUtils.squareAndBorder(textureFront, L10N.t("elementgui.block.texture_place_front_side")));
 		destal.add(ComponentUtils.squareAndBorder(textureRight, L10N.t("elementgui.block.texture_place_right")));
 		destal.add(ComponentUtils.squareAndBorder(textureBack, L10N.t("elementgui.block.texture_place_back")));
 
@@ -1214,9 +1213,12 @@ public class BlockGUI extends ModElementGUI<Block> {
 		renderType.addActionListener(e -> {
 			Model selected = renderType.getSelectedItem();
 			if (selected != null) {
-				if (!selected.equals(normal) && !selected.equals(singleTexture)) {
+				if (!selected.equals(normal) && !selected.equals(singleTexture) && !selected.equals(grassBlock)) {
 					hasTransparency.setSelected(true);
 					lightOpacity.setValue(0);
+				}
+				if (!isEditingMode() && selected.equals(grassBlock)) {
+					transparencyType.setSelectedItem("CUTOUT_MIPPED");
 				}
 			}
 		});
@@ -1298,16 +1300,21 @@ public class BlockGUI extends ModElementGUI<Block> {
 			textureFront.setVisible(true);
 			textureRight.setVisible(true);
 			textureBack.setVisible(true);
+		} else if (grassBlock.equals(renderType.getSelectedItem())) {
+			texture.setVisible(true);
+			textureTop.setVisible(true);
+			textureLeft.setVisible(true);
+			textureFront.setVisible(true);
 		} else if ("Pane".equals(blockBase.getSelectedItem()) || "Door".equals(blockBase.getSelectedItem())
-					|| "Lever".equals(blockBase.getSelectedItem())) {
+				|| "Lever".equals(blockBase.getSelectedItem())) {
 			textureTop.setVisible(true);
 			texture.setVisible(true);
 		} else if ("Stairs".equals(blockBase.getSelectedItem()) || "Slab".equals(blockBase.getSelectedItem())
-					|| "Honey".equals(blockBase.getSelectedItem())) {
+				|| "Honey".equals(blockBase.getSelectedItem())) {
 			textureTop.setVisible(true);
 			textureFront.setVisible(true);
 			texture.setVisible(true);
-		}else if("Cake".equals(blockBase.getSelectedItem())){
+		} else if ("Cake".equals(blockBase.getSelectedItem())) {
 			textureTop.setVisible(true);
 			textureFront.setVisible(true);
 			texture.setVisible(true);
@@ -1367,7 +1374,7 @@ public class BlockGUI extends ModElementGUI<Block> {
 		generateCondition.refreshListKeepSelected();
 
 		ComboBoxUtil.updateComboBoxContents(renderType, ListUtils
-				.merge(Arrays.asList(normal, singleTexture, cross, crop),
+				.merge(Arrays.asList(normal, singleTexture, cross, crop, grassBlock),
 						Model.getModelsWithTextureMaps(mcreator.getWorkspace()).stream()
 								.filter(el -> el.getType() == Model.Type.JSON || el.getType() == Model.Type.OBJ)
 								.collect(Collectors.toList())));
@@ -1716,6 +1723,8 @@ public class BlockGUI extends ModElementGUI<Block> {
 			block.renderType = "No tint".equals(tintType.getSelectedItem()) ? 12 : 120;
 		else if (model.equals(crop))
 			block.renderType = 13;
+		else if (model.equals(grassBlock))
+			block.renderType = 14;
 		block.customModelName = model.getReadableName();
 
 		return block;
