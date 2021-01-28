@@ -44,6 +44,9 @@ import java.util.Map;
 	public String itemTexture;
 	public String particleTexture;
 
+	public String tintType;
+	public boolean isItemTinted;
+
 	public String plantType;
 
 	public String staticPlantGenerationType;
@@ -114,6 +117,7 @@ import java.util.Map;
 		this.colorOnMap = "DEFAULT";
 		this.aiPathNodeType = "DEFAULT";
 		this.offsetType = "XZ";
+		this.tintType = "No tint";
 
 		this.staticPlantGenerationType = "Flower";
 		this.doublePlantGenerationType = "Flower";
@@ -155,5 +159,9 @@ import java.util.Map;
 
 	@Override public TabEntry getCreativeTab() {
 		return creativeTab;
+	}
+
+	public boolean isBlockTinted() {
+		return !"No tint".equals(tintType);
 	}
 }

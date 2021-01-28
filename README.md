@@ -18,13 +18,6 @@ This repository page is for people looking to contribute to MCToolkit. Visit htt
 
 Download MCToolkit binary distributions on https://mctoolkit.net/download.
 
-## Contributing
-
-You are welcome to support this project by opening pull requests. Read more about contributing in our [contributing guidelines](CONTRIBUTING.md).
-Before we can use your code, you must sign the [MCToolkit CLA](https://cla-assistant.io/Team-MCToolkit/MCToolkit).
-
-Big thanks to [all the people](https://github.com/Team-MCToolkit/MCToolkit/graphs/contributors) who already contributed to MCToolkit! 💚
-
 ## Development
 
 To clone this repository, run `git clone --recursive https://github.com/Team-MCToolkit/MCToolkit.git`.
@@ -33,6 +26,17 @@ MCToolkit uses Gradle build system to manage the building and exporting. Use `ru
 
 It is recommended to use Intellij IDEA for development and testing. Learn more about the development process, and 
 tips on [MCToolkit developers wiki](https://github.com/Team-MCToolkit/MCToolkit/wiki).
+
+## Contributing
+
+You are welcome to support this project by opening pull requests. Read more about contributing in our [contributing guidelines](CONTRIBUTING.md).
+Before we can use your code, you must sign the [MCToolkit CLA](https://cla-assistant.io/Team-MCToolkit/MCToolkit).
+
+Big thanks to [all the people](https://github.com/Team-MCToolkit/MCToolkit/graphs/contributors) who already contributed to MCToolkit! 💚
+
+<a href="https://github.com/Team-MCToolkit/MCToolkit/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Team-MCToolkit/MCToolkit" width="615"/>
+</a>
 
 ## License and trademark
 

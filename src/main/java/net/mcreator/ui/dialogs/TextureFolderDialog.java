@@ -37,6 +37,7 @@
 package net.mcreator.ui.dialogs;
 
 import net.mcreator.generator.GeneratorUtils;
+import net.mcreator.io.OS;
 import net.mcreator.ui.MCreator;
 import net.mcreator.ui.validation.component.VTextField;
 import net.mcreator.ui.validation.validators.ResourceNameValidator;
@@ -69,23 +70,29 @@ public class TextureFolderDialog{
 						new String[] { "Add texture", "Cancel" },
 						"Save changes");
 
+		String slash;
+		if(OS.getOS() == OS.MAC)
+			slash = "/";
+		else
+			slash = "\\";
+
 		if (option == 0) {
 			switch (type) {
 				case ARMOR: {
 					if(!folderName.getText().isEmpty()) {
 						File folder = new File(
-								mcreator.getWorkspace().getFolderManager().getArmorTexturesDir() + "\\" + folderName
-										.getText() + "\\");
+								mcreator.getWorkspace().getFolderManager().getArmorTexturesDir() + slash + folderName
+										.getText() + slash);
 						if (!folder.exists())
 							folder.mkdirs();
 					}
 
 					String path = GeneratorUtils.getSpecificRoot(mcreator.getWorkspace(),
 							mcreator.getWorkspace().getGenerator().getGeneratorConfiguration(), "armor_textures_dir")
-							.getPath() + "\\";
+							.getPath() + slash;
 
 					if(!folderName.getText().isEmpty())
-						path = path + folderName.getText() + "\\";
+						path = path + folderName.getText() + slash;
 
 					File finalFile = new File(path + originalFile.getName());
 					try {
@@ -98,18 +105,18 @@ public class TextureFolderDialog{
 				case BLOCK: {
 					if(!folderName.getText().isEmpty()) {
 						File folder = new File(
-								mcreator.getWorkspace().getFolderManager().getBlocksTexturesDir() + "\\" + folderName
-										.getText() + "\\");
+								mcreator.getWorkspace().getFolderManager().getBlocksTexturesDir() + slash + folderName
+										.getText() + slash);
 						if (!folder.exists())
 							folder.mkdirs();
 					}
 
 					String path = GeneratorUtils.getSpecificRoot(mcreator.getWorkspace(),
 							mcreator.getWorkspace().getGenerator().getGeneratorConfiguration(), "block_textures_dir")
-							.getPath() + "\\";
+							.getPath() + slash;
 
 					if(!folderName.getText().isEmpty())
-						path = path + folderName.getText() + "\\";
+						path = path + folderName.getText() + slash;
 
 					File finalFile = new File(path + originalFile.getName());
 					try {
@@ -122,18 +129,18 @@ public class TextureFolderDialog{
 				case ENTITY: {
 					if(!folderName.getText().isEmpty()) {
 						File folder = new File(
-								mcreator.getWorkspace().getFolderManager().getEntitiesTexturesDir() + "\\" + folderName
-										.getText() + "\\");
+								mcreator.getWorkspace().getFolderManager().getEntitiesTexturesDir() + slash + folderName
+										.getText() + slash);
 						if (!folder.exists())
 							folder.mkdirs();
 					}
 
 					String path = GeneratorUtils.getSpecificRoot(mcreator.getWorkspace(),
 							mcreator.getWorkspace().getGenerator().getGeneratorConfiguration(), "entity_textures_dir")
-							.getPath() + "\\";
+							.getPath() + slash;
 
 					if(!folderName.getText().isEmpty())
-						path = path + folderName.getText() + "\\";
+						path = path + folderName.getText() + slash;
 
 					File finalFile = new File(path + originalFile.getName());
 					try {
@@ -146,18 +153,18 @@ public class TextureFolderDialog{
 				case PAINTING: {
 					if(!folderName.getText().isEmpty()) {
 						File folder = new File(
-								mcreator.getWorkspace().getFolderManager().getPaintingsTexturesDir() + "\\" + folderName
-										.getText() + "\\");
+								mcreator.getWorkspace().getFolderManager().getPaintingsTexturesDir() + slash + folderName
+										.getText() + slash);
 						if (!folder.exists())
 							folder.mkdirs();
 					}
 
 					String path = GeneratorUtils.getSpecificRoot(mcreator.getWorkspace(),
 							mcreator.getWorkspace().getGenerator().getGeneratorConfiguration(), "painting_textures_dir")
-							.getPath() + "\\";
+							.getPath() + slash;
 
 					if(!folderName.getText().isEmpty())
-						path = path + folderName.getText() + "\\";
+						path = path + folderName.getText() + slash;
 
 					File finalFile = new File(path + originalFile.getName());
 					try {
@@ -170,18 +177,18 @@ public class TextureFolderDialog{
 				case ITEM: {
 					if(!folderName.getText().isEmpty()) {
 						File folder = new File(
-								mcreator.getWorkspace().getFolderManager().getItemsTexturesDir() + "\\" + folderName
-										.getText() + "\\");
+								mcreator.getWorkspace().getFolderManager().getItemsTexturesDir() + slash + folderName
+										.getText() + slash);
 						if (!folder.exists())
 							folder.mkdirs();
 					}
 
 					String path = GeneratorUtils.getSpecificRoot(mcreator.getWorkspace(),
 							mcreator.getWorkspace().getGenerator().getGeneratorConfiguration(), "item_textures_dir")
-							.getPath() + "\\";
+							.getPath() + slash;
 
 					if(!folderName.getText().isEmpty())
-						path = path + folderName.getText() + "\\";
+						path = path + folderName.getText() + slash;
 
 					File finalFile = new File(path + originalFile.getName());
 					try {
@@ -194,18 +201,18 @@ public class TextureFolderDialog{
 			case OTHER: {
 				if(!folderName.getText().isEmpty()) {
 					File folder = new File(
-							mcreator.getWorkspace().getFolderManager().getOtherTexturesDir() + "\\" + folderName
-									.getText() + "\\");
+							mcreator.getWorkspace().getFolderManager().getOtherTexturesDir() + slash + folderName
+									.getText() + slash);
 					if (!folder.exists())
 						folder.mkdirs();
 				}
 
 				String path = GeneratorUtils.getSpecificRoot(mcreator.getWorkspace(),
 						mcreator.getWorkspace().getGenerator().getGeneratorConfiguration(), "other_textures_dir")
-						.getPath() + "\\";
+						.getPath() + slash;
 
 				if(!folderName.getText().isEmpty())
-					path = path + folderName.getText() + "\\";
+					path = path + folderName.getText() + slash;
 
 				File finalFile = new File(path + originalFile.getName());
 				try {

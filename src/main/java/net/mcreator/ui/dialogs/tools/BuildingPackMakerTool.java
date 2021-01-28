@@ -19,6 +19,7 @@
 package net.mcreator.ui.dialogs.tools;
 
 import net.mcreator.element.ModElementType;
+import net.mcreator.element.ModElementTypeRegistry;
 import net.mcreator.element.parts.MItemBlock;
 import net.mcreator.element.parts.Material;
 import net.mcreator.element.parts.StepSound;
@@ -147,7 +148,9 @@ public class BuildingPackMakerTool {
 			fullname = name.getText();
 		else
 			fullname = name.getText() + type.replace(" ", "");
-		Block block = new Block(new ModElement(workspace, fullname, ModElementType.BLOCK));
+		Block block = (Block) ModElementTypeRegistry.REGISTRY.get(ModElementType.BLOCK)
+				.getModElement(mcreator, new ModElement(workspace, fullname, ModElementType.BLOCK), false)
+				.getElementFromGUI();
 		block.name = type.equals("Normal") ? name.getText() : name.getText() + " " + type;;
 		if(!type.equals("Normal"))
 			block.blockBase = type.replace(" ", "");
@@ -163,8 +166,8 @@ public class BuildingPackMakerTool {
 		block.destroyTool = "pickaxe";
 		mcreator.getWorkspace().getModElementManager().storeModElementPicture(block);
 		mcreator.getWorkspace().addModElement(block.getModElement());
-		mcreator.getWorkspace().getGenerator().generateElement(block);
-		mcreator.getWorkspace().getModElementManager().storeModElement(block);
+		mcreator.getGenerator().generateElement(block);
+		mcreator.getModElementManager().storeModElement(block);
 
 		if(generateRecipe) {
 			String blockName = name.getText();
