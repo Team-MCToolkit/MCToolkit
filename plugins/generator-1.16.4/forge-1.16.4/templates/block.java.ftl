@@ -486,6 +486,24 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
 		}
         </#if>
 
+		<#if data.emitsRedstone>
+		@Override public boolean canProvidePower(BlockState state) {
+			return true;
+		}
+
+		@Override public int getWeakPower(BlockState blockState, IBlockReader worldIn, BlockPos pos, Direction side) {
+			int x = pos.getX();
+			int y = pos.getY();
+			int z = pos.getZ();
+			World world = (World) worldIn;
+			<#if hasProcedure(data.redstoneCondition)>
+				return (int) <@procedureOBJToIntegerCode data.redstoneCondition/>;
+			<#else>
+				return ${data.emittedRedstonePower};
+			</#if>
+		}
+		</#if>
+
 		<#if data.flammability != 0>
 		@Override public int getFlammability(BlockState state, IBlockReader world, BlockPos pos, Direction face) {
 			return ${data.flammability};

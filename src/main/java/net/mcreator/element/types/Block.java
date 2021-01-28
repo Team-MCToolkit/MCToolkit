@@ -95,6 +95,7 @@ import java.util.Map;
 	public boolean isReplaceable;
 	public boolean emitsRedstone;
 	public int emittedRedstonePower;
+	public Procedure redstoneCondition;
 	public String colorOnMap;
 	public MItemBlock creativePickItem;
 	public String offsetType;
