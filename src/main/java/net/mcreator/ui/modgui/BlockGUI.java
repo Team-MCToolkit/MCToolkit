@@ -393,8 +393,14 @@ public class BlockGUI extends ModElementGUI<Block> {
 				hasGravity.setSelected(false);
 				if (blockBase.getSelectedItem() != null && blockBase.getSelectedItem().equals("Hopper")) {
 					rotationMode.setSelectedIndex(4);
+					hasInventory.setSelected(false);
+					hasInventory.setEnabled(false);
+					openGUIOnRightClick.setEnabled(false);
+					openGUIOnRightClick.setSelected(false);
+					guiBoundTo.setEnabled(false);
 				} else {
 					rotationMode.setSelectedIndex(0);
+					hasInventory.setEnabled(true);
 				}
 				isWaterloggable.setSelected(false);
 
