@@ -46,11 +46,19 @@ public class CustomDependencyBlock implements IBlockGenerator {
 			case "custom_dependency_itemstack":
 				deptype = "itemstack";
 				break;
+			case "custom_dependency_blockstate":
+				deptype = "blockstate";
+				break;
+			case "custom_dependency_time":
+				deptype = "time";
+				break;
 			}
 			master.addDependency(new Dependency(depname, deptype));
 
 			if (deptype != null && deptype.equals("itemstack"))
 				master.append("/*@ItemStack*/");
+			else if (deptype != null && deptype.equals("blockstate"))
+				master.append("/*@BlockState*/");
 
 			master.append("(").append(element.getTextContent()).append(")");
 		} else {
@@ -61,7 +69,7 @@ public class CustomDependencyBlock implements IBlockGenerator {
 
 	@Override public String[] getSupportedBlocks() {
 		return new String[] { "custom_dependency_logic", "custom_dependency_number", "custom_dependency_text",
-				"custom_dependency_itemstack" };
+				"custom_dependency_itemstack", "custom_dependency_blockstate", "custom_dependency_time" };
 	}
 
 	@Override public BlockType getBlockType() {

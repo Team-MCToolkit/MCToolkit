@@ -53,6 +53,12 @@ public class SetVariableBlock implements IBlockGenerator {
 		case "variables_set_itemstack":
 			type = "ITEMSTACK";
 			break;
+		case "variables_set_blockstate":
+			type = "BLOCKSTATE";
+			break;
+		case "variables_set_time":
+			type = "TIME";
+			break;
 		default:
 			return;
 		}
@@ -122,7 +128,7 @@ public class SetVariableBlock implements IBlockGenerator {
 
 	@Override public String[] getSupportedBlocks() {
 		return new String[] { "variables_set_number", "variables_set_text", "variables_set_logic",
-				"variables_set_itemstack" };
+				"variables_set_itemstack", "variables_set_blockstate", "variables_set_time" };
 	}
 
 	@Override public BlockType getBlockType() {
