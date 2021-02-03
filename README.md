@@ -48,6 +48,8 @@ MCToolkit is licensed under the GPL-3.0 license (with exceptions implemented as 
 
 MCToolkit is a project to continue MCreator. THis project is not affiliated with MCreator, Pylo, Minecraft or Mojang. Custom distributions of this software may not include Pylo, MCreator, MCToolkit trademarks (trademark name and logo) to not confuse the software with the official distribution of MCToolkit project.
 
+MCreator uses several third-party libraries and projects. License files, attributions, and credits for these projects are located in the `license` subdirectory.
+
 ## Notice
 
 NOT AN OFFICIAL MINECRAFT PRODUCT. NOT APPROVED BY OR ASSOCIATED WITH MOJANG.
