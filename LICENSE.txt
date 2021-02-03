@@ -12,7 +12,7 @@ projects.
 Some files (especially *.ftl templates) may not contain the license header,
 but this does not mean they are not covered by this license.
 
-MCreator uses several third-party libraries and projects. License files, 
+MCToolkit uses several third-party libraries and projects. License files, 
 attributions, and credits for these projects are located in the license 
 subdirectory inside repository, or binary distribution package.
 
