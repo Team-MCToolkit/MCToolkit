@@ -32,14 +32,16 @@ public class SoundElement implements IElement {
 	private String name;
 	private List<String> files;
 	private String category;
+	@Nullable private String directory;
 
 	@Nullable private String subtitle;
 
-	public SoundElement(String name, List<String> files, String category, @Nullable String subtitle) {
+	public SoundElement(String name, List<String> files, String category, @Nullable String subtitle, @Nullable String directory) {
 		this.name = name;
 		this.files = files;
 		this.category = category;
 		this.subtitle = subtitle;
+		this.directory = directory;
 	}
 
 	@Override public String toString() {
@@ -86,6 +88,14 @@ public class SoundElement implements IElement {
 		this.subtitle = subtitle;
 	}
 
+	@Nullable public String getDirectory() {
+		return directory;
+	}
+
+	public void setDirectory(String directory) {
+		this.directory = directory;
+	}
+
 	public static class SoundElementDeserializer implements JsonDeserializer<SoundElement> {
 		@Override public SoundElement deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
 				throws JsonParseException {
@@ -106,8 +116,9 @@ public class SoundElement implements IElement {
 			return new SoundElement(jsonObject.getAsJsonPrimitive("name").getAsString(), files,
 					jsonObject.getAsJsonPrimitive("category").getAsString(),
 					jsonObject.getAsJsonPrimitive("subtitle") != null ?
-							jsonObject.getAsJsonPrimitive("subtitle").getAsString() :
-							null);
+							jsonObject.getAsJsonPrimitive("subtitle").getAsString() : null,
+					jsonObject.getAsJsonPrimitive("directory") != null ?
+							jsonObject.getAsJsonPrimitive("directory").getAsString() : null);
 		}
 	}
 

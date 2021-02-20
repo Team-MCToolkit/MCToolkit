@@ -372,7 +372,7 @@ public class ProcedureGUI extends ModElementGUI<net.mcreator.element.types.Proce
 									return validator.validate();
 								}
 							}, VariableElementType.LOGIC, VariableElementType.NUMBER, VariableElementType.STRING,
-							VariableElementType.ITEMSTACK);
+							VariableElementType.ITEMSTACK, VariableElementType.BLOCKSTATE, VariableElementType.TIME);
 			if (element != null) {
 				blocklyPanel.addLocalVariable(element.getName(),
 						BlocklyVariables.getBlocklyVariableTypeFromMCreatorVariable(element));
