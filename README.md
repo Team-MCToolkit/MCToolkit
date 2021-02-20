@@ -1,9 +1,9 @@
-[![MCreator](https://i.ibb.co/BBmn3tK/mctoolkit-image-1.png)](https://mctoolkit.net/)
+[![MCToolkit](https://i.ibb.co/BBmn3tK/mctoolkit-image-1.png)](https://mctoolkit.net/)
 
-[![License](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://github.com/Team-MCToolkit/MCToolkit/blob/master/LICENSE.txt)
-[![Build](https://api.travis-ci.org/MCreator/MCreator.svg?branch=master)](https://travis-ci.org/github/Team-MCToolkit/MCToolkit)
+[![License](https://img.shields.io/badge/License-GPLv3-blue.svg?style=flat-square)](https://github.com/Team-MCToolkit/MCToolkit/blob/master/LICENSE.txt)
+[![Build](https://img.shields.io/travis/Team-MCToolkit/MCToolkit?style=flat-square)](https://travis-ci.org/github/Team-MCToolkit/MCToolkit)
 [![Crowdin](https://badges.crowdin.net/mctoolkit/localized.svg)](https://crowdin.com/project/mctoolkit)
-[![Download](https://img.shields.io/badge/Download-release-%2393c54b)](https://mctoolkit.net/download)
+[![Download](https://img.shields.io/badge/Download-release-%2393c54b?style=flat-square)](https://mctoolkit.net/download)
 
 [![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/J3J72NOXK)
 # MCToolkit - Minecraft Modding Toolkit
