@@ -55,7 +55,7 @@ public class GeneratorStats {
 		List<?> partials = ((List<?>) generatorConfiguration.getRaw().get("partial_support"));
 		if (partials == null)
 			partials = new ArrayList<>();
-		for (ModElementType type : ModElementTypeRegistry.elements) {
+		for (ModElementType type : ModElementType.elements) {
 			if (generatorConfiguration.getDefinitionsProvider().getModElementDefinition(type) != null) {
 				if (partials.contains(type.name().toLowerCase(Locale.ENGLISH))) {
 					modElementTypeCoverageInfo.put(type, CoverageStatus.PARTIAL);

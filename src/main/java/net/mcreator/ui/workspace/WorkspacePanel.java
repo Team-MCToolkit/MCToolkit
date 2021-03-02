@@ -506,7 +506,7 @@ import java.util.stream.Collectors;
 		filterPopup.add(new UnregisteredAction(L10N.t("workspace.elements.list.filter_witherrors"),
 				e -> search.setText("f:err")));
 		filterPopup.addSeparator();
-		for (ModElementType type : ModElementTypeRegistry.elements) {
+		for (ModElementType type : ModElementType.elements) {
 			filterPopup.add(new UnregisteredAction(type.getReadableName(),
 					e -> search.setText("f:" + type.getReadableName().replace(" ", "").toLowerCase(Locale.ENGLISH)))
 					.setIcon(new ImageIcon(ImageUtils.resizeAA(TiledImageCache.getModTypeIcon(type).getImage(), 16))));
@@ -1265,7 +1265,7 @@ import java.util.stream.Collectors;
 					pat = pat.replaceFirst("f:", "");
 					if (pat.equals("locked") || pat.equals("ok") || pat.equals("err"))
 						filters.add(pat);
-					for (ModElementType type : ModElementTypeRegistry.elements) {
+					for (ModElementType type : ModElementType.elements) {
 						if (pat.equals(type.getReadableName().replace(" ", "").toLowerCase(Locale.ENGLISH))) {
 							metfilters.add(type);
 						}

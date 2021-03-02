@@ -61,7 +61,6 @@ public class ModTypeDropdown extends JPopupMenu {
 
 		types.forEach(entry -> {
 			ModElementType type = entry.getKey();
-			ModElementTypeRegistry.ModTypeRegistration<?> registration = entry.getValue();
 			JMenuItem modTypeButton = new JMenuItem(" " + type.getReadableName() + " ");
 
 			modTypeButton.setToolTipText(type.getDescription());
@@ -72,8 +71,8 @@ public class ModTypeDropdown extends JPopupMenu {
 
 			ComponentUtils.deriveFont(modTypeButton, 12);
 
-			if (registration.getShortcut() != null)
-				modTypeButton.setAccelerator(javax.swing.KeyStroke.getKeyStroke(registration.getShortcut()));
+			if (type.getShortcut() != null)
+				modTypeButton.setAccelerator(javax.swing.KeyStroke.getKeyStroke(type.getShortcut()));
 
 			modTypeButton.setIcon(
 					new ImageIcon(ImageUtils.resizeAA(TiledImageCache.getModTypeIcon(type).getImage(), 32, 32)));
