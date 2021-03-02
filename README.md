@@ -18,13 +18,6 @@ This repository page is for people looking to contribute to MCToolkit. Visit htt
 
 Download MCToolkit binary distributions on https://mctoolkit.net/download.
 
-## Contributing
-
-You are welcome to support this project by opening pull requests. Read more about contributing in our [contributing guidelines](CONTRIBUTING.md).
-Before we can use your code, you must sign the [MCToolkit CLA](https://cla-assistant.io/Team-MCToolkit/MCToolkit).
-
-Big thanks to [all the people](https://github.com/Team-MCToolkit/MCToolkit/graphs/contributors) who already contributed to MCToolkit! 💚
-
 ## Development
 
 To clone this repository, run `git clone --recursive https://github.com/Team-MCToolkit/MCToolkit.git`.
@@ -34,11 +27,28 @@ MCToolkit uses Gradle build system to manage the building and exporting. Use `ru
 It is recommended to use Intellij IDEA for development and testing. Learn more about the development process, and 
 tips on [MCToolkit developers wiki](https://github.com/Team-MCToolkit/MCToolkit/wiki).
 
+## Contributing
+
+You are welcome to support this project by opening pull requests. Read more about contributing in our [contributing guidelines](CONTRIBUTING.md).
+Before we can use your code, you must sign the [MCToolkit CLA](https://cla-assistant.io/Team-MCToolkit/MCToolkit).
+
+Big thanks to [all the people](https://github.com/Team-MCToolkit/MCToolkit/graphs/contributors) who already contributed to MCToolkit! 💚
+
+<a href="https://github.com/Team-MCToolkit/MCToolkit/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Team-MCToolkit/MCToolkit" width="615"/>
+</a>
+
+### Translations
+
+If you would like to help us translate MCToolkit to your language, join us on [crowdin.com/project/mctoolkit](https://crowdin.com/project/mctoolkit)! If your language is not on the list yet, feel free to suggest us to add it.
+
 ## License and trademark
 
 MCToolkit is licensed under the GPL-3.0 license (with exceptions implemented as specified in section 7 of GPL-3.0) if not otherwise stated in source files or other files of this project. Copyright 2020 Pylo and [contributors](https://github.com/Team-MCToolkit/MCToolkit/graphs/contributors).
 
 MCToolkit is a project to continue MCreator. THis project is not affiliated with MCreator, Pylo, Minecraft or Mojang. Custom distributions of this software may not include Pylo, MCreator, MCToolkit trademarks (trademark name and logo) to not confuse the software with the official distribution of MCToolkit project.
+
+MCToolkit uses several third-party libraries and projects. License files, attributions, and credits for these projects are located in the `license` subdirectory.
 
 ## Notice
 

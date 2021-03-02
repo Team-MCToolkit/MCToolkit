@@ -58,6 +58,10 @@ public class WorkspaceFolderManager {
 		return new ImageIcon(getItemTextureFile(textureIdentifier).getAbsolutePath());
 	}
 
+	public ImageIcon getPotionEffectImageIcon(String textureIdentifier) {
+		return new ImageIcon(getPotionEffectIconTextureFile(textureIdentifier).getAbsolutePath());
+	}
+
 	public File getBlockTextureFile(String textureIdentifier) {
 		return new File(getBlocksTexturesDir(), textureIdentifier + ".png");
 	}
@@ -72,6 +76,10 @@ public class WorkspaceFolderManager {
 
 	public File getPaintingTextureFile(String textureIdentifier) {
 		return new File(getPaintingsTexturesDir(), textureIdentifier + ".png");
+	}
+
+	public File getPotionEffectIconTextureFile(String textureIdentifier) {
+		return new File(getPotionEffectIconTexturesDir(), textureIdentifier + ".png");
 	}
 
 	public File getOtherTextureFile(String textureIdentifier) {
@@ -177,6 +185,10 @@ public class WorkspaceFolderManager {
 
 	@Nullable public File getArmorTexturesDir() {
 		return GeneratorUtils.getSpecificRoot(workspace, workspace.getGeneratorConfiguration(), "armor_textures_dir");
+	}
+
+	@Nullable public File getPotionEffectIconTexturesDir() {
+		return GeneratorUtils.getSpecificRoot(workspace, workspace.getGeneratorConfiguration(), "mob_effect_textures_dir");
 	}
 
 	@Nullable public File getOtherTexturesDir() {

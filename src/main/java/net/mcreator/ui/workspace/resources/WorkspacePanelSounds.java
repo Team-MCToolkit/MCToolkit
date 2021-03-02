@@ -28,12 +28,16 @@ import net.mcreator.ui.laf.AbstractMCreatorTheme;
 import net.mcreator.ui.laf.SlickDarkScrollBarUI;
 import net.mcreator.ui.workspace.IReloadableFilterable;
 import net.mcreator.ui.workspace.WorkspacePanel;
+import net.mcreator.util.ListUtils;
+import net.mcreator.util.SoundUtils;
+import net.mcreator.util.image.ImageUtils;
 import net.mcreator.workspace.elements.SoundElement;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.util.List;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -104,14 +108,40 @@ public class WorkspacePanelSounds extends JPanel implements IReloadableFilterabl
 			List<SoundElement> file = soundElementList.getSelectedValuesList();
 			if (file.size() > 0) {
 				int n = JOptionPane.showConfirmDialog(workspacePanel.getMcreator(),
-						"<html>Are you sure that you want to delete this sound?"
-								+ "<br>NOTE: If you use this sound anywhere, it won't work anymore!", "Confirmation",
-						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+						L10N.t("workspace.sounds.confirm_deletion_message"),
+						L10N.t("workspace.sounds.confirm_deletion_title"), JOptionPane.YES_NO_OPTION,
+						JOptionPane.QUESTION_MESSAGE);
 				if (n == 0) {
 					file.forEach(workspacePanel.getMcreator().getWorkspace()::removeSoundElement);
 					reloadElements();
 				}
 			}
+		});
+
+		JButton play = L10N.button("workspace.sounds.play_selected");
+		play.setIcon(UIRES.get("16px.play"));
+		play.setOpaque(false);
+		play.setContentAreaFilled(false);
+		play.setBorder(BorderFactory.createEmptyBorder(0, 8, 0, 8));
+		bar.add(play);
+		play.addMouseListener(new MouseAdapter() {
+			@Override public void mousePressed(MouseEvent e) {
+				SoundElement soundElement = soundElementList.getSelectedValue();
+				if (soundElement != null) {
+					if (!soundElement.getFiles().isEmpty()) {
+						SoundUtils.playSound(
+								new File(workspacePanel.getMcreator().getWorkspace().getFolderManager().getSoundsDir(),
+										ListUtils.getRandomItem(soundElement.getFiles()) + ".ogg"));
+						play.setEnabled(false);
+					}
+				}
+			}
+
+			@Override public void mouseReleased(MouseEvent e) {
+				SoundUtils.stopAllSounds();
+				play.setEnabled(true);
+			}
+
 		});
 
 		edit.addActionListener(e -> editSelectedSound(soundElementList.getSelectedValue()));
@@ -223,7 +253,7 @@ public class WorkspacePanelSounds extends JPanel implements IReloadableFilterabl
 			name.setFont(AbstractMCreatorTheme.light_font.deriveFont(20.0f));
 			namepan.add("North", name);
 
-			JLabel name2 = new JLabel("Sound files: " + String.join(", ", ma.getFiles()));
+			JLabel name2 = L10N.label("workspace.sounds.files", String.join(", ", ma.getFiles()));
 			ComponentUtils.deriveFont(name2, 11);
 			namepan.add("South", name2);
 
@@ -236,11 +266,9 @@ public class WorkspacePanelSounds extends JPanel implements IReloadableFilterabl
 			String rightText;
 
 			if (ma.getSubtitle() != null && !ma.getSubtitle().isEmpty()) {
-				rightText =
-						"<html><small>Subtitle:</small> " + ma.getSubtitle() + ", <small>Sound category:</small> " + ma
-								.getCategory();
+				rightText = L10N.t("workspace.sounds.subtitle_and_category", ma.getSubtitle(), ma.getCategory());
 			} else {
-				rightText = "<html><small>Sound category:</small> " + ma.getCategory();
+				rightText = L10N.t("workspace.sounds.category", ma.getCategory());
 			}
 
 			JLabel rightTextLabel = new JLabel(rightText);

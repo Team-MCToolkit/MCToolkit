@@ -19,6 +19,7 @@
 package net.mcreator.ui.browser;
 
 import net.mcreator.generator.GeneratorFlavor;
+import net.mcreator.ui.component.tree.FilterTreeNode;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,7 +32,7 @@ class AddFileDropdown extends JPopupMenu {
 		setBackground(((Color) UIManager.get("MCreatorLAF.LIGHT_ACCENT")).darker());
 
 		try {
-			ProjectBrowserFilterTreeNode selected = (ProjectBrowserFilterTreeNode) workspaceFileBrowser.tree
+			FilterTreeNode selected = (FilterTreeNode) workspaceFileBrowser.tree
 					.getLastSelectedPathComponent();
 			if (selected != null) {
 				if (selected.getUserObject() instanceof File) {
@@ -54,8 +55,8 @@ class AddFileDropdown extends JPopupMenu {
 							add(workspaceFileBrowser.mcreator.actionRegistry.newFolder);
 						}
 					} else {
-						if (file.isDirectory() && file.getCanonicalPath()
-								.startsWith(workspaceFileBrowser.mcreator.getGenerator().getSourceRoot().getCanonicalPath())
+						if (file.isDirectory() && file.getCanonicalPath().startsWith(
+								workspaceFileBrowser.mcreator.getGenerator().getSourceRoot().getCanonicalPath())
 								|| file.isDirectory() && (file.getCanonicalPath().startsWith(
 								workspaceFileBrowser.mcreator.getGenerator().getResourceRoot().getCanonicalPath()))) {
 							add(workspaceFileBrowser.mcreator.actionRegistry.newJson);

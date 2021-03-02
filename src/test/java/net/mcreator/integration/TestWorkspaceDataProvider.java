@@ -183,6 +183,10 @@ public class TestWorkspaceDataProvider {
 			FileIO.writeImageToPNGFile((RenderedImage) imageIcon.getImage(), armorPars[0]);
 			FileIO.writeImageToPNGFile((RenderedImage) imageIcon.getImage(), armorPars[1]);
 		}
+
+		if (workspace.getFolderManager().getStructuresDir() != null) {
+			FileIO.writeBytesToFile(new byte[0], new File(workspace.getFolderManager().getStructuresDir(), "test.nbt"));
+		}
 	}
 
 	private static GeneratableElement getExampleFor(ModElement modElement, Random random, boolean _true,
@@ -435,7 +439,7 @@ public class TestWorkspaceDataProvider {
 		} else if (ModElementType.COMMAND.equals(modElement.getType())) {
 			Command command = new Command(modElement);
 			command.commandName = modElement.getName();
-			command.permissionLevel = 3;
+			command.permissionLevel = getRandomItem(random, new String[] { "No requirement", "1", "2", "3", "4" });
 			command.onCommandExecuted = new Procedure("procedure2");
 			return command;
 		} else if (ModElementType.KEYBIND.equals(modElement.getType())) {
@@ -494,8 +498,10 @@ public class TestWorkspaceDataProvider {
 						new Procedure("condition4")));
 				components.add(new Image("picture1", 20, 30, "picture1", true, new Procedure("condition1")));
 				components.add(new Image("picture2", 22, 31, "picture2", false, new Procedure("condition2")));
-				components.add(new Button("button1", 10, 10, "button1", 100, 200, new Procedure("procedure1")));
-				components.add(new Button("button2", 10, 10, "button2", 100, 200, null));
+				components.add(new Button("button1", 10, 10, "button1", 100, 200, new Procedure("procedure1"), null));
+				components.add(new Button("button2", 10, 10, "button2", 100, 200, null, null));
+				components.add(new Button("button3", 10, 10, "button3", 100, 200, null, new Procedure("condition3")));
+				components.add(new Button("button4", 10, 10, "button4", 100, 200, new Procedure("procedure2"), new Procedure("condition4")));
 				components.add(new InputSlot(0, "slot1", 20, 30, Color.red, _true, _true, new Procedure("procedure3"),
 						new Procedure("procedure1"), new Procedure("procedure2"),
 						new MItemBlock(modElement.getWorkspace(), "")));
@@ -563,6 +569,11 @@ public class TestWorkspaceDataProvider {
 			mob.immuneToLightning = !_true;
 			mob.immuneToPotions = !_true;
 			mob.immuneToPlayer = !_true;
+			mob.immuneToExplosion = !_true;
+			mob.immuneToTrident = !_true;
+			mob.immuneToAnvil = !_true;
+			mob.immuneToDragonBreath = !_true;
+			mob.immuneToWither = !_true;
 			mob.hasSpawnEgg = !_true;
 			mob.xpAmount = 8;
 			mob.ridable = _true;
@@ -709,6 +720,7 @@ public class TestWorkspaceDataProvider {
 			return dimension;
 		} else if (ModElementType.STRUCTURE.equals(modElement.getType())) {
 			Structure structure = new Structure(modElement);
+			structure.structure = "test";
 			structure.spawnProbability = 310000;
 			structure.minCountPerChunk = 1;
 			structure.maxCountPerChunk = 3;
@@ -745,7 +757,6 @@ public class TestWorkspaceDataProvider {
 				structure.generateCondition = new Procedure("condition1");
 				structure.onStructureGenerated = new Procedure("procedure3");
 			}
-			structure.structure = null;
 			return structure;
 		} else if (ModElementType.ARMOR.equals(modElement.getType())) {
 			Armor armor = new Armor(modElement);
@@ -1239,7 +1250,7 @@ public class TestWorkspaceDataProvider {
 			block.tintType = getRandomString(random, Arrays.asList("No tint", "Grass", "Foliage", "Water"));
 			block.isItemTinted = _true;
 			block.renderType = new int[] { 10, block.isBlockTinted() ? 110 : 11, block.isBlockTinted() ? 120 : 12,
-					10 }[valueIndex];
+					14 }[valueIndex];
 			block.customModelName = new String[] { "Normal", "Single texture", "Cross model", "Normal" }[valueIndex];
 			return block;
 		} else if (ModElementType.TAG.equals(modElement.getType())) {

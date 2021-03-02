@@ -410,18 +410,18 @@ public class ArmorGUI extends ModElementGUI<Armor> {
 						L10N.label("elementgui.common.description_on_command")), bodyCommandOnly));
 		bodyInfos.add(bodyCommandInfo);
 
-		JComponent bodText = PanelUtils.centerAndSouthElement(
-				PanelUtils.centerInPanelPadding(textureBody, 0, 0), enableBody);
-		bodText.setBorder(BorderFactory.createCompoundBorder(
-				BorderFactory.createLineBorder((Color) UIManager.get("MCreatorLAF.GRAY_COLOR")),
-				BorderFactory.createEmptyBorder(15, 17, 0, 17)));
+		JComponent bodText = PanelUtils
+        .centerAndSouthElement(PanelUtils.centerInPanelPadding(textureBody, 0, 0), enableBody);
+		bodText.setBorder(BorderFactory
+        .createCompoundBorder(BorderFactory.createLineBorder((Color) UIManager.get("MCreatorLAF.GRAY_COLOR")),
+				    BorderFactory.createEmptyBorder(15, 17, 0, 17)));
 
-		bodyModelPanel = new CollapsiblePanel(L10N.t("elementgui.armor.advanced_body"),
-				PanelUtils.northAndCenterElement(PanelUtils.join(FlowLayout.LEFT,
-						L10N.label("elementgui.armor.supported_java"), bodyModel,
-						new JLabel(":"), bodyModelPart, new JLabel("arms L"), armsModelPartL,
-						new JLabel("arms R"), armsModelPartR, L10N.label("elementgui.armor.texture"), bodyModelTexture),
-						bodyInfos));
+		bodyModelPanel = new CollapsiblePanel(L10N.t("elementgui.armor.advanced_body"), PanelUtils
+       .northAndCenterElement(PanelUtils
+            .join(FlowLayout.LEFT, L10N.label("elementgui.armor.supported_java"), bodyModel,
+						    new JLabel(":"), bodyModelPart, L10N.label("elementgui.armor.part_arm_left"),
+                armsModelPartL, L10N.label("elementgui.armor.part_arm_right"), armsModelPartR,
+                L10N.label("elementgui.armor.texture"), bodyModelTexture), bodyInfos));
 		bodyModelPanel.toggleVisibility(PreferencesManager.PREFERENCES.ui.expandSectionsByDefault);
 
 		destal.add(PanelUtils.westAndCenterElement(bodText, PanelUtils.centerAndSouthElement(
