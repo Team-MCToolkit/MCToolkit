@@ -43,9 +43,7 @@ import net.mcreator.ui.modgui.*;
 import net.mcreator.workspace.elements.ModElement;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 public final class ModElementTypeRegistry {
@@ -66,7 +64,7 @@ public final class ModElementTypeRegistry {
 		put(ModElementType.STRUCTURE, new ModTypeRegistration<>(StructureGenGUI::new, Structure.class));
 		put(ModElementType.BIOME, new ModTypeRegistration<>(BiomeGUI::new, Biome.class));
 		put(ModElementType.DIMENSION, new ModTypeRegistration<>(DimensionGUI::new, Dimension.class));
-		put(ModElementType.ACHIEVEMENT, new ModTypeRegistration<>(AchievementGUI::new, Achievement.class));
+		put(ModElementType.ADVANCEMENT, new ModTypeRegistration<>(AchievementGUI::new, Achievement.class));
 		put(ModElementType.COMMAND, new ModTypeRegistration<>(CommandGUI::new, Command.class));
 		put(ModElementType.KEYBIND, new ModTypeRegistration<>(KeyBindGUI::new, KeyBinding.class));
 		put(ModElementType.GAMERULE, new ModTypeRegistration<>(GameRuleGUI::new, GameRule.class));

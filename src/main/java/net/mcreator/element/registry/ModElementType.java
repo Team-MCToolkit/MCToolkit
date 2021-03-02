@@ -42,7 +42,7 @@ public class ModElementType implements Comparable<ModElementType> {
 	private GeneratorStats.CoverageStatus status = GeneratorStats.CoverageStatus.FULL;
 
 	//Mod element variables
-	public static final ModElementType ACHIEVEMENT = new ModElementType("achievement", "advancement", 'h', BaseType.ACHIEVEMENT, RecipeElementType.NONE);
+	public static final ModElementType ADVANCEMENT = new ModElementType("achievement", "advancement", 'h', BaseType.ACHIEVEMENT, RecipeElementType.NONE);
 	public static final ModElementType ARMOR = new ModElementType("armor", 'a', BaseType.ARMOR, RecipeElementType.ARMOR);
 	public static final ModElementType BIOME = new ModElementType("biome", 'o', BaseType.BIOME, RecipeElementType.NONE);
 	public static final ModElementType BLOCK = new ModElementType("block", 'b', BaseType.BLOCK, RecipeElementType.BLOCK);

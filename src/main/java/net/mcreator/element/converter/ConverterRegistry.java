@@ -43,7 +43,7 @@ public class ConverterRegistry {
 
 	private static final Map<ModElementType, List<IConverter>> converters = new HashMap<ModElementType, List<IConverter>>() {{
 		put(ModElementType.RECIPE, Collections.singletonList(new RecipeTypeConverter()));
-		put(ModElementType.ACHIEVEMENT, Collections.singletonList(new AchievementFixer()));
+		put(ModElementType.ADVANCEMENT, Collections.singletonList(new AchievementFixer()));
 		put(ModElementType.GUI, Arrays.asList(new GUIBindingInverter(), new GUICoordinateConverter()));
 		put(ModElementType.PROCEDURE, Arrays.asList(new ProcedureEntityDepFixer(), new OpenGUIProcedureDepFixer(),
 				new ProcedureGlobalTriggerFixer(), new ProcedureSpawnGemPickupDelayFixer()));

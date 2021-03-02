@@ -192,7 +192,7 @@ public class TestWorkspaceDataProvider {
 
 	private static GeneratableElement getExampleFor(ModElement modElement, Random random, boolean _true,
 			boolean emptyLists, int valueIndex) {
-		if (ModElementType.ACHIEVEMENT.equals(modElement.getType())) {
+		if (ModElementType.ADVANCEMENT.equals(modElement.getType())) {
 			Achievement achievement = new Achievement(modElement);
 			achievement.achievementName = "Test Achievement";
 			achievement.achievementDescription = "Description of it";

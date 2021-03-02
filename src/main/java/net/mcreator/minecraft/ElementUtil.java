@@ -83,7 +83,7 @@ public class ElementUtil {
 	}
 
 	public static List<DataListEntry> loadAllAchievements(Workspace workspace) {
-		List<DataListEntry> achievements = getCustomElementsOfType(workspace, ModElementType.ACHIEVEMENT);
+		List<DataListEntry> achievements = getCustomElementsOfType(workspace, ModElementType.ADVANCEMENT);
 		achievements.addAll(DataListLoader.loadDataList("achievements"));
 		return achievements;
 	}
