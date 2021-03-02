@@ -19,8 +19,7 @@
 package net.mcreator.ui.workspace;
 
 import net.mcreator.element.GeneratableElement;
-import net.mcreator.element.registry.ModElementType;
-import net.mcreator.element.registry.ModElementTypeRegistry;
+import net.mcreator.element.registry.ModElementTypes;
 import net.mcreator.element.NamespacedGeneratableElement;
 import net.mcreator.element.registry.BaseType;
 import net.mcreator.generator.GeneratorStats;
@@ -506,7 +505,7 @@ import java.util.stream.Collectors;
 		filterPopup.add(new UnregisteredAction(L10N.t("workspace.elements.list.filter_witherrors"),
 				e -> search.setText("f:err")));
 		filterPopup.addSeparator();
-		for (ModElementType type : ModElementType.elements) {
+		for (ModElementTypes type : ModElementTypes.elements) {
 			filterPopup.add(new UnregisteredAction(type.getReadableName(),
 					e -> search.setText("f:" + type.getReadableName().replace(" ", "").toLowerCase(Locale.ENGLISH)))
 					.setIcon(new ImageIcon(ImageUtils.resizeAA(TiledImageCache.getModTypeIcon(type).getImage(), 16))));
@@ -1019,7 +1018,7 @@ import java.util.stream.Collectors;
 						mcreator.getModElementManager().storeModElementPicture(generatableElementDuplicate);
 						mcreator.getModElementManager().storeModElement(generatableElementDuplicate);
 
-						if (mu.getType() == ModElementType.CODE || mu.isCodeLocked()) {
+						if (mu.getType() == ModElementTypes.CODE || mu.isCodeLocked()) {
 							List<GeneratorTemplate> originalFiles = mcreator.getGenerator()
 									.getModElementGeneratorTemplatesList(mu);
 							List<GeneratorTemplate> duplicateFiles = mcreator.getGenerator()
@@ -1057,8 +1056,7 @@ import java.util.stream.Collectors;
 			if (mu.isCodeLocked()) {
 				editCurrentlySelectedModElementAsCode(mu, component, x, y);
 			} else {
-				ModElementGUI<?> modeditor = ModElementTypeRegistry.REGISTRY.get(mu.getType())
-						.getModElement(mcreator, mu, true);
+				ModElementGUI<?> modeditor = mu.getType().getModElement(mcreator, mu, true);
 				if (modeditor != null) {
 					modeditor.showView();
 				}
@@ -1254,7 +1252,7 @@ import java.util.stream.Collectors;
 			filterItems.clear();
 			String searchInput = search.getText();
 
-			List<ModElementType> metfilters = new ArrayList<>();
+			List<ModElementTypes> metfilters = new ArrayList<>();
 			List<String> filters = new ArrayList<>();
 			List<String> keyWords = new ArrayList<>();
 
@@ -1265,7 +1263,7 @@ import java.util.stream.Collectors;
 					pat = pat.replaceFirst("f:", "");
 					if (pat.equals("locked") || pat.equals("ok") || pat.equals("err"))
 						filters.add(pat);
-					for (ModElementType type : ModElementType.elements) {
+					for (ModElementTypes type : ModElementTypes.elements) {
 						if (pat.equals(type.getReadableName().replace(" ", "").toLowerCase(Locale.ENGLISH))) {
 							metfilters.add(type);
 						}
@@ -1325,7 +1323,7 @@ import java.util.stream.Collectors;
 						if (metfilters.size() == 0)
 							return true;
 
-						for (ModElementType type : metfilters)
+						for (ModElementTypes type : metfilters)
 							if (item.getType() == type)
 								return true;
 						return false;

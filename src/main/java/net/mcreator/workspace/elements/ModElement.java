@@ -19,7 +19,7 @@
 package net.mcreator.workspace.elements;
 
 import net.mcreator.element.GeneratableElement;
-import net.mcreator.element.registry.ModElementType;
+import net.mcreator.element.registry.ModElementTypes;
 import net.mcreator.element.registry.BaseType;
 import net.mcreator.element.registry.RecipeElementType;
 import net.mcreator.generator.IGeneratorProvider;
@@ -63,7 +63,7 @@ public class ModElement implements Serializable, IWorkspaceProvider, IGeneratorP
 	// it is transient so it does not get serialized
 	private transient Workspace workspace;
 
-	public ModElement(@NotNull Workspace workspace, @NotNull String name, ModElementType type) {
+	public ModElement(@NotNull Workspace workspace, @NotNull String name, ModElementTypes type) {
 		this.name = name;
 		this.type = type.getRegistryName();
 		this.registry_name = RegistryNameFixer.fromCamelCase(name);
@@ -117,7 +117,7 @@ public class ModElement implements Serializable, IWorkspaceProvider, IGeneratorP
 
 		mcItems = new ArrayList<>();
 
-		if (getType() == ModElementType.DIMENSION) {
+		if (getType() == ModElementTypes.DIMENSION) {
 			if (getMetadata("ep") != null && (Boolean) getMetadata("ep"))
 				mcItems.add(new MCItem.Custom(this, null));
 		} else if (getType().getRecipeElementType() == RecipeElementType.ITEM
@@ -278,11 +278,11 @@ public class ModElement implements Serializable, IWorkspaceProvider, IGeneratorP
 		this.name = name;
 	}
 
-	public ModElementType getType() {
-		return ModElementType.get(type);
+	public ModElementTypes getType() {
+		return ModElementTypes.get(type);
 	}
 
-	public void setType(ModElementType type) {
+	public void setType(ModElementTypes type) {
 		this.type = type.name();
 	}
 
@@ -291,7 +291,7 @@ public class ModElement implements Serializable, IWorkspaceProvider, IGeneratorP
 	}
 
 	public void setCodeLock(boolean codeLock) {
-		if (getType() == ModElementType.CODE && !codeLock)
+		if (getType() == ModElementTypes.CODE && !codeLock)
 			return;
 		this.locked_code = codeLock;
 	}

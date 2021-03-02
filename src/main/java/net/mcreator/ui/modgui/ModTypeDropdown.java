@@ -18,8 +18,7 @@
 
 package net.mcreator.ui.modgui;
 
-import net.mcreator.element.registry.ModElementType;
-import net.mcreator.element.registry.ModElementTypeRegistry;
+import net.mcreator.element.registry.ModElementTypes;
 import net.mcreator.generator.GeneratorStats;
 import net.mcreator.ui.MCreator;
 import net.mcreator.ui.component.util.ComponentUtils;
@@ -38,17 +37,15 @@ public class ModTypeDropdown extends JPopupMenu {
 	public ModTypeDropdown(MCreator mcreator) {
 		setBorder(BorderFactory.createEmptyBorder());
 
-		SortedMap<ModElementType, ModElementTypeRegistry.ModTypeRegistration<?>> map = new TreeMap<>(
-				Comparator.comparing(ModElementType::getReadableName));
-		map.putAll(ModElementTypeRegistry.REGISTRY);
+		SortedSet<ModElementTypes<?>> set = new TreeSet<>(Comparator.comparing(ModElementTypes::getReadableName));
+		set.addAll(ModElementTypes.elements);
 
-		List<Map.Entry<ModElementType, ModElementTypeRegistry.ModTypeRegistration<?>>> types = map.entrySet().stream()
-				.filter(entry -> mcreator.getGeneratorStats().getModElementTypeCoverageInfo().get(entry.getKey())
+		List<ModElementTypes<?>> types = set.stream()
+				.filter(entry -> mcreator.getGeneratorStats().getModElementTypeCoverageInfo().get(entry)
 						!= GeneratorStats.CoverageStatus.NONE).collect(Collectors.toList());
 
 		if (types.size() > 14) {
-			List<Map.Entry<ModElementType, ModElementTypeRegistry.ModTypeRegistration<?>>> typestmp = new ArrayList<>(
-					types);
+			List<ModElementTypes<?>> typestmp = new ArrayList<>(types);
 
 			int i = 0;
 			for (; i < Math.ceil(types.size() / 2d); i++)
@@ -60,22 +57,21 @@ public class ModTypeDropdown extends JPopupMenu {
 		}
 
 		types.forEach(entry -> {
-			ModElementType type = entry.getKey();
-			JMenuItem modTypeButton = new JMenuItem(" " + type.getReadableName() + " ");
+			JMenuItem modTypeButton = new JMenuItem(" " + entry.getReadableName() + " ");
 
-			modTypeButton.setToolTipText(type.getDescription());
-			modTypeButton.addActionListener(actionEvent -> NewModElementDialog.showNameDialog(mcreator, type));
+			modTypeButton.setToolTipText(entry.getDescription());
+			modTypeButton.addActionListener(actionEvent -> NewModElementDialog.showNameDialog(mcreator, entry));
 			modTypeButton.setOpaque(false);
 
 			modTypeButton.setBorder(BorderFactory.createEmptyBorder());
 
 			ComponentUtils.deriveFont(modTypeButton, 12);
 
-			if (type.getShortcut() != null)
-				modTypeButton.setAccelerator(javax.swing.KeyStroke.getKeyStroke(type.getShortcut()));
+			if (entry.getShortcut() != null)
+				modTypeButton.setAccelerator(javax.swing.KeyStroke.getKeyStroke(entry.getShortcut()));
 
 			modTypeButton.setIcon(
-					new ImageIcon(ImageUtils.resizeAA(TiledImageCache.getModTypeIcon(type).getImage(), 32, 32)));
+					new ImageIcon(ImageUtils.resizeAA(TiledImageCache.getModTypeIcon(entry).getImage(), 32, 32)));
 
 			add(modTypeButton);
 		});

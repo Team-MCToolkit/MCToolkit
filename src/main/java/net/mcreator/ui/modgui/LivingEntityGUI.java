@@ -25,7 +25,7 @@ import net.mcreator.blockly.data.Dependency;
 import net.mcreator.blockly.data.ExternalBlockLoader;
 import net.mcreator.blockly.data.ToolboxBlock;
 import net.mcreator.element.GeneratableElement;
-import net.mcreator.element.registry.ModElementType;
+import net.mcreator.element.registry.ModElementTypes;
 import net.mcreator.element.parts.Particle;
 import net.mcreator.element.parts.TabEntry;
 import net.mcreator.element.types.GUI;
@@ -863,11 +863,11 @@ public class LivingEntityGUI extends ModElementGUI<Mob> {
 
 		ComboBoxUtil.updateComboBoxContents(rangedItemType, ListUtils.merge(Collections.singleton("Default item"),
 				mcreator.getWorkspace().getModElements().stream()
-						.filter(var -> var.getType() == ModElementType.RANGEDITEM).map(ModElement::getName)
+						.filter(var -> var.getType() == ModElementTypes.RANGEDITEM).map(ModElement::getName)
 						.collect(Collectors.toList())), "Default item");
 
 		ComboBoxUtil.updateComboBoxContents(guiBoundTo, ListUtils.merge(Collections.singleton("<NONE>"),
-				mcreator.getWorkspace().getModElements().stream().filter(var -> var.getType() == ModElementType.GUI)
+				mcreator.getWorkspace().getModElements().stream().filter(var -> var.getType() == ModElementTypes.GUI)
 						.map(ModElement::getName).collect(Collectors.toList())), "<NONE>");
 
 		ComboBoxUtil.updateComboBoxContents(particleToSpawn, ElementUtil.loadAllParticles(mcreator.getWorkspace()));

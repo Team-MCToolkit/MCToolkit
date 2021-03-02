@@ -35,27 +35,27 @@ import net.mcreator.element.converter.fv6.GUIBindingInverter;
 import net.mcreator.element.converter.fv7.ProcedureEntityDepFixer;
 import net.mcreator.element.converter.fv8.OpenGUIProcedureDepFixer;
 import net.mcreator.element.converter.fv9.ProcedureGlobalTriggerFixer;
-import net.mcreator.element.registry.ModElementType;
+import net.mcreator.element.registry.ModElementTypes;
 
 import java.util.*;
 
 public class ConverterRegistry {
 
-	private static final Map<ModElementType, List<IConverter>> converters = new HashMap<ModElementType, List<IConverter>>() {{
-		put(ModElementType.RECIPE, Collections.singletonList(new RecipeTypeConverter()));
-		put(ModElementType.ADVANCEMENT, Collections.singletonList(new AchievementFixer()));
-		put(ModElementType.GUI, Arrays.asList(new GUIBindingInverter(), new GUICoordinateConverter()));
-		put(ModElementType.PROCEDURE, Arrays.asList(new ProcedureEntityDepFixer(), new OpenGUIProcedureDepFixer(),
+	private static final Map<ModElementTypes<?>, List<IConverter>> converters = new HashMap<ModElementTypes<?>, List<IConverter>>() {{
+		put(ModElementTypes.RECIPE, Collections.singletonList(new RecipeTypeConverter()));
+		put(ModElementTypes.ADVANCEMENT, Collections.singletonList(new AchievementFixer()));
+		put(ModElementTypes.GUI, Arrays.asList(new GUIBindingInverter(), new GUICoordinateConverter()));
+		put(ModElementTypes.PROCEDURE, Arrays.asList(new ProcedureEntityDepFixer(), new OpenGUIProcedureDepFixer(),
 				new ProcedureGlobalTriggerFixer(), new ProcedureSpawnGemPickupDelayFixer()));
-		put(ModElementType.BIOME, Arrays.asList(new BiomeSpawnListConverter(), new BiomeDefaultFeaturesConverter()));
-		put(ModElementType.OVERLAY, Collections.singletonList(new OverlayCoordinateConverter()));
-		put(ModElementType.BLOCK, Arrays.asList(new BlockLuminanceFixer(), new BlockBoundingBoxFixer()));
-		put(ModElementType.PLANT, Collections.singletonList(new PlantLuminanceFixer()));
-		put(ModElementType.DIMENSION, Arrays.asList(new DimensionLuminanceFixer(), new DimensionPortalSelectedFixer()));
-    	put(ModElementType.MOB, Collections.singletonList(new EntityTexturesConverter()));
+		put(ModElementTypes.BIOME, Arrays.asList(new BiomeSpawnListConverter(), new BiomeDefaultFeaturesConverter()));
+		put(ModElementTypes.OVERLAY, Collections.singletonList(new OverlayCoordinateConverter()));
+		put(ModElementTypes.BLOCK, Arrays.asList(new BlockLuminanceFixer(), new BlockBoundingBoxFixer()));
+		put(ModElementTypes.PLANT, Collections.singletonList(new PlantLuminanceFixer()));
+		put(ModElementTypes.DIMENSION, Arrays.asList(new DimensionLuminanceFixer(), new DimensionPortalSelectedFixer()));
+    	put(ModElementTypes.MOB, Collections.singletonList(new EntityTexturesConverter()));
 	}};
 
-	public static List<IConverter> getConvertersForModElementType(ModElementType modElementType) {
+	public static List<IConverter> getConvertersForModElementType(ModElementTypes<?> modElementType) {
 		return converters.get(modElementType);
 	}
 

@@ -18,7 +18,7 @@
 
 package net.mcreator.integration.generator;
 
-import net.mcreator.element.registry.ModElementType;
+import net.mcreator.element.registry.ModElementTypes;
 import net.mcreator.generator.setup.WorkspaceGeneratorSetup;
 import net.mcreator.gradle.GradleDaemonUtils;
 import net.mcreator.gradle.GradleErrorCodes;
@@ -147,7 +147,7 @@ import static org.junit.Assert.fail;
 
 			// add procedures for testing
 			for (int i = 1; i <= 13; i++) {
-				ModElement me = new ModElement(workspace, "procedure" + i, ModElementType.PROCEDURE)
+				ModElement me = new ModElement(workspace, "procedure" + i, ModElementTypes.PROCEDURE)
 						.putMetadata("dependencies", new ArrayList<String>());
 				workspace.addModElement(me);
 
@@ -158,7 +158,7 @@ import static org.junit.Assert.fail;
 			}
 
 			for (int i = 1; i <= 4; i++) {
-				ModElement me = new ModElement(workspace, "condition" + i, ModElementType.PROCEDURE)
+				ModElement me = new ModElement(workspace, "condition" + i, ModElementTypes.PROCEDURE)
 						.putMetadata("dependencies", new ArrayList<String>()).putMetadata("return_type", "LOGIC");
 				workspace.addModElement(me);
 
@@ -172,7 +172,7 @@ import static org.junit.Assert.fail;
 			}
 
 			for (int i = 1; i <= 2; i++) {
-				ModElement me = new ModElement(workspace, "itemstack" + i, ModElementType.PROCEDURE)
+				ModElement me = new ModElement(workspace, "itemstack" + i, ModElementTypes.PROCEDURE)
 						.putMetadata("dependencies", new ArrayList<String>()).putMetadata("return_type", "ITEMSTACK");
 				workspace.addModElement(me);
 				net.mcreator.element.types.Procedure procedure = new net.mcreator.element.types.Procedure(me);

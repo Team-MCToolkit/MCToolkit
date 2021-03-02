@@ -18,8 +18,7 @@
 
 package net.mcreator.ui.dialogs.tools.util;
 
-import net.mcreator.element.registry.ModElementType;
-import net.mcreator.element.registry.ModElementTypeRegistry;
+import net.mcreator.element.registry.ModElementTypes;
 import net.mcreator.element.parts.MItemBlock;
 import net.mcreator.element.types.Recipe;
 import net.mcreator.ui.MCreator;
@@ -35,8 +34,8 @@ import javax.annotation.Nullable;
 public class RecipeUtils {
 
 	public static void stairs(MCreator mcreator, Workspace workspace, String block, String recipeName, String resultBlock){
-		Recipe stairsRecipe = (Recipe) ModElementTypeRegistry.REGISTRY.get(ModElementType.RECIPE)
-				.getModElement(mcreator, new ModElement(workspace, recipeName, ModElementType.RECIPE), false)
+		Recipe stairsRecipe = (Recipe) ModElementTypes.RECIPE
+				.getModElement(mcreator, new ModElement(workspace, recipeName, ModElementTypes.RECIPE), false)
 				.getElementFromGUI();
 		stairsRecipe.recipeSlots[0] = new MItemBlock(workspace, "CUSTOM:" + block);
 		stairsRecipe.recipeSlots[3] = new MItemBlock(workspace, "CUSTOM:" + block);
@@ -53,8 +52,8 @@ public class RecipeUtils {
 	}
 
 	public static void slab(MCreator mcreator, Workspace workspace, String block, String recipeName, String resultBlock){
-		Recipe slabRecipe = (Recipe) ModElementTypeRegistry.REGISTRY.get(ModElementType.RECIPE)
-				.getModElement(mcreator, new ModElement(workspace, recipeName, ModElementType.RECIPE), false)
+		Recipe slabRecipe = (Recipe) ModElementTypes.RECIPE
+				.getModElement(mcreator, new ModElement(workspace, recipeName, ModElementTypes.RECIPE), false)
 				.getElementFromGUI();
 		slabRecipe.recipeSlots[6] = new MItemBlock(workspace, "CUSTOM:" + block);
 		slabRecipe.recipeSlots[7] = new MItemBlock(workspace, "CUSTOM:" + block);
@@ -68,8 +67,8 @@ public class RecipeUtils {
 	}
 
 	public static void wall(MCreator mcreator, Workspace workspace, String block, String recipeName, String returnItem) {
-		Recipe wallRecipe = (Recipe) ModElementTypeRegistry.REGISTRY.get(ModElementType.RECIPE)
-				.getModElement(mcreator, new ModElement(workspace, recipeName, ModElementType.RECIPE), false)
+		Recipe wallRecipe = (Recipe) ModElementTypes.RECIPE
+				.getModElement(mcreator, new ModElement(workspace, recipeName, ModElementTypes.RECIPE), false)
 				.getElementFromGUI();
 		wallRecipe.recipeSlots[3] = new MItemBlock(workspace, "CUSTOM:" + block);
 		wallRecipe.recipeSlots[4] = new MItemBlock(workspace, "CUSTOM:" + block);
@@ -86,8 +85,8 @@ public class RecipeUtils {
 	}
 
 	public static void fence(MCreator mcreator, Workspace workspace, String block, String recipeName, String resultBlock){
-		Recipe fenceRecipe = (Recipe) ModElementTypeRegistry.REGISTRY.get(ModElementType.RECIPE)
-				.getModElement(mcreator, new ModElement(workspace, recipeName, ModElementType.RECIPE), false)
+		Recipe fenceRecipe = (Recipe) ModElementTypes.RECIPE
+				.getModElement(mcreator, new ModElement(workspace, recipeName, ModElementTypes.RECIPE), false)
 				.getElementFromGUI();
 		fenceRecipe.recipeSlots[3] = new MItemBlock(workspace, "CUSTOM:" + block);
 		fenceRecipe.recipeSlots[4] = new MItemBlock(workspace, "Items.STICK");
@@ -104,8 +103,8 @@ public class RecipeUtils {
 	}
 
 	public static void fenceGate(MCreator mcreator, Workspace workspace, String block, String recipeName, String resultBlock){
-		Recipe fenceGateRecipe = (Recipe) ModElementTypeRegistry.REGISTRY.get(ModElementType.RECIPE)
-				.getModElement(mcreator, new ModElement(workspace, recipeName, ModElementType.RECIPE),
+		Recipe fenceGateRecipe = (Recipe) ModElementTypes.RECIPE
+				.getModElement(mcreator, new ModElement(workspace, recipeName, ModElementTypes.RECIPE),
 						false).getElementFromGUI();
 		fenceGateRecipe.recipeSlots[3] = new MItemBlock(workspace, "Items.STICK");
 		fenceGateRecipe.recipeSlots[4] = new MItemBlock(workspace, "CUSTOM:" + block);
@@ -122,8 +121,8 @@ public class RecipeUtils {
 	}
 
 	public static void door(MCreator mcreator, Workspace workspace, String block, String recipeName, String returnItem) {
-		Recipe recipe = (Recipe) ModElementTypeRegistry.REGISTRY.get(ModElementType.RECIPE)
-				.getModElement(mcreator, new ModElement(workspace, recipeName, ModElementType.RECIPE), false)
+		Recipe recipe = (Recipe) ModElementTypes.RECIPE
+				.getModElement(mcreator, new ModElement(workspace, recipeName, ModElementTypes.RECIPE), false)
 				.getElementFromGUI();
 		recipe.recipeSlots[0] = new MItemBlock(workspace, "CUSTOM:" + block);
 		recipe.recipeSlots[1] = new MItemBlock(workspace, "CUSTOM:" + block);
@@ -140,8 +139,8 @@ public class RecipeUtils {
 	}
 
 	public static void button(MCreator mcreator, Workspace workspace, String block, String recipeName, String resultBlock){
-		Recipe slabRecipe = (Recipe) ModElementTypeRegistry.REGISTRY.get(ModElementType.RECIPE)
-				.getModElement(mcreator, new ModElement(workspace, recipeName, ModElementType.RECIPE), false)
+		Recipe slabRecipe = (Recipe) ModElementTypes.RECIPE
+				.getModElement(mcreator, new ModElement(workspace, recipeName, ModElementTypes.RECIPE), false)
 				.getElementFromGUI();
 		slabRecipe.recipeSlots[0] = new MItemBlock(workspace, "CUSTOM:" + block);
 		slabRecipe.recipeShapeless = true;
@@ -154,8 +153,8 @@ public class RecipeUtils {
 	}
 
 	public static void pressurePlate(MCreator mcreator, Workspace workspace, String block, String recipeName, String resultBlock){
-		Recipe slabRecipe = (Recipe) ModElementTypeRegistry.REGISTRY.get(ModElementType.RECIPE)
-				.getModElement(mcreator, new ModElement(workspace, recipeName, ModElementType.RECIPE), false)
+		Recipe slabRecipe = (Recipe) ModElementTypes.RECIPE
+				.getModElement(mcreator, new ModElement(workspace, recipeName, ModElementTypes.RECIPE), false)
 				.getElementFromGUI();
 		slabRecipe.recipeSlots[0] = new MItemBlock(workspace, "CUSTOM:" + block);
 		slabRecipe.recipeSlots[1] = new MItemBlock(workspace, "CUSTOM:" + block);
@@ -169,8 +168,8 @@ public class RecipeUtils {
 	}
 
 	public static void stick(MCreator mcreator, Workspace workspace, String block, String recipeName){
-		Recipe stickRecipe = (Recipe) ModElementTypeRegistry.REGISTRY.get(ModElementType.RECIPE)
-				.getModElement(mcreator, new ModElement(workspace, recipeName, ModElementType.RECIPE), false)
+		Recipe stickRecipe = (Recipe) ModElementTypes.RECIPE
+				.getModElement(mcreator, new ModElement(workspace, recipeName, ModElementTypes.RECIPE), false)
 				.getElementFromGUI();
 		stickRecipe.recipeSlots[0] = new MItemBlock(workspace, "CUSTOM:" + block);
 		stickRecipe.recipeSlots[3] = new MItemBlock(workspace, "CUSTOM:" + block);
@@ -183,8 +182,8 @@ public class RecipeUtils {
 	}
 
 	public static void fourBlocks(MCreator mcreator, Workspace workspace, String block, String recipeName, String resultBlock){
-		Recipe fourBlocksRecipe = (Recipe) ModElementTypeRegistry.REGISTRY.get(ModElementType.RECIPE)
-				.getModElement(mcreator, new ModElement(workspace, recipeName, ModElementType.RECIPE), false)
+		Recipe fourBlocksRecipe = (Recipe) ModElementTypes.RECIPE
+				.getModElement(mcreator, new ModElement(workspace, recipeName, ModElementTypes.RECIPE), false)
 				.getElementFromGUI();
 		fourBlocksRecipe.recipeSlots[0] = new MItemBlock(workspace, "CUSTOM:" + block);
 		fourBlocksRecipe.recipeSlots[1] = new MItemBlock(workspace, "CUSTOM:" + block);
@@ -199,8 +198,8 @@ public class RecipeUtils {
 	}
 
 	public static void fullBlock(MCreator mcreator, Workspace workspace, String block, String textFieldName, String recipeName, String resultBlock, int stackSize){
-		Recipe fullBlockRecipe = (Recipe) ModElementTypeRegistry.REGISTRY.get(ModElementType.RECIPE)
-				.getModElement(mcreator, new ModElement(workspace,textFieldName + recipeName, ModElementType.RECIPE), false)
+		Recipe fullBlockRecipe = (Recipe) ModElementTypes.RECIPE
+				.getModElement(mcreator, new ModElement(workspace,textFieldName + recipeName, ModElementTypes.RECIPE), false)
 				.getElementFromGUI();
 		fullBlockRecipe.recipeSlots[0] = new MItemBlock(workspace, "CUSTOM:" + block);
 		fullBlockRecipe.recipeSlots[1] = new MItemBlock(workspace, "CUSTOM:" + block);
@@ -221,8 +220,8 @@ public class RecipeUtils {
 
 	public static void custom(MCreator mcreator, Workspace workspace, Recipes recipe, PackMakerTool pmt, String textFieldName, String resultItemName,
 			@Nullable MItemBlock base) {
-		Recipe customRecipe = (Recipe) ModElementTypeRegistry.REGISTRY.get(ModElementType.RECIPE)
-				.getModElement(mcreator, new ModElement(workspace, textFieldName + recipe.recipeName, ModElementType.RECIPE), false)
+		Recipe customRecipe = (Recipe) ModElementTypes.RECIPE
+				.getModElement(mcreator, new ModElement(workspace, textFieldName + recipe.recipeName, ModElementTypes.RECIPE), false)
 				.getElementFromGUI();
 		int slot = 0;
 		for(String line : recipe.pattern){
@@ -291,8 +290,8 @@ public class RecipeUtils {
 	}
 
 	public static void smelting(MCreator mcreator, Workspace workspace, Recipes recipe, String block, String textFieldName, double factor){
-		Recipe furnaceRecipe = (Recipe) ModElementTypeRegistry.REGISTRY.get(ModElementType.RECIPE)
-				.getModElement(mcreator, new ModElement(workspace, textFieldName + recipe.recipeName, ModElementType.RECIPE), false)
+		Recipe furnaceRecipe = (Recipe) ModElementTypes.RECIPE
+				.getModElement(mcreator, new ModElement(workspace, textFieldName + recipe.recipeName, ModElementTypes.RECIPE), false)
 				.getElementFromGUI();
 		furnaceRecipe.recipeType = "Smelting";
 		furnaceRecipe.smeltingInputStack = new MItemBlock(workspace, "CUSTOM:" + block);
@@ -306,8 +305,8 @@ public class RecipeUtils {
 	}
 
 	public static void smoking(MCreator mcreator, Workspace workspace, Recipes recipe, String block, String textFieldName, double factor){
-		Recipe furnaceRecipe = (Recipe) ModElementTypeRegistry.REGISTRY.get(ModElementType.RECIPE)
-				.getModElement(mcreator, new ModElement(workspace, textFieldName + recipe.recipeName, ModElementType.RECIPE), false)
+		Recipe furnaceRecipe = (Recipe) ModElementTypes.RECIPE
+				.getModElement(mcreator, new ModElement(workspace, textFieldName + recipe.recipeName, ModElementTypes.RECIPE), false)
 				.getElementFromGUI();
 		furnaceRecipe.recipeType = "Smoking";
 		furnaceRecipe.smokingInputStack = new MItemBlock(workspace, "CUSTOM:" + block);
@@ -321,8 +320,8 @@ public class RecipeUtils {
 	}
 
 	public static void blasting(MCreator mcreator, Workspace workspace, Recipes recipe, String block, String textFieldName, double factor){
-		Recipe furnaceRecipe = (Recipe) ModElementTypeRegistry.REGISTRY.get(ModElementType.RECIPE)
-				.getModElement(mcreator, new ModElement(workspace, textFieldName + recipe.recipeName, ModElementType.RECIPE), false)
+		Recipe furnaceRecipe = (Recipe) ModElementTypes.RECIPE
+				.getModElement(mcreator, new ModElement(workspace, textFieldName + recipe.recipeName, ModElementTypes.RECIPE), false)
 				.getElementFromGUI();
 		furnaceRecipe.recipeType = "Blasting";
 		furnaceRecipe.blastingInputStack = new MItemBlock(workspace, "CUSTOM:" + block);
@@ -336,8 +335,8 @@ public class RecipeUtils {
 	}
 
 	public static void campfireCooking(MCreator mcreator, Workspace workspace, Recipes recipe, String block, String textFieldName, double factor){
-		Recipe furnaceRecipe = (Recipe) ModElementTypeRegistry.REGISTRY.get(ModElementType.RECIPE)
-				.getModElement(mcreator, new ModElement(workspace, textFieldName + recipe.recipeName, ModElementType.RECIPE), false)
+		Recipe furnaceRecipe = (Recipe) ModElementTypes.RECIPE
+				.getModElement(mcreator, new ModElement(workspace, textFieldName + recipe.recipeName, ModElementTypes.RECIPE), false)
 				.getElementFromGUI();
 		furnaceRecipe.recipeType = "Campfire cooking";
 		furnaceRecipe.campfireCookingInputStack = new MItemBlock(workspace, "CUSTOM:" + block);
@@ -351,8 +350,8 @@ public class RecipeUtils {
 	}
 
 	public static void stoneCutting(MCreator mcreator, Workspace workspace, Recipes recipe, String block, String textFieldName, double factor){
-		Recipe stoneCuttingRecipe = (Recipe) ModElementTypeRegistry.REGISTRY.get(ModElementType.RECIPE)
-				.getModElement(mcreator, new ModElement(workspace, textFieldName + recipe.recipeName, ModElementType.RECIPE), false)
+		Recipe stoneCuttingRecipe = (Recipe) ModElementTypes.RECIPE
+				.getModElement(mcreator, new ModElement(workspace, textFieldName + recipe.recipeName, ModElementTypes.RECIPE), false)
 				.getElementFromGUI();
 		stoneCuttingRecipe.recipeType = "Stone cutting";
 		stoneCuttingRecipe.stoneCuttingInputStack = new MItemBlock(workspace, "CUSTOM:" + block);
@@ -365,8 +364,8 @@ public class RecipeUtils {
 	}
 
 	public static void stoneCutting(MCreator mcreator, Workspace workspace, String block, String recipeName, String returnItem, int stackSize){
-		Recipe stoneCuttingRecipe = (Recipe) ModElementTypeRegistry.REGISTRY.get(ModElementType.RECIPE)
-				.getModElement(mcreator, new ModElement(workspace, recipeName, ModElementType.RECIPE), false)
+		Recipe stoneCuttingRecipe = (Recipe) ModElementTypes.RECIPE
+				.getModElement(mcreator, new ModElement(workspace, recipeName, ModElementTypes.RECIPE), false)
 				.getElementFromGUI();
 		stoneCuttingRecipe.recipeType = "Stone cutting";
 		stoneCuttingRecipe.stoneCuttingInputStack = new MItemBlock(workspace, "CUSTOM:" + block);

@@ -19,7 +19,6 @@
 package net.mcreator.generator;
 
 import net.mcreator.element.GeneratableElement;
-import net.mcreator.element.registry.ModElementTypeRegistry;
 import net.mcreator.element.NamespacedGeneratableElement;
 import net.mcreator.element.registry.RecipeElementType;
 import net.mcreator.element.parts.Procedure;
@@ -109,7 +108,7 @@ import java.util.stream.Collectors;
 		if (element != null) {
 			// check if we are dealing with namespaced element
 			if (NamespacedGeneratableElement.class.isAssignableFrom(
-					ModElementTypeRegistry.REGISTRY.get(element.getType()).getModElementStorageClass())) {
+					element.getType().getModElementStorageClass())) {
 				GeneratableElement namespacedgeneratableemenet = element.getGeneratableElement();
 				if (namespacedgeneratableemenet instanceof NamespacedGeneratableElement) {
 					return ((NamespacedGeneratableElement) namespacedgeneratableemenet).getResourceLocation();

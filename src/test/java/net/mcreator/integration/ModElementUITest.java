@@ -19,8 +19,7 @@
 package net.mcreator.integration;
 
 import net.mcreator.element.GeneratableElement;
-import net.mcreator.element.registry.ModElementType;
-import net.mcreator.element.registry.ModElementTypeRegistry;
+import net.mcreator.element.registry.ModElementTypes;
 import net.mcreator.generator.Generator;
 import net.mcreator.generator.GeneratorConfiguration;
 import net.mcreator.generator.GeneratorFlavor;
@@ -88,17 +87,17 @@ public class ModElementUITest {
 
 		// generate some "dummy" procedures for dropdowns to work
 		for (int i = 1; i <= 13; i++) {
-			workspace.addModElement(new ModElement(workspace, "procedure" + i, ModElementType.PROCEDURE)
+			workspace.addModElement(new ModElement(workspace, "procedure" + i, ModElementTypes.PROCEDURE)
 					.putMetadata("dependencies", new ArrayList<String>()));
 		}
 
 		for (int i = 1; i <= 4; i++) {
-			workspace.addModElement(new ModElement(workspace, "condition" + i, ModElementType.PROCEDURE)
+			workspace.addModElement(new ModElement(workspace, "condition" + i, ModElementTypes.PROCEDURE)
 					.putMetadata("dependencies", new ArrayList<String>()).putMetadata("return_type", "LOGIC"));
 		}
 
 		for (int i = 1; i <= 2; i++) {
-			workspace.addModElement(new ModElement(workspace, "itemstack" + i, ModElementType.PROCEDURE)
+			workspace.addModElement(new ModElement(workspace, "itemstack" + i, ModElementTypes.PROCEDURE)
 					.putMetadata("dependencies", new ArrayList<String>()).putMetadata("return_type", "ITEMSTACK"));
 		}
 
@@ -129,13 +128,12 @@ public class ModElementUITest {
 
 	private void testModElementLoading(Random random)
 			throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, NoSuchFieldException {
-		for (Map.Entry<ModElementType, ModElementTypeRegistry.ModTypeRegistration<?>> modElementRegistration : ModElementTypeRegistry.REGISTRY
-				.entrySet()) {
+		for (ModElementTypes<?> type : ModElementTypes.elements) {
 
 			List<GeneratableElement> generatableElements = TestWorkspaceDataProvider
-					.getModElementExamplesFor(workspace, modElementRegistration.getKey(), random);
+					.getModElementExamplesFor(workspace, type, random);
 
-			LOG.info("Testing mod element type UI " + modElementRegistration.getKey().getReadableName() + " with "
+			LOG.info("Testing mod element type UI " + type.getReadableName() + " with "
 					+ generatableElements.size() + " variants");
 
 			for (GeneratableElement generatableElementOrig : generatableElements) {
@@ -156,8 +154,7 @@ public class ModElementUITest {
 					continue;
 				}
 
-				ModElementGUI<?> modElementGUI = modElementRegistration.getValue()
-						.getModElement(mcreator, modElement, false);
+				ModElementGUI<?> modElementGUI = type.getModElement(mcreator, modElement, false);
 
 				Field field = modElementGUI.getClass().getSuperclass().getDeclaredField("editingMode");
 				field.setAccessible(true);

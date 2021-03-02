@@ -29,8 +29,7 @@ package net.mcreator.integration.generator;
 
 import com.google.gson.Gson;
 import net.mcreator.element.GeneratableElement;
-import net.mcreator.element.registry.ModElementType;
-import net.mcreator.element.registry.ModElementTypeRegistry;
+import net.mcreator.element.registry.ModElementTypes;
 import net.mcreator.generator.GeneratorStats;
 import net.mcreator.generator.GeneratorTemplate;
 import net.mcreator.integration.TestWorkspaceDataProvider;
@@ -41,7 +40,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -51,20 +49,19 @@ import static org.junit.Assert.fail;
 public class GTModElements {
 
 	public static void runTest(Logger LOG, String generatorName, Random random, Workspace workspace) {
-		for (Map.Entry<ModElementType, ModElementTypeRegistry.ModTypeRegistration<?>> modElementRegistration : ModElementTypeRegistry.REGISTRY
-				.entrySet()) {
+		for (ModElementTypes<?> type : ModElementTypes.elements) {
 			if (workspace.getGenerator().getGeneratorStats().getModElementTypeCoverageInfo()
-					.get(modElementRegistration.getKey()) == GeneratorStats.CoverageStatus.NONE) {
-				LOG.warn("Skipping unsupported mod element type " + modElementRegistration.getKey().getReadableName() + " for generator "
+					.get(type) == GeneratorStats.CoverageStatus.NONE) {
+				LOG.warn("Skipping unsupported mod element type " + type.getReadableName() + " for generator "
 						+ generatorName);
 				continue;
 			}
 
 			List<GeneratableElement> modElementExamples = TestWorkspaceDataProvider
-					.getModElementExamplesFor(workspace, modElementRegistration.getKey(), random);
+					.getModElementExamplesFor(workspace, type, random);
 
-			LOG.info("[" + generatorName + "] Testing mod element type generation " + modElementRegistration.getKey()
-					.getReadableName() + " with " + modElementExamples.size() + " variants");
+			LOG.info("[" + generatorName + "] Testing mod element type generation " + type.getReadableName() + " with "
+					+ modElementExamples.size() + " variants");
 
 			modElementExamples.forEach(generatableElement -> {
 				ModElement modElement = generatableElement.getModElement();

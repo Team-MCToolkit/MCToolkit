@@ -19,7 +19,7 @@
 package net.mcreator.ui.workspace.resources;
 
 import net.mcreator.element.GeneratableElement;
-import net.mcreator.element.registry.ModElementType;
+import net.mcreator.element.registry.ModElementTypes;
 import net.mcreator.generator.GeneratorStats;
 import net.mcreator.io.FileIO;
 import net.mcreator.ui.component.TransparentToolBar;
@@ -202,7 +202,7 @@ public class WorkspacePanelModels extends JPanel implements IReloadableFilterabl
 					AtomicInteger i = new AtomicInteger();
 					// this model might be in use, we need to regenerate code of mobs
 					workspacePanel.getMcreator().getWorkspace().getModElements().forEach(e -> {
-						if (e.getType() == ModElementType.MOB && !e.isCodeLocked()) {
+						if (e.getType() == ModElementTypes.MOB && !e.isCodeLocked()) {
 							GeneratableElement generatableElement = e.getGeneratableElement();
 							if (generatableElement != null) {
 								// generate mod element

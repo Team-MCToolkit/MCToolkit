@@ -18,16 +18,13 @@
 
 package net.mcreator.ui.dialogs.tools;
 
-import net.mcreator.element.registry.ModElementType;
-import net.mcreator.element.parts.MItemBlock;
+import net.mcreator.element.registry.ModElementTypes;
 import net.mcreator.element.parts.Material;
 import net.mcreator.element.parts.StepSound;
 import net.mcreator.element.parts.TabEntry;
-import net.mcreator.element.registry.ModElementTypeRegistry;
 import net.mcreator.element.types.Block;
 import net.mcreator.generator.GeneratorConfiguration;
 import net.mcreator.generator.GeneratorStats;
-import net.mcreator.minecraft.ElementUtil;
 import net.mcreator.ui.MCreator;
 import net.mcreator.ui.action.ActionRegistry;
 import net.mcreator.ui.action.BasicAction;
@@ -38,20 +35,15 @@ import net.mcreator.ui.dialogs.MCreatorDialog;
 import net.mcreator.ui.dialogs.tools.util.RecipeUtils;
 import net.mcreator.ui.init.L10N;
 import net.mcreator.ui.init.UIRES;
-import net.mcreator.ui.minecraft.MCItemHolder;
 import net.mcreator.ui.minecraft.TextureHolder;
-import net.mcreator.ui.validation.Validator;
 import net.mcreator.ui.validation.component.VTextField;
 import net.mcreator.ui.validation.validators.ModElementNameValidator;
-import net.mcreator.util.StringUtils;
 import net.mcreator.workspace.Workspace;
 import net.mcreator.workspace.elements.ModElement;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -148,8 +140,8 @@ public class BuildingPackMakerTool {
 			fullname = name.getText();
 		else
 			fullname = name.getText() + type.replace(" ", "");
-		Block block = (Block) ModElementTypeRegistry.REGISTRY.get(ModElementType.BLOCK)
-				.getModElement(mcreator, new ModElement(workspace, fullname, ModElementType.BLOCK), false)
+		Block block = (Block) ModElementTypes.BLOCK
+				.getModElement(mcreator, new ModElement(workspace, fullname, ModElementTypes.BLOCK), false)
 				.getElementFromGUI();
 		block.name = type.equals("Normal") ? name.getText() : name.getText() + " " + type;;
 		if(!type.equals("Normal"))
@@ -215,9 +207,9 @@ public class BuildingPackMakerTool {
 			@Override public boolean isEnabled() {
 				GeneratorConfiguration gc = actionRegistry.getMCreator().getWorkspace().getGenerator()
 						.getGeneratorConfiguration();
-				return gc.getGeneratorStats().getModElementTypeCoverageInfo().get(ModElementType.RECIPE)
+				return gc.getGeneratorStats().getModElementTypeCoverageInfo().get(ModElementTypes.RECIPE)
 						!= GeneratorStats.CoverageStatus.NONE
-						&& gc.getGeneratorStats().getModElementTypeCoverageInfo().get(ModElementType.BLOCK)
+						&& gc.getGeneratorStats().getModElementTypeCoverageInfo().get(ModElementTypes.BLOCK)
 						!= GeneratorStats.CoverageStatus.NONE;
 			}
 		}.setIcon(UIRES.get("16px.buildpack"));

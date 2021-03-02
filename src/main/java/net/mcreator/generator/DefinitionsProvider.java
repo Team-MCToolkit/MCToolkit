@@ -20,8 +20,7 @@ package net.mcreator.generator;
 
 import com.esotericsoftware.yamlbeans.YamlException;
 import com.esotericsoftware.yamlbeans.YamlReader;
-import net.mcreator.element.registry.ModElementTypeRegistry;
-import net.mcreator.element.registry.ModElementType;
+import net.mcreator.element.registry.ModElementTypes;
 import net.mcreator.io.FileIO;
 import net.mcreator.plugin.PluginLoader;
 import org.apache.logging.log4j.LogManager;
@@ -38,7 +37,7 @@ class DefinitionsProvider {
 	private final Map<String, Map<?, ?>> cache = new ConcurrentHashMap<>();
 
 	DefinitionsProvider(String generatorName) {
-		for (ModElementType type : ModElementType.elements) {
+		for (ModElementTypes type : ModElementTypes.elements) {
 			String config = FileIO.readResourceToString(PluginLoader.INSTANCE,
 					"/" + generatorName + "/" + type.name().toLowerCase(Locale.ENGLISH) + ".definition.yaml");
 
@@ -55,7 +54,7 @@ class DefinitionsProvider {
 		}
 	}
 
-	Map<?, ?> getModElementDefinition(ModElementType elementType) {
+	Map<?, ?> getModElementDefinition(ModElementTypes elementType) {
 		return cache.get(elementType.name());
 	}
 

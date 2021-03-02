@@ -18,7 +18,7 @@
 
 package net.mcreator.ui.minecraft;
 
-import net.mcreator.element.registry.ModElementType;
+import net.mcreator.element.registry.ModElementTypes;
 import net.mcreator.ui.MCreator;
 import net.mcreator.ui.component.JItemListField;
 import net.mcreator.ui.component.util.PanelUtils;
@@ -33,9 +33,9 @@ import java.util.Locale;
 public class ModElementListField extends JItemListField<String> {
 
 	private final MCreator frame;
-	private final ModElementType type;
+	private final ModElementTypes type;
 
-	public ModElementListField(MCreator frame, ModElementType type) {
+	public ModElementListField(MCreator frame, ModElementTypes type) {
 		this.frame = frame;
 		this.type = type;
 	}

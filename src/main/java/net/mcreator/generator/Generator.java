@@ -28,7 +28,7 @@ import net.mcreator.blockly.datapack.BlocklyToJSONTrigger;
 import net.mcreator.blockly.java.BlocklyToProcedure;
 import net.mcreator.element.GeneratableElement;
 import net.mcreator.element.ITooltipContainer;
-import net.mcreator.element.registry.ModElementType;
+import net.mcreator.element.registry.ModElementTypes;
 import net.mcreator.element.types.Achievement;
 import net.mcreator.element.types.Mob;
 import net.mcreator.element.types.Procedure;
@@ -590,7 +590,7 @@ public class Generator implements IGenerator, Closeable {
 					return element;
 
 				// if this is GUI, we check for generated UI texture file too
-				if (element.getType() == ModElementType.GUI) {
+				if (element.getType() == ModElementTypes.GUI) {
 					File guiTextureFile = workspace.getFolderManager()
 							.getOtherTextureFile(element.getName().toLowerCase(Locale.ENGLISH));
 					if (guiTextureFile.getCanonicalPath().equals(file.getCanonicalPath()))

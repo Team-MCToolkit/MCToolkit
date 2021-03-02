@@ -22,7 +22,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import net.mcreator.element.GeneratableElement;
-import net.mcreator.element.registry.ModElementType;
+import net.mcreator.element.registry.ModElementTypes;
 import net.mcreator.element.types.CustomElement;
 import net.mcreator.generator.Generator;
 import net.mcreator.generator.GeneratorTemplate;
@@ -75,7 +75,7 @@ public class ModElementManager {
 	}
 
 	GeneratableElement loadGeneratableElement(ModElement element) {
-		if (element.getType() == ModElementType.CODE) {
+		if (element.getType() == ModElementTypes.CODE) {
 			return new CustomElement(element);
 		}
 
@@ -111,7 +111,7 @@ public class ModElementManager {
 			return false;
 
 		// custom code mod element does not actually have one, but is provided by this manager
-		if (element.getType() == ModElementType.CODE)
+		if (element.getType() == ModElementTypes.CODE)
 			return true;
 
 		return new File(workspace.getFolderManager().getModElementsDir(), element.getName() + ".mod.json").isFile();

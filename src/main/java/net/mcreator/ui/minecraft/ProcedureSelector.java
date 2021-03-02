@@ -21,9 +21,8 @@ package net.mcreator.ui.minecraft;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.mcreator.blockly.data.Dependency;
-import net.mcreator.element.registry.ModElementType;
-import net.mcreator.element.registry.ModElementTypeRegistry;
 import net.mcreator.element.parts.Procedure;
+import net.mcreator.element.registry.ModElementTypes;
 import net.mcreator.generator.GeneratorConfiguration;
 import net.mcreator.generator.GeneratorStats;
 import net.mcreator.io.net.analytics.AnalyticsConstants;
@@ -68,13 +67,9 @@ public class ProcedureSelector extends JPanel {
 
 	private final JButton edit = new JButton(UIRES.get("18px.edit"));
 	private final JButton add = new JButton(UIRES.get("18px.add"));
-
-	private CBoxEntry oldItem;
-
 	private final MCreator mcreator;
-
 	private final VariableElementType returnType;
-
+	private CBoxEntry oldItem;
 	private String defaultName = "(no procedure)";
 
 	public ProcedureSelector(@Nullable IHelpContext helpContext, MCreator mcreator, String eventName,
@@ -178,8 +173,9 @@ public class ProcedureSelector extends JPanel {
 		if (returnType == VariableElementType.LOGIC) {
 			procwrap = PanelUtils.westAndCenterElement(ComponentUtils.deriveFont(new JLabel(" if:  "), 15), procedures);
 		} else if (returnType == VariableElementType.ITEMSTACK) {
-			procwrap = PanelUtils.westAndCenterElement(ComponentUtils.deriveFont(new JLabel(" item:  "), 15), procedures);
-		}else if (returnType == null) {
+			procwrap = PanelUtils
+					.westAndCenterElement(ComponentUtils.deriveFont(new JLabel(" item:  "), 15), procedures);
+		} else if (returnType == null) {
 			procwrap = PanelUtils.westAndCenterElement(ComponentUtils.deriveFont(new JLabel(" do:  "), 15), procedures);
 		} else {
 			procwrap = procedures;
@@ -216,9 +212,8 @@ public class ProcedureSelector extends JPanel {
 
 				if (procedureNameString != null) {
 					ModElement element = new ModElement(mcreator.getWorkspace(), procedureNameString,
-							ModElementType.PROCEDURE);
-					ModElementGUI<?> newGUI = ModElementTypeRegistry.REGISTRY.get(ModElementType.PROCEDURE)
-							.getModElement(mcreator, element, false);
+							ModElementTypes.PROCEDURE);
+					ModElementGUI<?> newGUI = ModElementTypes.PROCEDURE.getModElement(mcreator, element, false);
 					if (newGUI != null) {
 						newGUI.showView();
 						newGUI.setModElementCreatedListener(generatableElement -> {
@@ -229,7 +224,7 @@ public class ProcedureSelector extends JPanel {
 						});
 						mcreator.getApplication().getAnalytics().async(() -> mcreator.getApplication().getAnalytics()
 								.trackEvent(AnalyticsConstants.EVENT_NEW_MOD_ELEMENT,
-										ModElementType.PROCEDURE.getReadableName(), null, null));
+										ModElementTypes.PROCEDURE.getReadableName(), null, null));
 					}
 				}
 			});
@@ -241,8 +236,7 @@ public class ProcedureSelector extends JPanel {
 				if (getSelectedProcedure() != null) {
 					ModElement selectedProcedureAsModElement = mcreator.getWorkspace()
 							.getModElementByName(getSelectedProcedure().getName());
-					ModElementGUI<?> modeditor = ModElementTypeRegistry.REGISTRY
-							.get(selectedProcedureAsModElement.getType())
+					ModElementGUI<?> modeditor = selectedProcedureAsModElement.getType()
 							.getModElement(mcreator, selectedProcedureAsModElement, true);
 					if (modeditor != null)
 						modeditor.showView();
@@ -264,7 +258,7 @@ public class ProcedureSelector extends JPanel {
 		procedures.setPrototypeDisplayValue(new CBoxEntry("XXXXXXXXX"));
 
 		GeneratorConfiguration gc = mcreator.getGeneratorConfiguration();
-		if (gc.getGeneratorStats().getModElementTypeCoverageInfo().get(ModElementType.PROCEDURE)
+		if (gc.getGeneratorStats().getModElementTypeCoverageInfo().get(ModElementTypes.PROCEDURE)
 				== GeneratorStats.CoverageStatus.NONE)
 			setEnabled(false);
 	}
@@ -276,7 +270,7 @@ public class ProcedureSelector extends JPanel {
 
 	@Override public void setEnabled(boolean enabled) {
 		GeneratorConfiguration gc = mcreator.getGeneratorConfiguration();
-		if (gc.getGeneratorStats().getModElementTypeCoverageInfo().get(ModElementType.PROCEDURE)
+		if (gc.getGeneratorStats().getModElementTypeCoverageInfo().get(ModElementTypes.PROCEDURE)
 				== GeneratorStats.CoverageStatus.NONE)
 			enabled = false;
 
@@ -294,7 +288,7 @@ public class ProcedureSelector extends JPanel {
 		procedures.addItem(new CBoxEntry(defaultName));
 
 		for (ModElement mod : mcreator.getWorkspace().getModElements()) {
-			if (mod.getType() == ModElementType.PROCEDURE) {
+			if (mod.getType() == ModElementTypes.PROCEDURE) {
 				List<?> dependenciesList = (List<?>) mod.getMetadata("dependencies");
 				VariableElementType returnTypeCurrent = mod.getMetadata("return_type") != null ?
 						VariableElementType.valueOf((String) mod.getMetadata("return_type")) :
@@ -381,6 +375,10 @@ public class ProcedureSelector extends JPanel {
 			procedures.setSelectedItem(new CBoxEntry(procedure.getName()));
 	}
 
+	public enum Side {
+		BOTH, CLIENT, SERVER
+	}
+
 	static class ConditionalComboBoxRenderer implements ListCellRenderer<CBoxEntry> {
 
 		private final BasicComboBoxRenderer renderer = new BasicComboBoxRenderer();
@@ -422,10 +420,6 @@ public class ProcedureSelector extends JPanel {
 			return string;
 		}
 
-	}
-
-	public enum Side {
-		BOTH, CLIENT, SERVER
 	}
 
 }

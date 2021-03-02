@@ -19,8 +19,7 @@
 package net.mcreator.generator;
 
 import net.mcreator.blockly.data.BlocklyLoader;
-import net.mcreator.element.registry.ModElementType;
-import net.mcreator.element.registry.ModElementTypeRegistry;
+import net.mcreator.element.registry.ModElementTypes;
 import net.mcreator.minecraft.DataListEntry;
 import net.mcreator.minecraft.DataListLoader;
 import net.mcreator.plugin.PluginLoader;
@@ -34,8 +33,8 @@ public class GeneratorStats {
 
 	private static final Pattern ftlFile = Pattern.compile(".*\\.ftl");
 
-	private final Map<ModElementType, CoverageStatus> modElementTypeCoverageInfo = new TreeMap<>(
-			Comparator.comparing(ModElementType::name));
+	private final Map<ModElementTypes<?>, CoverageStatus> modElementTypeCoverageInfo = new TreeMap<>(
+			Comparator.comparing(ModElementTypes::name));
 	private final Map<String, Double> coverageInfo = new HashMap<>();
 	private final Map<String, CoverageStatus> baseCoverageInfo = new HashMap<>();
 
@@ -55,7 +54,7 @@ public class GeneratorStats {
 		List<?> partials = ((List<?>) generatorConfiguration.getRaw().get("partial_support"));
 		if (partials == null)
 			partials = new ArrayList<>();
-		for (ModElementType type : ModElementType.elements) {
+		for (ModElementTypes type : ModElementTypes.elements) {
 			if (generatorConfiguration.getDefinitionsProvider().getModElementDefinition(type) != null) {
 				if (partials.contains(type.name().toLowerCase(Locale.ENGLISH))) {
 					modElementTypeCoverageInfo.put(type, CoverageStatus.PARTIAL);
@@ -159,7 +158,7 @@ public class GeneratorStats {
 				(features.contains(feature) ? CoverageStatus.FULL : CoverageStatus.NONE);
 	}
 
-	public Map<ModElementType, CoverageStatus> getModElementTypeCoverageInfo() {
+	public Map<ModElementTypes<?>, CoverageStatus> getModElementTypeCoverageInfo() {
 		return modElementTypeCoverageInfo;
 	}
 

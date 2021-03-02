@@ -20,7 +20,7 @@ package net.mcreator.ui.blockly;
 
 import com.google.gson.Gson;
 import net.mcreator.blockly.data.ExternalTrigger;
-import net.mcreator.element.registry.ModElementType;
+import net.mcreator.element.registry.ModElementTypes;
 import net.mcreator.element.registry.BaseType;
 import net.mcreator.io.OS;
 import net.mcreator.minecraft.DataListEntry;
@@ -161,12 +161,12 @@ public class BlocklyJavascriptBridge {
 		List<String> retval;
 		switch (type) {
 		case "procedure":
-			retval = workspace.getModElements().stream().filter(mel -> mel.getType() == ModElementType.PROCEDURE)
+			retval = workspace.getModElements().stream().filter(mel -> mel.getType() == ModElementTypes.PROCEDURE)
 					.map(ModElement::getName).collect(Collectors.toList());
 			break;
 		case "procedure_retval_logic":
 			retval = workspace.getModElements().stream().filter(mod -> {
-				if (mod.getType() == ModElementType.PROCEDURE) {
+				if (mod.getType() == ModElementTypes.PROCEDURE) {
 					VariableElementType returnTypeCurrent = mod.getMetadata("return_type") != null ?
 							VariableElementType.valueOf((String) mod.getMetadata("return_type")) :
 							null;
@@ -177,7 +177,7 @@ public class BlocklyJavascriptBridge {
 			break;
 		case "procedure_retval_number":
 			retval = workspace.getModElements().stream().filter(mod -> {
-				if (mod.getType() == ModElementType.PROCEDURE) {
+				if (mod.getType() == ModElementTypes.PROCEDURE) {
 					VariableElementType returnTypeCurrent = mod.getMetadata("return_type") != null ?
 							VariableElementType.valueOf((String) mod.getMetadata("return_type")) :
 							null;
@@ -188,7 +188,7 @@ public class BlocklyJavascriptBridge {
 			break;
 		case "procedure_retval_string":
 			retval = workspace.getModElements().stream().filter(mod -> {
-				if (mod.getType() == ModElementType.PROCEDURE) {
+				if (mod.getType() == ModElementTypes.PROCEDURE) {
 					VariableElementType returnTypeCurrent = mod.getMetadata("return_type") != null ?
 							VariableElementType.valueOf((String) mod.getMetadata("return_type")) :
 							null;
@@ -199,7 +199,7 @@ public class BlocklyJavascriptBridge {
 			break;
 		case "procedure_retval_itemstack":
 			retval = workspace.getModElements().stream().filter(mod -> {
-				if (mod.getType() == ModElementType.PROCEDURE) {
+				if (mod.getType() == ModElementTypes.PROCEDURE) {
 					VariableElementType returnTypeCurrent = mod.getMetadata("return_type") != null ?
 							VariableElementType.valueOf((String) mod.getMetadata("return_type")) :
 							null;
@@ -210,7 +210,7 @@ public class BlocklyJavascriptBridge {
 			break;
 		case "procedure_retval_blockstate":
 			retval = workspace.getModElements().stream().filter(mod -> {
-				if (mod.getType() == ModElementType.PROCEDURE) {
+				if (mod.getType() == ModElementTypes.PROCEDURE) {
 					VariableElementType returnTypeCurrent = mod.getMetadata("return_type") != null ?
 							VariableElementType.valueOf((String) mod.getMetadata("return_type")) :
 							null;
@@ -221,7 +221,7 @@ public class BlocklyJavascriptBridge {
 			break;
 		case "procedure_retval_time":
 			retval = workspace.getModElements().stream().filter(mod -> {
-				if (mod.getType() == ModElementType.PROCEDURE) {
+				if (mod.getType() == ModElementTypes.PROCEDURE) {
 					VariableElementType returnTypeCurrent = mod.getMetadata("return_type") != null ?
 							VariableElementType.valueOf((String) mod.getMetadata("return_type")) :
 							null;
@@ -281,7 +281,7 @@ public class BlocklyJavascriptBridge {
 			break;
 		case "rangeditem":
 			retval = ListUtils.merge(Collections.singleton("Arrow"),
-					workspace.getModElements().stream().filter(var -> var.getType() == ModElementType.RANGEDITEM)
+					workspace.getModElements().stream().filter(var -> var.getType() == ModElementTypes.RANGEDITEM)
 							.map(ModElement::getName).collect(Collectors.toList()));
 			break;
 		default:

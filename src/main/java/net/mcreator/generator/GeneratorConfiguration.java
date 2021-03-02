@@ -20,7 +20,7 @@ package net.mcreator.generator;
 
 import com.esotericsoftware.yamlbeans.YamlException;
 import com.esotericsoftware.yamlbeans.YamlReader;
-import net.mcreator.element.registry.ModElementType;
+import net.mcreator.element.registry.ModElementTypes;
 import net.mcreator.generator.mapping.MappingLoader;
 import net.mcreator.generator.template.TemplateGeneratorConfiguration;
 import net.mcreator.io.FileIO;
@@ -213,7 +213,7 @@ public class GeneratorConfiguration implements Comparable<GeneratorConfiguration
 		return jsonTriggerGeneratorConfiguration;
 	}
 
-	@Nullable public List<String> getSupportedDefinitionFields(ModElementType type) {
+	@Nullable public List<String> getSupportedDefinitionFields(ModElementTypes type) {
 		Map<?, ?> map = definitionsProvider.getModElementDefinition(type);
 
 		if (map == null) {

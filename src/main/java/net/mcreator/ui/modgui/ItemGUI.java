@@ -20,11 +20,10 @@ package net.mcreator.ui.modgui;
 
 import net.mcreator.blockly.*;
 import net.mcreator.blockly.data.*;
-import net.mcreator.element.parts.Enchantment;
 import net.mcreator.generator.blockly.OutputBlockCodeGenerator;
 import net.mcreator.ui.blockly.*;
 import net.mcreator.element.GeneratableElement;
-import net.mcreator.element.registry.ModElementType;
+import net.mcreator.element.registry.ModElementTypes;
 import net.mcreator.element.parts.TabEntry;
 import net.mcreator.element.types.GUI;
 import net.mcreator.element.types.Item;
@@ -57,13 +56,9 @@ import net.mcreator.util.StringUtils;
 import net.mcreator.workspace.elements.ModElement;
 import net.mcreator.workspace.elements.VariableElementType;
 import net.mcreator.workspace.resources.Model;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 import javax.swing.*;
@@ -71,7 +66,6 @@ import javax.swing.border.TitledBorder;
 import javax.xml.parsers.*;
 import java.awt.*;
 import java.io.StringReader;
-import java.text.ParseException;
 import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -508,7 +502,7 @@ public class ItemGUI extends ModElementGUI<Item> {
 						.collect(Collectors.toList())));
 
 		ComboBoxUtil.updateComboBoxContents(guiBoundTo, ListUtils.merge(Collections.singleton("<NONE>"),
-				mcreator.getWorkspace().getModElements().stream().filter(var -> var.getType() == ModElementType.GUI)
+				mcreator.getWorkspace().getModElements().stream().filter(var -> var.getType() == ModElementTypes.GUI)
 						.map(ModElement::getName).collect(Collectors.toList())), "<NONE>");
 	}
 

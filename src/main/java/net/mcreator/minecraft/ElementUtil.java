@@ -18,7 +18,7 @@
 
 package net.mcreator.minecraft;
 
-import net.mcreator.element.registry.ModElementType;
+import net.mcreator.element.registry.ModElementTypes;
 import net.mcreator.element.registry.BaseType;
 import net.mcreator.workspace.Workspace;
 import net.mcreator.workspace.elements.ModElement;
@@ -83,7 +83,7 @@ public class ElementUtil {
 	}
 
 	public static List<DataListEntry> loadAllAchievements(Workspace workspace) {
-		List<DataListEntry> achievements = getCustomElementsOfType(workspace, ModElementType.ADVANCEMENT);
+		List<DataListEntry> achievements = getCustomElementsOfType(workspace, ModElementTypes.ADVANCEMENT);
 		achievements.addAll(DataListLoader.loadDataList("achievements"));
 		return achievements;
 	}
@@ -134,7 +134,7 @@ public class ElementUtil {
 
 	public static List<DataListEntry> getAllBooleanGameRules(Workspace workspace) {
 		List<DataListEntry> retval = getCustomElements(workspace, modelement -> {
-			if (modelement.getType() == ModElementType.GAMERULE)
+			if (modelement.getType() == ModElementTypes.GAMERULE)
 				return modelement.getMetadata("type").equals("boolean");
 			return false;
 		});
@@ -146,7 +146,7 @@ public class ElementUtil {
 
 	public static List<DataListEntry> getAllNumberGameRules(Workspace workspace) {
 		List<DataListEntry> retval = getCustomElements(workspace, modelement -> {
-			if (modelement.getType() == ModElementType.GAMERULE)
+			if (modelement.getType() == ModElementTypes.GAMERULE)
 				return modelement.getMetadata("type").equals("number");
 			return false;
 		});
@@ -160,7 +160,7 @@ public class ElementUtil {
 		ArrayList<String> retval = new ArrayList<>();
 
 		for (ModElement modElement : workspace.getModElements()) {
-			if (modElement.getType() == ModElementType.FLUID) {
+			if (modElement.getType() == ModElementTypes.FLUID) {
 				retval.add("CUSTOM:" + modElement.getName());
 				retval.add("CUSTOM:" + modElement.getName() + ":Flowing");
 			}
@@ -252,7 +252,7 @@ public class ElementUtil {
 				.collect(Collectors.toList());
 	}
 
-	private static List<DataListEntry> getCustomElementsOfType(@NotNull Workspace workspace, ModElementType type) {
+	private static List<DataListEntry> getCustomElementsOfType(@NotNull Workspace workspace, ModElementTypes type) {
 		return workspace.getModElements().stream().filter(mu -> mu.getType() == type).map(DataListEntry.Custom::new)
 				.collect(Collectors.toList());
 	}

@@ -18,7 +18,7 @@
 
 package net.mcreator.ui.dialogs.workspace;
 
-import net.mcreator.element.registry.ModElementType;
+import net.mcreator.element.registry.ModElementTypes;
 import net.mcreator.generator.Generator;
 import net.mcreator.generator.GeneratorConfiguration;
 import net.mcreator.generator.GeneratorFlavor;
@@ -107,7 +107,7 @@ public class GeneratorSelector {
 			genStats.add(new JEmptyBox(20, 20));
 
 			JPanel supportedModTypes = new JPanel(new GridLayout(-1, 5, 7, 2));
-			for (Map.Entry<ModElementType, GeneratorStats.CoverageStatus> typeCoverageInfo : stats
+			for (Map.Entry<ModElementTypes<?>, GeneratorStats.CoverageStatus> typeCoverageInfo : stats
 					.getModElementTypeCoverageInfo().entrySet()) {
 				addStatusLabel(typeCoverageInfo.getKey().getReadableName(), typeCoverageInfo.getValue(),
 						supportedModTypes);

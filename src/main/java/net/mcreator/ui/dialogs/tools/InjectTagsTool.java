@@ -19,7 +19,7 @@
 package net.mcreator.ui.dialogs.tools;
 
 import com.google.common.base.CaseFormat;
-import net.mcreator.element.registry.ModElementType;
+import net.mcreator.element.registry.ModElementTypes;
 import net.mcreator.element.types.Tag;
 import net.mcreator.generator.GeneratorConfiguration;
 import net.mcreator.generator.GeneratorStats;
@@ -120,16 +120,16 @@ public class InjectTagsTool {
 		JLabel icon = new JLabel();
 		if (type.equals("Blocks"))
 			icon.setIcon(new ImageIcon(
-					ImageUtils.resizeAA(TiledImageCache.getModTypeIcon(ModElementType.BLOCK).getImage(), 32)));
+					ImageUtils.resizeAA(TiledImageCache.getModTypeIcon(ModElementTypes.BLOCK).getImage(), 32)));
 		if (type.equals("Items"))
 			icon.setIcon(new ImageIcon(
-					ImageUtils.resizeAA(TiledImageCache.getModTypeIcon(ModElementType.ITEM).getImage(), 32)));
+					ImageUtils.resizeAA(TiledImageCache.getModTypeIcon(ModElementTypes.ITEM).getImage(), 32)));
 		if (type.equals("Functions"))
 			icon.setIcon(new ImageIcon(
-					ImageUtils.resizeAA(TiledImageCache.getModTypeIcon(ModElementType.FUNCTION).getImage(), 32)));
+					ImageUtils.resizeAA(TiledImageCache.getModTypeIcon(ModElementTypes.FUNCTION).getImage(), 32)));
 		if (type.equals("Entities"))
 			icon.setIcon(new ImageIcon(
-					ImageUtils.resizeAA(TiledImageCache.getModTypeIcon(ModElementType.MOB).getImage(), 32)));
+					ImageUtils.resizeAA(TiledImageCache.getModTypeIcon(ModElementTypes.MOB).getImage(), 32)));
 
 		panel.add(PanelUtils.centerAndEastElement(box, icon));
 
@@ -154,7 +154,7 @@ public class InjectTagsTool {
 		Workspace workspace = mcreator.getWorkspace();
 
 		if (workspace.getModElementByName(modElementName) == null) {
-			Tag tag = new Tag(new ModElement(workspace, modElementName, ModElementType.TAG));
+			Tag tag = new Tag(new ModElement(workspace, modElementName, ModElementTypes.TAG));
 			tag.name = name;
 			tag.namespace = namespace;
 			tag.type = type;
@@ -176,7 +176,7 @@ public class InjectTagsTool {
 				e -> open(actionRegistry.getMCreator())) {
 			@Override public boolean isEnabled() {
 				GeneratorConfiguration gc = actionRegistry.getMCreator().getGeneratorConfiguration();
-				return gc.getGeneratorStats().getModElementTypeCoverageInfo().get(ModElementType.TAG)
+				return gc.getGeneratorStats().getModElementTypeCoverageInfo().get(ModElementTypes.TAG)
 						!= GeneratorStats.CoverageStatus.NONE;
 			}
 		}.setIcon(UIRES.get("16px.injecttags"));

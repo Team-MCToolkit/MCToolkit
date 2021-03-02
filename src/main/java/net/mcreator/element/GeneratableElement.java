@@ -21,8 +21,7 @@ package net.mcreator.element;
 import com.google.gson.*;
 import net.mcreator.element.converter.ConverterRegistry;
 import net.mcreator.element.converter.IConverter;
-import net.mcreator.element.registry.ModElementType;
-import net.mcreator.element.registry.ModElementTypeRegistry;
+import net.mcreator.element.registry.ModElementTypes;
 import net.mcreator.generator.mapping.MappableElement;
 import net.mcreator.workspace.Workspace;
 import net.mcreator.workspace.elements.ModElement;
@@ -35,6 +34,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Objects;
 
 public abstract class GeneratableElement {
 
@@ -89,13 +89,13 @@ public abstract class GeneratableElement {
 		@Override
 		public GeneratableElement deserialize(JsonElement jsonElement, Type type,
 				JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
-			ModElementType modElementType = ModElementType.get(jsonElement.getAsJsonObject().get("_type").getAsString());
+			ModElementTypes<? extends GeneratableElement> modElementType = ModElementTypes
+					.get(jsonElement.getAsJsonObject().get("_type").getAsString());
 			int importedFormatVersion = jsonDeserializationContext
 					.deserialize(jsonElement.getAsJsonObject().get("_fv"), Integer.class);
 
-			final GeneratableElement[] generatableElement = {
-					gson.fromJson(jsonElement.getAsJsonObject().get("definition"),
-							ModElementTypeRegistry.REGISTRY.get(modElementType).getModElementStorageClass()) };
+			final GeneratableElement[] generatableElement = { gson.fromJson(jsonElement.getAsJsonObject().get("definition"),
+					Objects.requireNonNull(modElementType).getModElementStorageClass()) };
 
 			generatableElement[0].setModElement(this.lastModElement); // set the mod element reference
 			passWorkspaceToFields(generatableElement[0], workspace);
