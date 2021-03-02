@@ -818,7 +818,7 @@ import java.util.stream.Collectors;
 				if (but6.isEnabled()) {
 					IElement mu = list.getSelectedValue();
 					if (mu instanceof ModElement
-							&& ((ModElement) mu).getType().getBaseType() != ModElementType.BaseType.DATAPACK) {
+							&& ((ModElement) mu).getType().getBaseType() != BaseType.DATAPACK) {
 						ModElement modified = ModElementIDsDialog.openModElementIDDialog(mcreator, ((ModElement) mu));
 						if (modified != null)
 							mcreator.getWorkspace().updateModElement(modified);

@@ -70,12 +70,12 @@ public class ModElementType implements Comparable<ModElementType> {
 	public static final ModElementType TOOL = new ModElementType("tool", BaseType.ITEM, RecipeElementType.ITEM);
 
 	//Constructor used for the same registry name and localization ID.
-	ModElementType(String registryName, BaseType baseType, RecipeElementType recipeElementType) {
+	private ModElementType(String registryName, BaseType baseType, RecipeElementType recipeElementType) {
 		this(registryName, registryName, baseType, recipeElementType);
 	}
 
 	//Used to have a different name and registry name
-	ModElementType(String registryName, String name, BaseType baseType, RecipeElementType recipeElementType) {
+	private ModElementType(String registryName, String name, BaseType baseType, RecipeElementType recipeElementType) {
 		this.baseType = baseType;
 		this.recipeElementType = recipeElementType;
 		this.registryName = registryName;

@@ -23,6 +23,7 @@ import net.mcreator.element.parts.MItemBlock;
 import net.mcreator.element.parts.Material;
 import net.mcreator.element.parts.StepSound;
 import net.mcreator.element.parts.TabEntry;
+import net.mcreator.element.registry.ModElementTypeRegistry;
 import net.mcreator.element.types.Block;
 import net.mcreator.generator.GeneratorConfiguration;
 import net.mcreator.generator.GeneratorStats;
