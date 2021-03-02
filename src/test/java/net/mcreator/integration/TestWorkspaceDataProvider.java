@@ -1284,7 +1284,7 @@ public class TestWorkspaceDataProvider {
 			block.isItemTinted = _true;
 			block.renderType = new int[] { 10, block.isBlockTinted() ? 110 : 11, block.isBlockTinted() ? 120 : 12,
 					14 }[valueIndex];
-			block.customModelName = new String[] { "Normal", "Single texture", "Cross model", "Normal" }[valueIndex];
+			block.customModelName = new String[] { "Normal", "Single texture", "Cross model", "Grass block" }[valueIndex];
 			return block;
 		} else if (ModElementTypes.TAG.equals(modElement.getType())) {
 			Tag tag = new Tag(modElement);
