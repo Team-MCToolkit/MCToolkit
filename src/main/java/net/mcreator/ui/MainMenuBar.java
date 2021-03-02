@@ -18,8 +18,14 @@
 
 package net.mcreator.ui;
 
+import net.mcreator.preferences.PreferencesManager;
+import net.mcreator.ui.action.BasicAction;
 import net.mcreator.ui.component.SocialButtons;
 import net.mcreator.ui.component.util.ComponentUtils;
+import net.mcreator.ui.dialogs.tools.plugin.CustomPackMakerTool;
+import net.mcreator.ui.dialogs.tools.plugin.PackMakerTool;
+import net.mcreator.ui.dialogs.tools.plugin.PackMakerToolIcons;
+import net.mcreator.ui.dialogs.tools.plugin.PackMakerToolLoader;
 import net.mcreator.ui.ide.CodeEditorView;
 import net.mcreator.ui.init.L10N;
 import net.mcreator.ui.init.UIRES;
@@ -47,7 +53,7 @@ public class MainMenuBar extends JMenuBar {
 
 		setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, (Color) UIManager.get("MCreatorLAF.BLACK_ACCENT")));
 
-		JMenu logo = new JMenu("  MCreator");
+		JMenu logo = new JMenu("  MCToolkit");
 		logo.setMnemonic('M');
 		logo.setIcon(new ImageIcon(ImageUtils.resizeAA(UIRES.get("icon").getImage(), 14, 14)));
 
@@ -97,6 +103,8 @@ public class MainMenuBar extends JMenuBar {
 		file.add(mcreator.actionRegistry.closeWorkspace);
 		file.addSeparator();
 		file.add(mcreator.actionRegistry.preferences);
+		if(PreferencesManager.PREFERENCES.ui.developerFeatures)
+			file.add(mcreator.actionRegistry.reloadPlugins);
 		file.addSeparator();
 		file.add(mcreator.actionRegistry.exitMCreator);
 		add(file);
@@ -155,6 +163,8 @@ public class MainMenuBar extends JMenuBar {
 		resources.setMnemonic('R');
 		resources.add(mcreator.actionRegistry.importBlockTexture);
 		resources.add(mcreator.actionRegistry.importItemTexture);
+		resources.add(mcreator.actionRegistry.importEntityTexture);
+		resources.add(mcreator.actionRegistry.importPaintingTexture);
 		resources.add(mcreator.actionRegistry.importArmorTexture);
 		resources.add(mcreator.actionRegistry.importOtherTexture);
 		resources.addSeparator();
@@ -195,9 +205,19 @@ public class MainMenuBar extends JMenuBar {
 		tools.addSeparator();
 		tools.add(mcreator.actionRegistry.openMaterialPackMaker);
 		tools.add(mcreator.actionRegistry.openOrePackMaker);
-		tools.add(mcreator.actionRegistry.openToolPackMaker);
 		tools.add(mcreator.actionRegistry.openArmorPackMaker);
-		tools.add(mcreator.actionRegistry.openWoodPackMaker);
+		tools.add(mcreator.actionRegistry.openBuildingPackMaker);
+		for(PackMakerTool pmt : PackMakerToolLoader.getPackMakersList()){
+			BasicAction action = CustomPackMakerTool.getAction(mcreator.actionRegistry, pmt);
+			if(pmt.ui.icon != null){
+				if(PackMakerToolIcons.CACHE.containsKey(pmt.ui.icon)){
+					ImageIcon imageIcon = PackMakerToolIcons.getIconForItem(pmt.ui.icon);
+					if (imageIcon != null && imageIcon.getImage() != null)
+						action.setIcon(imageIcon);
+				}
+			}
+			tools.add(action);
+		}
 		tools.addSeparator();
 		tools.add(mcreator.actionRegistry.openJavaEditionFolder);
 		tools.add(mcreator.actionRegistry.openBedrockEditionFolder);

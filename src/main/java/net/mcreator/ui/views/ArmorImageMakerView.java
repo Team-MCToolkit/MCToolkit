@@ -112,14 +112,18 @@ public class ArmorImageMakerView extends ViewBase {
 				true, true, false, true));
 		save.addActionListener(event -> {
 			String namec = JOptionPane.showInputDialog(L10N.t("dialog.armor_image_maker.name"));
+			String folderName = JOptionPane.showInputDialog("Directory name of armor texture (without spaces): ");
 			if (namec != null && !namec.trim().equals("")) {
 				namec = RegistryNameFixer.fix(namec);
+				System.out.println(folderName);
+				folderName = RegistryNameFixer.fix(folderName);
+				System.out.println(folderName);
 				File[] armorPars = mcreator.getFolderManager().getArmorTextureFilesForName(namec);
 				if (armorPars[0].isFile() || armorPars[1].isFile()) {
 					JOptionPane.showMessageDialog(mcreator, L10N.t("dialog.armor_image_maker.name_already_exists"),
 							L10N.t("dialog.armor_image_maker.resource_error"), JOptionPane.ERROR_MESSAGE);
 				} else {
-					generateArmorImages(mcreator.getWorkspace(), namec, (String) str.getSelectedItem(), col.getColor(),
+					generateArmorImages(mcreator.getWorkspace(), namec, folderName, (String) str.getSelectedItem(), col.getColor(),
 							!type1.isSelected());
 				}
 			}
@@ -131,7 +135,7 @@ public class ArmorImageMakerView extends ViewBase {
 		updateARM();
 	}
 
-	public static void generateArmorImages(Workspace workspace, String namec, String type, Color color,
+	public static void generateArmorImages(Workspace workspace, String namec, String folderName, String type, Color color,
 			boolean colorizeType) {
 		Image[] images = getImages(type, color, colorizeType);
 
@@ -141,10 +145,10 @@ public class ArmorImageMakerView extends ViewBase {
 		File[] armorPars = workspace.getFolderManager().getArmorTextureFilesForName(namec);
 		FileIO.writeImageToPNGFile(ImageUtils.toBufferedImage(image), armorPars[0]);
 		FileIO.writeImageToPNGFile(ImageUtils.toBufferedImage(image2), armorPars[1]);
-		use(workspace, images[2], namec + "_head");
-		use(workspace, images[3], namec + "_body");
-		use(workspace, images[4], namec + "_leggings");
-		use(workspace, images[5], namec + "_boots");
+		use(workspace, images[2], folderName + "/" + namec + "_head");
+		use(workspace, images[3], folderName + "/" + namec + "_body");
+		use(workspace, images[4], folderName + "/" + namec + "_leggings");
+		use(workspace, images[5], folderName + "/" + namec + "_boots");
 	}
 
 	private static Image[] getImages(String type, Color color, boolean colType) {
