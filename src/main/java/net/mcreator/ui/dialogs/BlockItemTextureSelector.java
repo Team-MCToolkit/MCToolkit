@@ -18,14 +18,18 @@
 
 package net.mcreator.ui.dialogs;
 
-import net.mcreator.ui.MCreator;
-import net.mcreator.ui.component.util.ComponentUtils;
-import net.mcreator.ui.component.util.PanelUtils;
-import net.mcreator.ui.dialogs.imageeditor.NewImageDialog;
-import net.mcreator.ui.init.L10N;
-import net.mcreator.ui.init.UIRES;
-import net.mcreator.util.image.ImageUtils;
 import org.apache.commons.io.FilenameUtils;
+
+import net.mcreator.util.image.ImageUtils;
+import net.mcreator.ui.validation.Validator;
+import net.mcreator.ui.validation.component.VComboBox;
+import net.mcreator.ui.validation.validators.TagsNameValidator;
+import net.mcreator.ui.MCreator;
+import net.mcreator.ui.init.UIRES;
+import net.mcreator.ui.init.L10N;
+import net.mcreator.ui.dialogs.imageeditor.NewImageDialog;
+import net.mcreator.ui.component.util.PanelUtils;
+import net.mcreator.ui.component.util.ComponentUtils;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -33,6 +37,8 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +57,8 @@ public class BlockItemTextureSelector extends MCreatorDialog {
 	private final JTextField filterField = new JTextField(20);
 
 	private final MCreator mcreator;
+
+	private ActionListener tagSelectedListener;
 
 	public BlockItemTextureSelector(MCreator mcreator, TextureType type) {
 		super(mcreator);
@@ -152,6 +160,48 @@ public class BlockItemTextureSelector extends MCreatorDialog {
 			}
 		});
 		pno.add(importTx);
+
+		JButton importMc = L10N.button("dialog.textures_selector.import_mc", type.name().toLowerCase(Locale.ENGLISH));
+		importMc.setFont(naprej.getFont());
+		importMc.setIcon(UIRES.get("18px.add"));
+		VComboBox<String> tagName = new VComboBox<>();
+
+		tagName.setValidator(new TagsNameValidator<>(tagName, true));
+
+		tagName.addItem("");
+		tagName.addItem("minecraft:cobblestone");
+		tagName.addItem("minecraft:diamond");
+
+		tagName.setEditable(true);
+		tagName.setOpaque(false);
+		tagName.setForeground(Color.white);
+		ComponentUtils.deriveFont(tagName, 16);
+
+		tagName.enableRealtimeValidation();
+		importMc.addActionListener(event -> {
+
+			int result = JOptionPane.showConfirmDialog(this, PanelUtils.northAndCenterElement(
+					L10N.label("dialog.textures_selector.enter_id", type.name().toLowerCase(Locale.ENGLISH)), tagName),
+					L10N.t("dialog.textures_selector.use_id", type.name().toLowerCase(Locale.ENGLISH)), JOptionPane.OK_CANCEL_OPTION);
+			if (result == JOptionPane.OK_OPTION) {
+				if (tagName.getValidationStatus().getValidationResultType()
+						!= Validator.ValidationResultType.ERROR) {
+					String selectedTag = tagName.getSelectedItem();
+					if (selectedTag != null) {
+						list.setSelectedValue(selectedTag, true);
+						setVisible(false);
+						if (tagSelectedListener != null)
+							tagSelectedListener.actionPerformed(new ActionEvent(this, 0, ""));
+					}
+				} else {
+					JOptionPane
+							.showMessageDialog(this, L10N.t("dialog.textures_selector.error_invalid_id_message"),
+									L10N.t("dialog.textures_selector.error_invalid_id_title"),
+									JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		pno.add(importMc);
 
 		pn.add("North", PanelUtils.westAndEastElement(pno, PanelUtils.totalCenterInPanel(pno2)));
 		pn.add("South", buttons);
