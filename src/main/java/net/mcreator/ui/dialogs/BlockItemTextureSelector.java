@@ -37,7 +37,6 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
@@ -57,8 +56,6 @@ public class BlockItemTextureSelector extends MCreatorDialog {
 	private final JTextField filterField = new JTextField(20);
 
 	private final MCreator mcreator;
-
-	private ActionListener tagSelectedListener;
 
 	public BlockItemTextureSelector(MCreator mcreator, TextureType type) {
 		super(mcreator);
@@ -164,34 +161,37 @@ public class BlockItemTextureSelector extends MCreatorDialog {
 		JButton importMc = L10N.button("dialog.textures_selector.import_mc", type.name().toLowerCase(Locale.ENGLISH));
 		importMc.setFont(naprej.getFont());
 		importMc.setIcon(UIRES.get("18px.add"));
-		VComboBox<String> tagName = new VComboBox<>();
+		VComboBox<String> ID = new VComboBox<>();
 
-		tagName.setValidator(new TagsNameValidator<>(tagName, true));
+		ID.setValidator(new TagsNameValidator<>(ID, true));
 
-		tagName.addItem("");
-		tagName.addItem("minecraft:cobblestone");
-		tagName.addItem("minecraft:diamond");
+		ID.addItem("");
+		ID.addItem("minecraft:cobblestone");
+		ID.addItem("minecraft:diamond");
 
-		tagName.setEditable(true);
-		tagName.setOpaque(false);
-		tagName.setForeground(Color.white);
-		ComponentUtils.deriveFont(tagName, 16);
+		ID.setEditable(true);
+		ID.setOpaque(false);
+		ID.setForeground(Color.white);
+		ComponentUtils.deriveFont(ID, 16);
 
-		tagName.enableRealtimeValidation();
+		ID.enableRealtimeValidation();
 		importMc.addActionListener(event -> {
 
 			int result = JOptionPane.showConfirmDialog(this, PanelUtils.northAndCenterElement(
-					L10N.label("dialog.textures_selector.enter_id", type.name().toLowerCase(Locale.ENGLISH)), tagName),
+					L10N.label("dialog.textures_selector.enter_id", type.name().toLowerCase(Locale.ENGLISH)), ID),
 					L10N.t("dialog.textures_selector.use_id", type.name().toLowerCase(Locale.ENGLISH)), JOptionPane.OK_CANCEL_OPTION);
 			if (result == JOptionPane.OK_OPTION) {
-				if (tagName.getValidationStatus().getValidationResultType()
+				if (ID.getValidationStatus().getValidationResultType()
 						!= Validator.ValidationResultType.ERROR) {
-					String selectedTag = tagName.getSelectedItem();
-					if (selectedTag != null) {
-						list.setSelectedValue(selectedTag, true);
-						setVisible(false);
-						if (tagSelectedListener != null)
-							tagSelectedListener.actionPerformed(new ActionEvent(this, 0, ""));
+					String selectedID = ID.getSelectedItem();
+					if (selectedID != null) {
+						model.removeAllElements();
+						File fileID = new File(selectedID);
+						model.addElement(fileID);
+						list.setSelectedValue(fileID, true);
+						if (model.getSize() > 0) {
+							layout.show(center, "list");
+						}
 					}
 				} else {
 					JOptionPane

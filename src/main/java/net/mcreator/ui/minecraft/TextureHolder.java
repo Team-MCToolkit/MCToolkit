@@ -30,6 +30,7 @@ import java.awt.event.*;
 
 public class TextureHolder extends VButton {
 
+	private String file = "";
 	private String id = "";
 	private final BlockItemTextureSelector td;
 
@@ -53,14 +54,24 @@ public class TextureHolder extends VButton {
 		setPreferredSize(new Dimension(this.size, this.size));
 		td.getConfirmButton().addActionListener(event -> {
 			if (td.list.getSelectedValue() != null) {
-				id = FilenameUtils.removeExtension(td.list.getSelectedValue().getName());
-				setIcon(new ImageIcon(
-						ImageUtils.resize(new ImageIcon(td.list.getSelectedValue().toString()).getImage(), this.size)));
-				td.setVisible(false);
-				if (actionListener != null)
-					actionListener.actionPerformed(new ActionEvent(this, 0, ""));
-				getValidationStatus();
-				setToolTipText(id);
+				file = td.list.getSelectedValue().getName();
+				if (file.endsWith(".png")) {
+					id = FilenameUtils.removeExtension(file);
+					setIcon(new ImageIcon(ImageUtils.resize(new ImageIcon(td.list.getSelectedValue().toString()).getImage(), this.size)));
+					td.setVisible(false);
+					if (actionListener != null)
+						actionListener.actionPerformed(new ActionEvent(this, 0, ""));
+					getValidationStatus();
+					setToolTipText(id);
+				} else {
+					id = file;
+					setIcon(new ImageIcon(ImageUtils.resize(UIRES.get("tag").getImage(), size)));
+					td.setVisible(false);
+					if (actionListener != null)
+						actionListener.actionPerformed(new ActionEvent(this, 0, ""));
+					getValidationStatus();
+					setToolTipText(id);
+				}
 			}
 		});
 
