@@ -166,8 +166,8 @@ public class BlockItemTextureSelector extends MCreatorDialog {
 		ID.setValidator(new TagsNameValidator<>(ID, true));
 
 		ID.addItem("");
-		ID.addItem("minecraft:cobblestone");
-		ID.addItem("minecraft:diamond");
+		ID.addItem("minecraft:block/cobblestone");
+		ID.addItem("minecraft:item/diamond");
 
 		ID.setEditable(true);
 		ID.setOpaque(false);

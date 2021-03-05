@@ -64,13 +64,13 @@ public class TextureHolder extends VButton {
 					getValidationStatus();
 					setToolTipText(id);
 				} else {
-					id = file;
+					id = file + ".png";
 					setIcon(new ImageIcon(ImageUtils.resize(UIRES.get("tag").getImage(), size)));
 					td.setVisible(false);
 					if (actionListener != null)
 						actionListener.actionPerformed(new ActionEvent(this, 0, ""));
 					getValidationStatus();
-					setToolTipText(id);
+					setToolTipText(file);
 				}
 			}
 		});
