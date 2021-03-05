@@ -67,7 +67,7 @@ public class TextureHolder extends VButton {
 					getValidationStatus();
 					setToolTipText(id.substring(1));
 				} else {
-					id = fileID + ".png";
+					id = fileID;
 					setIcon(new ImageIcon(ImageUtils.resize(UIRES.get("tag").getImage(), size)));
 					td.setVisible(false);
 					if (actionListener != null)
@@ -137,6 +137,8 @@ public class TextureHolder extends VButton {
 			else
 				setIcon(new ImageIcon(ImageUtils
 						.resize(td.getMCreator().getFolderManager().getItemImageIcon(texture).getImage(), this.size)));
+			if(texture.contains("minecraft:"))
+				setIcon(new ImageIcon(ImageUtils.resize(UIRES.get("tag").getImage(), size)));
 		}
 	}
 
