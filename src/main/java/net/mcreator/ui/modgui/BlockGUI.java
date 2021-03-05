@@ -314,8 +314,8 @@ public class BlockGUI extends ModElementGUI<Block> {
 				VariableElementType.LOGIC, Dependency.fromString("x:number/y:number/z:number/world:world"));
 
 		redstoneCondition = new ProcedureSelector(this.withEntry("block/redstone_condition"), mcreator,
-				L10N.t("elementgui.block.event_redstone_condition"), ProcedureSelector.Side.CLIENT, true,
-				VariableElementType.NUMBER, Dependency.fromString("x:number/y:number/z:number/world:world"))
+				L10N.t("elementgui.block.event_redstone_condition"), VariableElementType.NUMBER,
+				Dependency.fromString("x:number/y:number/z:number/world:world"))
 				.setDefaultName(L10N.t("elementgui.common.no_additional_condition"));
 
 		generateCondition = new ProcedureSelector(this.withEntry("block/generation_condition"), mcreator,
@@ -1291,6 +1291,7 @@ public class BlockGUI extends ModElementGUI<Block> {
 
 	private void refreshRedstoneEmitted() {
 		emittedRedstonePower.setEnabled(emitsRedstone.isSelected());
+		redstoneCondition.setEnabled(emitsRedstone.isSelected());
 	}
 
 	private void updateTextureOptions() {
