@@ -33,7 +33,6 @@ public class TextureHolder extends VButton {
 
 	private final GeneralTextureSelector td;
 	private final int size;
-	private String fileID = "";
 	private String id = "";
 	private ActionListener actionListener;
 	private boolean removeButtonHover;
@@ -52,28 +51,22 @@ public class TextureHolder extends VButton {
 		setPreferredSize(new Dimension(this.size, this.size));
 		td.getConfirmButton().addActionListener(event -> {
 			if (td.list.getSelectedValue() != null) {
-				fileID = td.list.getSelectedValue().toString();
-				fileID = FilenameUtils
-						.removeExtension(GeneralTextureSelector.fixName(fileID, td.getMCreator().getFolderManager()));
-				if (fileID.endsWith(".png")) {
-					File file = td.list.getSelectedValue();
-					id = file.getPath();
-					id = GeneralTextureSelector.fixName(id, td.getMCreator().getFolderManager());
-					setIcon(new ImageIcon(ImageUtils
-							.resize(new ImageIcon(td.list.getSelectedValue().toString()).getImage(), this.size)));
-					td.setVisible(false);
-					if (actionListener != null)
-						actionListener.actionPerformed(new ActionEvent(this, 0, ""));
-					getValidationStatus();
-					setToolTipText(id.substring(1));
-				} else {
-					id = fileID;
+				File file = td.list.getSelectedValue();
+				id = file.getPath();
+				id = GeneralTextureSelector.fixName(id, td.getMCreator().getFolderManager());
+				if (id.startsWith("minecraft:")) {
 					setIcon(new ImageIcon(ImageUtils.resize(UIRES.get("tag").getImage(), size)));
-					td.setVisible(false);
-					if (actionListener != null)
-						actionListener.actionPerformed(new ActionEvent(this, 0, ""));
-					getValidationStatus();
-					setToolTipText(fileID);
+				} else {
+					setIcon(new ImageIcon(ImageUtils.resize(new ImageIcon(td.list.getSelectedValue().toString()).getImage(), this.size)));
+				}
+				td.setVisible(false);
+				if (actionListener != null)
+					actionListener.actionPerformed(new ActionEvent(this, 0, ""));
+				getValidationStatus();
+				if (id.startsWith("minecraft:")) {
+					setToolTipText(id);
+				} else {
+					setToolTipText(id.substring(1));
 				}
 			}
 		});
