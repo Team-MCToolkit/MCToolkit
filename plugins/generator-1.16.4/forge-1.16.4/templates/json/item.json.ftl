@@ -1,3 +1,4 @@
+<#include "../textures.ftl">
 {
     "parent": "item/generated",
     "textures": {
