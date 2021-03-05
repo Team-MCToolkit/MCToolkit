@@ -41,6 +41,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class GeneralTextureSelector extends MCreatorDialog {
@@ -216,15 +217,15 @@ public class GeneralTextureSelector extends MCreatorDialog {
 
 	public static String fixName(String name, WorkspaceFolderManager workspace) {
 		if (name.contains("textures\\blocks\\") || name.contains("textures/blocks/")) {
-			return textureNameReplace(name.replace(workspace.getBlocksTexturesDir().getPath(), ""));
+			return textureNameReplace(name.replace(Objects.requireNonNull(workspace.getBlocksTexturesDir()).getPath(), ""));
 		} else if (name.contains("textures\\entities\\") || name.contains("textures/entities/")) {
-			return textureNameReplace(name.replace(workspace.getEntitiesTexturesDir().getPath(), ""));
+			return textureNameReplace(name.replace(Objects.requireNonNull(workspace.getEntitiesTexturesDir()).getPath(), ""));
 		} else if (name.contains("textures\\items\\") || name.contains("textures/items/")) {
-			return textureNameReplace(name.replace(workspace.getItemsTexturesDir().getPath(), ""));
+			return textureNameReplace(name.replace(Objects.requireNonNull(workspace.getItemsTexturesDir()).getPath(), ""));
 		} else if (name.contains("textures\\painting\\") || name.contains("textures/painting/")) {
-			return textureNameReplace(name.replace(workspace.getPaintingsTexturesDir().getPath(), ""));
+			return textureNameReplace(name.replace(Objects.requireNonNull(workspace.getPaintingsTexturesDir()).getPath(), ""));
 		} else if (name.contains("textures\\others\\") || name.contains("textures/others/")) {
-			return textureNameReplace(name.replace(workspace.getOtherTexturesDir().getPath(), ""));
+			return textureNameReplace(name.replace(Objects.requireNonNull(workspace.getOtherTexturesDir()).getPath(), ""));
 		} else {
 			return name.replace("\\", "/");
 		}
@@ -296,9 +297,15 @@ public class GeneralTextureSelector extends MCreatorDialog {
 			if (ma != null) {
 				setToolTipText(FilenameUtils
 						.removeExtension(fixName(ma.toString(), instance.getMCreator().getFolderManager())));
-				ImageIcon icon = new ImageIcon(ma.toString());
-				if (icon.getImage() != null)
-					setIcon(new ImageIcon(ImageUtils.resize(icon.getImage(), 32)));
+				if(ma.toString().endsWith(".png")) {
+					ImageIcon icon = new ImageIcon(ma.toString());
+					if (icon.getImage() != null)
+						setIcon(new ImageIcon(ImageUtils.resize(icon.getImage(), 32)));
+					else
+						setIcon(new ImageIcon(ImageUtils.resize(UIRES.get("tag").getImage(), 32)));
+				} else {
+					setIcon(new ImageIcon(ImageUtils.resize(UIRES.get("tag").getImage(), 32)));
+				}
 			}
 			return this;
 		}
