@@ -14,7 +14,7 @@ https://mctoolkit.net/ - MCToolkit is a software used to make Minecraft Java Edi
 
 ## Download, community, and support
 
-This repository page is for people looking to contribute to MCToolkit. Visit https://mctoolkit.net/ to download MCToolkit distribution and to engage in the community. Check https://mcreator.net/support to find the support, forums, knowledge base, and more.
+This repository page is for people looking to contribute to MCToolkit. Visit https://mctoolkit.net/ to download MCToolkit distribution and to engage in the community. Check [https://mctoolkit.net/support/](https://mctoolkit.net/support/) to find the support, forums, knowledge base, and more.
 
 Download MCToolkit binary distributions on https://mctoolkit.net/download.
 
