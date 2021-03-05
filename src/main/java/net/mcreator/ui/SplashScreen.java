@@ -23,10 +23,11 @@ import net.mcreator.ui.component.ImagePanel;
 import net.mcreator.ui.component.ProgressBar;
 import net.mcreator.ui.component.util.EDTUtils;
 import net.mcreator.ui.init.UIRES;
-import net.mcreator.util.image.ImageUtils;
 
+import java.io.*;
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class SplashScreen extends JWindow {
 
@@ -42,17 +43,19 @@ public class SplashScreen extends JWindow {
 		imagePanel.setLayout(null);
 		imagePanel.setBackground(new Color(50, 50, 50));
 
-		JLabel pylo = new JLabel(new ImageIcon(ImageUtils.resize(UIRES.get("pylo").getImage(), 90, 24)));
-		pylo.setBounds(540 - 15 - 10, 348 - 15 - 10, 90, 24);
-		imagePanel.add(pylo);
-
 		JLabel label = new JLabel(
-				"<html><p>MCreator is a Minecraft mod making toolkit developed by Pylo. Minecraft is a registered</p>"
-						+ "<p style='margin-top:-2'>trademark of Mojang AB. MCreator is not an official Minecraft product. It is not approved<br>by or associated with Mojang AB.");
+				"<html><p>MCToolkit is a Minecraft mod making toolkit, continuation of MCreator (developed by Pylo).<br>Minecraft is a registered trademark of Mojang AB. MCToolkit and MCreator are not</p>"
+						+ "<p style='margin-top:-2'>official Minecraft products. They are not approved by or associated with Mojang AB.");
 		label.setFont(splashFont.deriveFont(10f));
 		label.setForeground(Color.white);
 		label.setBounds(30 + 10 - 4, 330 - 10 - 10, 500, 45);
 		imagePanel.add(label);
+
+		JLabel splashText = new JLabel(setSplashText());
+		splashText.setForeground(new Color(165, 204, 90));
+		splashText.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		splashText.setBounds(30 + 10 - 4, 160, 500, 45);
+		imagePanel.add(splashText);
 
 		JLabel logo = new JLabel(UIRES.get("logo"));
 		logo.setBounds(24 + 8 - 4, 70, 350, 63);
@@ -65,10 +68,11 @@ public class SplashScreen extends JWindow {
 		version.setBounds(30 + 10 - 4, 129, 500, 45);
 		imagePanel.add(version);
 
+
 		if (Launcher.version != null && Launcher.version.isSnapshot()) {
 			JLabel snpashot = new JLabel("Snapshot - not for production use!");
 			snpashot.setFont(splashFont.deriveFont(14f));
-			snpashot.setForeground(new Color(255, 92, 82));
+			snpashot.setForeground(new Color(0, 0, 0));
 			snpashot.setBounds(30 + 10 - 4, 165, 500, 45);
 			imagePanel.add(snpashot);
 		}
@@ -93,6 +97,28 @@ public class SplashScreen extends JWindow {
 		requestFocus();
 		requestFocusInWindow();
 		toFront();
+	}
+
+	private String setSplashText() {
+		ArrayList<String> texts = new ArrayList<>();
+		File file = new File(ClassLoader.getSystemClassLoader().getResource("net/mcreator/ui/texts/splashes.txt").getFile());
+		try {
+			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8"));
+			String line = reader.readLine();
+			while (line != null){
+				texts.add(line);
+				line = reader.readLine();
+			}
+			reader.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (IOException exception) {
+			exception.printStackTrace();
+		}
+
+		return texts.get((int) (Math.random() * texts.size()));
 	}
 
 	public void setProgress(int percentage, String message) {
