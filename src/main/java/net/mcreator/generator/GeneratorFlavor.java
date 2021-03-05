@@ -27,7 +27,7 @@ import java.util.Locale;
 public enum GeneratorFlavor {
 
 	FORGE(BaseLanguage.JAVA), FABRIC(BaseLanguage.JAVA), SPIGOT(BaseLanguage.JAVA), DATAPACK(BaseLanguage.JSON), ADDON(
-			BaseLanguage.JSON), UNKNOWN(null);
+			BaseLanguage.JSON), RESOURCEPACK(BaseLanguage.JSON), UNKNOWN(null);
 
 	private final BaseLanguage baseLanguage;
 
