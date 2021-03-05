@@ -30,7 +30,6 @@ import net.mcreator.element.GeneratableElement;
 import net.mcreator.element.ITooltipContainer;
 import net.mcreator.element.ModElementType;
 import net.mcreator.element.types.Achievement;
-import net.mcreator.element.types.Item;
 import net.mcreator.element.types.Mob;
 import net.mcreator.element.types.Procedure;
 import net.mcreator.generator.blockly.BlocklyBlockCodeGenerator;
@@ -259,7 +258,6 @@ public class Generator implements IGenerator, Closeable {
 				String templateFileName = (String) ((Map<?, ?>) generatorTemplate.getTemplateData()).get("template");
 
 				Map<String, Object> dataModel = new HashMap<>();
-
 				extractVariables(generatorTemplate, dataModel);
 
 				String code;

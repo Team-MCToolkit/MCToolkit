@@ -1,6 +1,7 @@
 /*
  * MCreator (https://mcreator.net/)
- * Copyright (C) 2020 Pylo and contributors
+ * Copyright (C) 2012-2020, Pylo
+ * Copyright (C) 2020-2021, Pylo, opensource contributors
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,8 +19,32 @@
 
 package net.mcreator.element;
 
-public interface IItemWithTexture {
+// @formatter:off
+public enum BaseType {
 
-	String getTexture();
+	BLOCK,
+	ITEM,
+	ARMOR,
+	BIOME,
+	COMMAND,
+	FUEL,
+	ENTITY,
+	TAB,
+	DIMENSION,
+	STRUCTURE,
+	GUI,
+	KEYBIND,
+	PROCEDURE,
+	OVERLAY,
+	POTIONEFFECT,
+	POTIONITEM,
+	DATAPACK,
+	ENCHANTMENT,
+	PARTICLE,
+	OTHER,
+
+	/* legacy base types */
+	ACHIEVEMENT
 
 }
+// @formatter:on

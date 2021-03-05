@@ -19,7 +19,6 @@
 package net.mcreator.integration;
 
 import net.mcreator.element.GeneratableElement;
-import net.mcreator.element.IBoundingBox;
 import net.mcreator.element.ModElementType;
 import net.mcreator.element.parts.Particle;
 import net.mcreator.element.parts.Procedure;
@@ -32,6 +31,7 @@ import net.mcreator.element.types.Dimension;
 import net.mcreator.element.types.Enchantment;
 import net.mcreator.element.types.Fluid;
 import net.mcreator.element.types.*;
+import net.mcreator.element.types.interfaces.IBlockWithBoundingBox;
 import net.mcreator.io.FileIO;
 import net.mcreator.minecraft.DataListEntry;
 import net.mcreator.minecraft.DataListLoader;
@@ -886,7 +886,7 @@ public class TestWorkspaceDataProvider {
 			if (!emptyLists) {
 				int boxes = random.nextInt(4) + 1;
 				for (int i = 0; i < boxes; i++) {
-					IBoundingBox.BoxEntry box = new IBoundingBox.BoxEntry();
+					IBlockWithBoundingBox.BoxEntry box = new IBlockWithBoundingBox.BoxEntry();
 					box.mx = new double[] { 0, 5 + i, 1.2, 7.1 }[valueIndex];
 					box.my = new double[] { 0, 2, 3.6, 12.2 }[valueIndex];
 					box.mz = new double[] { 0, 3.1, 0, 2.2 }[valueIndex];
@@ -935,6 +935,8 @@ public class TestWorkspaceDataProvider {
 			plant.frequencyOnChunks = 13;
 			plant.flammability = 5;
 			plant.fireSpreadSpeed = 12;
+			plant.speedFactor = 34.632;
+			plant.jumpFactor = 17.732;
 			plant.restrictionBiomes = new ArrayList<>();
 			if (!emptyLists) {
 				plant.restrictionBiomes.add(new BiomeEntry(modElement.getWorkspace(),
@@ -1108,7 +1110,7 @@ public class TestWorkspaceDataProvider {
 			if (!emptyLists) {
 				int boxes = random.nextInt(4) + 1;
 				for (int i = 0; i < boxes; i++) {
-					IBoundingBox.BoxEntry box = new IBoundingBox.BoxEntry();
+					IBlockWithBoundingBox.BoxEntry box = new IBlockWithBoundingBox.BoxEntry();
 					box.mx = new double[] { 0, 5 + i, 1.2, 7.1 }[valueIndex];
 					box.my = new double[] { 0, 2, 3.6, 12.2 }[valueIndex];
 					box.mz = new double[] { 0, 3.1, 0, 2.2 }[valueIndex];
@@ -1143,6 +1145,8 @@ public class TestWorkspaceDataProvider {
 			block.reactionToPushing = getRandomItem(random,
 					new String[] { "NORMAL", "DESTROY", "BLOCK", "PUSH_ONLY", "IGNORE" });
 			block.slipperiness = 12.342;
+			block.speedFactor = 34.632;
+			block.jumpFactor = 17.732;
 			block.lightOpacity = new int[] { 123, 25, 0,
 					35 }[valueIndex]; // third is 0 because third index for model is cross which requires transparency;
 			block.material = new Material(modElement.getWorkspace(),
