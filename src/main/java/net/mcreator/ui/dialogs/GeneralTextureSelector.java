@@ -18,18 +18,18 @@
 
 package net.mcreator.ui.dialogs;
 
-import org.apache.commons.io.FilenameUtils;
-
-import net.mcreator.util.image.ImageUtils;
+import net.mcreator.ui.MCreator;
+import net.mcreator.ui.component.util.ComponentUtils;
+import net.mcreator.ui.component.util.PanelUtils;
+import net.mcreator.ui.dialogs.imageeditor.NewImageDialog;
+import net.mcreator.ui.init.L10N;
+import net.mcreator.ui.init.UIRES;
 import net.mcreator.ui.validation.Validator;
 import net.mcreator.ui.validation.component.VComboBox;
 import net.mcreator.ui.validation.validators.TagsNameValidator;
-import net.mcreator.ui.MCreator;
-import net.mcreator.ui.init.UIRES;
-import net.mcreator.ui.init.L10N;
-import net.mcreator.ui.dialogs.imageeditor.NewImageDialog;
-import net.mcreator.ui.component.util.PanelUtils;
-import net.mcreator.ui.component.util.ComponentUtils;
+import net.mcreator.util.image.ImageUtils;
+import net.mcreator.workspace.WorkspaceFolderManager;
+import org.apache.commons.io.FilenameUtils;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -37,7 +37,6 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,9 +45,9 @@ import java.util.stream.Collectors;
 
 public class GeneralTextureSelector extends MCreatorDialog {
 
-	private final JButton naprej = L10N.button("dialog.textures_selector.select");
+	private static GeneralTextureSelector instance;
+	private final JButton select = L10N.button("dialog.textures_selector.select");
 	private final FilterModel model = new FilterModel();
-	public JList<File> list = new JList<>(model);
 	private final TextureType type;
 	private final CardLayout layout = new CardLayout();
 	private final JPanel center = new JPanel(layout);
@@ -56,11 +55,13 @@ public class GeneralTextureSelector extends MCreatorDialog {
 	private final JTextField filterField = new JTextField(20);
 
 	private final MCreator mcreator;
+	public JList<File> list = new JList<>(model);
 
 	public GeneralTextureSelector(MCreator mcreator, TextureType type) {
 		super(mcreator);
 		this.type = type;
 		this.mcreator = mcreator;
+		instance = this;
 
 		setModal(true);
 		setTitle(L10N.t("dialog.textures_selector.title", type));
@@ -81,7 +82,7 @@ public class GeneralTextureSelector extends MCreatorDialog {
 			@Override public void mouseClicked(MouseEvent mouseEvent) {
 				super.mouseClicked(mouseEvent);
 				if (mouseEvent.getClickCount() == 2)
-					naprej.doClick();
+					select.doClick();
 			}
 		});
 
@@ -94,14 +95,14 @@ public class GeneralTextureSelector extends MCreatorDialog {
 
 		JPanel buttons = new JPanel();
 
-		naprej.setFont(naprej.getFont().deriveFont(16.0f));
-		JButton naprej2 = new JButton(UIManager.getString("OptionPane.cancelButtonText"));
-		naprej2.setFont(naprej2.getFont().deriveFont(16.0f));
+		select.setFont(select.getFont().deriveFont(16.0f));
+		JButton cancel = new JButton(UIManager.getString("OptionPane.cancelButtonText"));
+		cancel.setFont(cancel.getFont().deriveFont(16.0f));
 
-		buttons.add(naprej);
-		buttons.add(naprej2);
+		buttons.add(select);
+		buttons.add(cancel);
 
-		naprej2.addActionListener(event -> setVisible(false));
+		cancel.addActionListener(event -> setVisible(false));
 
 		ComponentUtils.deriveFont(filterField, 15);
 		filterField.getDocument().addDocumentListener(new DocumentListener() {
@@ -126,7 +127,7 @@ public class GeneralTextureSelector extends MCreatorDialog {
 		JPanel pno = new JPanel();
 
 		JButton createTx2 = L10N.button("dialog.textures_selector.create_from_scratch");
-		createTx2.setFont(naprej.getFont());
+		createTx2.setFont(select.getFont());
 		createTx2.setIcon(UIRES.get("18px.add"));
 		createTx2.addActionListener(event -> {
 			setVisible(false);
@@ -136,7 +137,7 @@ public class GeneralTextureSelector extends MCreatorDialog {
 		pno.add(createTx2);
 
 		JButton importTx = L10N.button("dialog.textures_selector.import", type.name().toLowerCase(Locale.ENGLISH));
-		importTx.setFont(naprej.getFont());
+		importTx.setFont(select.getFont());
 		importTx.setIcon(UIRES.get("18px.add"));
 		importTx.addActionListener(event -> {
 
@@ -150,7 +151,7 @@ public class GeneralTextureSelector extends MCreatorDialog {
 				block1 = mcreator.getFolderManager().getEntityTexturesList();
 			} else if (type == TextureType.PAINTING) {
 				block1 = mcreator.getFolderManager().getPaintingTexturesList();
-			} else  {
+			} else {
 				block1 = mcreator.getFolderManager().getItemTexturesList();
 			}
 			model.removeAllElements();
@@ -158,6 +159,7 @@ public class GeneralTextureSelector extends MCreatorDialog {
 				if (element.getName().endsWith(".png"))
 					model.addElement(element);
 			}
+
 			if (model.getSize() > 0) {
 				layout.show(center, "list");
 			}
@@ -165,7 +167,7 @@ public class GeneralTextureSelector extends MCreatorDialog {
 		pno.add(importTx);
 
 		JButton importMc = L10N.button("dialog.textures_selector.import_mc", type.name().toLowerCase(Locale.ENGLISH));
-		importMc.setFont(naprej.getFont());
+		importMc.setFont(select.getFont());
 		importMc.setIcon(UIRES.get("18px.add"));
 		VComboBox<String> ID = new VComboBox<>();
 
@@ -185,13 +187,12 @@ public class GeneralTextureSelector extends MCreatorDialog {
 
 			int result = JOptionPane.showConfirmDialog(this, PanelUtils.northAndCenterElement(
 					L10N.label("dialog.textures_selector.enter_id", type.name().toLowerCase(Locale.ENGLISH)), ID),
-					L10N.t("dialog.textures_selector.use_id", type.name().toLowerCase(Locale.ENGLISH)), JOptionPane.OK_CANCEL_OPTION);
+					L10N.t("dialog.textures_selector.use_id", type.name().toLowerCase(Locale.ENGLISH)),
+					JOptionPane.OK_CANCEL_OPTION);
 			if (result == JOptionPane.OK_OPTION) {
-				if (ID.getValidationStatus().getValidationResultType()
-						!= Validator.ValidationResultType.ERROR) {
+				if (ID.getValidationStatus().getValidationResultType() != Validator.ValidationResultType.ERROR) {
 					String selectedID = ID.getSelectedItem();
 					if (selectedID != null) {
-						model.removeAllElements();
 						File fileID = new File(selectedID);
 						model.addElement(fileID);
 						list.setSelectedValue(fileID, true);
@@ -200,10 +201,8 @@ public class GeneralTextureSelector extends MCreatorDialog {
 						}
 					}
 				} else {
-					JOptionPane
-							.showMessageDialog(this, L10N.t("dialog.textures_selector.error_invalid_id_message"),
-									L10N.t("dialog.textures_selector.error_invalid_id_title"),
-									JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(this, L10N.t("dialog.textures_selector.error_invalid_id_message"),
+							L10N.t("dialog.textures_selector.error_invalid_id_title"), JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -213,6 +212,31 @@ public class GeneralTextureSelector extends MCreatorDialog {
 		pn.add("South", buttons);
 
 		add(pn);
+	}
+
+	public static String fixName(String name, WorkspaceFolderManager workspace) {
+		if (name.contains("textures\\blocks\\") || name.contains("textures/blocks/")) {
+			return textureNameReplace(name.replace(workspace.getBlocksTexturesDir().getPath(), ""));
+		} else if (name.contains("textures\\entities\\") || name.contains("textures/entities/")) {
+			return textureNameReplace(name.replace(workspace.getEntitiesTexturesDir().getPath(), ""));
+		} else if (name.contains("textures\\items\\") || name.contains("textures/items/")) {
+			return textureNameReplace(name.replace(workspace.getItemsTexturesDir().getPath(), ""));
+		} else if (name.contains("textures\\painting\\") || name.contains("textures/painting/")) {
+			return textureNameReplace(name.replace(workspace.getPaintingsTexturesDir().getPath(), ""));
+		} else if (name.contains("textures\\others\\") || name.contains("textures/others/")) {
+			return textureNameReplace(name.replace(workspace.getOtherTexturesDir().getPath(), ""));
+		} else {
+			return name.replace("\\", "/");
+		}
+	}
+
+	public static String textureNameReplace(String string) {
+		if (string.contains("\\"))
+			string = string.replace("\\", "");
+		else if (string.contains("//"))
+			string = string.replace("//", "");
+
+		return string;
 	}
 
 	public TextureType getTextureType() {
@@ -229,7 +253,7 @@ public class GeneralTextureSelector extends MCreatorDialog {
 			block = mcreator.getFolderManager().getEntityTexturesList();
 		} else if (type == TextureType.PAINTING) {
 			block = mcreator.getFolderManager().getPaintingTexturesList();
-		} else  {
+		} else {
 			block = mcreator.getFolderManager().getItemTexturesList();
 		}
 		model.removeAllElements();
@@ -248,11 +272,15 @@ public class GeneralTextureSelector extends MCreatorDialog {
 	}
 
 	public JButton getConfirmButton() {
-		return naprej;
+		return select;
 	}
 
 	public MCreator getMCreator() {
 		return mcreator;
+	}
+
+	public enum TextureType {
+		ARMOR, BLOCK, ITEM, ENTITY, PAINTING, OTHER
 	}
 
 	static class Render extends JLabel implements ListCellRenderer<File> {
@@ -266,7 +294,8 @@ public class GeneralTextureSelector extends MCreatorDialog {
 				setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
 			}
 			if (ma != null) {
-				setToolTipText(FilenameUtils.removeExtension(ma.getName()));
+				setToolTipText(FilenameUtils
+						.removeExtension(fixName(ma.toString(), instance.getMCreator().getFolderManager())));
 				ImageIcon icon = new ImageIcon(ma.toString());
 				if (icon.getImage() != null)
 					setIcon(new ImageIcon(ImageUtils.resize(icon.getImage(), 32)));
@@ -324,9 +353,4 @@ public class GeneralTextureSelector extends MCreatorDialog {
 			fireContentsChanged(this, 0, getSize());
 		}
 	}
-
-	public enum TextureType {
-		ARMOR, BLOCK, ITEM, ENTITY, PAINTING, OTHER
-	}
-
 }

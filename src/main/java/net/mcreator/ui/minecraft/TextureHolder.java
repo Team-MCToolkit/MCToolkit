@@ -31,14 +31,11 @@ import java.io.File;
 
 public class TextureHolder extends VButton {
 
+	private final GeneralTextureSelector td;
+	private final int size;
 	private String fileID = "";
 	private String id = "";
-	private final GeneralTextureSelector td;
-
 	private ActionListener actionListener;
-
-	private final int size;
-
 	private boolean removeButtonHover;
 
 	public TextureHolder(GeneralTextureSelector td) {
@@ -55,27 +52,15 @@ public class TextureHolder extends VButton {
 		setPreferredSize(new Dimension(this.size, this.size));
 		td.getConfirmButton().addActionListener(event -> {
 			if (td.list.getSelectedValue() != null) {
-				fileID = td.list.getSelectedValue().getName();
+				fileID = td.list.getSelectedValue().toString();
+				fileID = FilenameUtils
+						.removeExtension(GeneralTextureSelector.fixName(fileID, td.getMCreator().getFolderManager()));
 				if (fileID.endsWith(".png")) {
 					File file = td.list.getSelectedValue();
 					id = file.getPath();
-					if(id.contains("textures\\blocks\\") || id.contains("textures/blocks/")){
-						id = textureNameReplace(
-								FilenameUtils.removeExtension(id.replace(td.getMCreator().getWorkspace().getFolderManager().getBlocksTexturesDir().getPath(), "")));
-					} else if(id.contains("textures\\entities\\") || id.contains("textures/blocks/")){
-						id = textureNameReplace(
-								FilenameUtils.removeExtension(id.replace(td.getMCreator().getWorkspace().getFolderManager().getEntitiesTexturesDir().getPath(), "")));
-					} else if(id.contains("textures\\items\\") || id.contains("textures/items/")){
-						id = textureNameReplace(
-								FilenameUtils.removeExtension(id.replace(td.getMCreator().getWorkspace().getFolderManager().getItemsTexturesDir().getPath(), "")));
-					} else if(id.contains("textures\\painting\\") || id.contains("textures/painting/")){
-						id = textureNameReplace(
-								FilenameUtils.removeExtension(id.replace(td.getMCreator().getWorkspace().getFolderManager().getPaintingsTexturesDir().getPath(), "")));
-					} else if(id.contains("textures\\others\\") || id.contains("textures/others/")){
-						id = textureNameReplace(FilenameUtils.removeExtension(id.replace(td.getMCreator().getWorkspace().getFolderManager().getOtherTexturesDir().getPath(), "")));
-					}
-					setIcon(new ImageIcon(
-							ImageUtils.resize(new ImageIcon(td.list.getSelectedValue().toString()).getImage(), this.size)));
+					id = GeneralTextureSelector.fixName(id, td.getMCreator().getFolderManager());
+					setIcon(new ImageIcon(ImageUtils
+							.resize(new ImageIcon(td.list.getSelectedValue().toString()).getImage(), this.size)));
 					td.setVisible(false);
 					if (actionListener != null)
 						actionListener.actionPerformed(new ActionEvent(this, 0, ""));
@@ -122,10 +107,6 @@ public class TextureHolder extends VButton {
 				repaint();
 			}
 		});
-	}
-
-	public static String textureNameReplace(String string){
-		return string.replace("\\", "/").replace("//", "");
 	}
 
 	@Override public void paintComponent(Graphics g) {

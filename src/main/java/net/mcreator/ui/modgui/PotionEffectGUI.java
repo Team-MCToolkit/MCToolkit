@@ -197,7 +197,7 @@ public class PotionEffectGUI extends ModElementGUI<PotionEffect> {
 				.collect(Collectors.toList());
 		List<String> textures = new ArrayList<>();
 		for(String name : files){
-			name = TextureHolder.textureNameReplace(name.replace(
+			name = GeneralTextureSelector.textureNameReplace(name.replace(
 					mcreator.getWorkspace().getFolderManager().getOtherTexturesDir().getPath(), "")).substring(1);
 			textures.add(name);
 		}
