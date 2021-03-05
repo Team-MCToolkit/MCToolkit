@@ -1,22 +1,15 @@
 <#-- @formatter:off -->
+<#include "../textures.ftl">
 <#if data.itemTexture?has_content>
 {
   "parent": "item/generated",
   "textures": {
-    <#if data.itemTexture.endsWith(".png")>
-    "layer0": "${data.itemTexture.replace(".png", "")}"
-    <#else>
-    "layer0": "${modid}:items/${data.itemTexture}"
-    </#if>
+    "layer0": "${mappedSingleTexture(data.itemTexture, "items", modid)}"
   }
 }
 <#else>
 {
-    <#if data.texture.endsWith(".png")>
-    "parent": "${data.texture.replace(".png", "")}",
-    <#else>
-    "parent": "${modid}:block/${registryname}",
-    </#if>
+    "parent": "${mappedDoubleTexture(data.texture, registryname, "blocks", modid)}",
     "display": {
       "thirdperson": {
         "rotation": [

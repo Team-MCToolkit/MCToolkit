@@ -1,12 +1,32 @@
 <#-- @formatter:off -->
+<#include "../textures.ftl">
 {
     "textures": {
-         <#if data.particleTexture?has_content>"particle": "${modid}:blocks/${data.particleTexture}",
-         <#else> "particle": "${modid}:blocks/${data.textureFront?has_content?then(data.textureFront, data.texture)}",</#if>
-        "bottom": "${modid}:blocks/${data.texture}",
-        "top": "${modid}:blocks/${data.textureTop?has_content?then(data.textureTop, data.texture)}",
-        "side": "${modid}:blocks/${data.textureFront?has_content?then(data.textureFront, data.texture)}",
-        "inside": "${modid}:blocks/${data.textureBack?has_content?then(data.textureRight, data.texture)}"
+        <#if data.particleTexture?has_content>
+        "particle": "${mappedSingleTexture(data.particleTexture, "blocks", modid)}",
+        <#else>
+        <#if data.textureFront?has_content>
+        "particle": "${mappedSingleTexture(data.textureFront, "blocks", modid)}",
+        <#else>
+        "particle": "${mappedSingleTexture(data.texture, "blocks", modid)}",
+        </#if>
+        </#if>
+        "bottom": "${mappedSingleTexture(data.texture, "blocks", modid)}",
+        <#if data.textureTop?has_content>
+        "top": "${mappedSingleTexture(data.textureTop, "blocks", modid)}",
+        <#else>
+        "top": "${mappedSingleTexture(data.texture, "blocks", modid)}",
+        </#if>
+        <#if data.textureFront?has_content>
+        "side": "${mappedSingleTexture(data.textureFront, "blocks", modid)}",
+        <#else>
+        "side": "${mappedSingleTexture(data.texture, "blocks", modid)}",
+        </#if>
+        <#if data.textureBack?has_content>
+        "inside": "${mappedSingleTexture(data.textureRight, "blocks", modid)}"
+        <#else>
+        "inside": "${mappedSingleTexture(data.texture, "blocks", modid)}"
+        </#if>
     },
     "elements": [
         {   "from": [ 7, 0, 1 ],
