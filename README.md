@@ -1,9 +1,9 @@
-[![MCreator](https://i.ibb.co/BBmn3tK/mctoolkit-image-1.png)](https://mctoolkit.net/)
+[![MCToolkit](https://i.ibb.co/BBmn3tK/mctoolkit-image-1.png)](https://mctoolkit.net/)
 
-[![License](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://github.com/Team-MCToolkit/MCToolkit/blob/master/LICENSE.txt)
-[![Build](https://api.travis-ci.org/MCreator/MCreator.svg?branch=master)](https://travis-ci.org/github/Team-MCToolkit/MCToolkit)
+[![License](https://img.shields.io/badge/License-GPLv3-blue.svg?style=flat-square)](https://github.com/Team-MCToolkit/MCToolkit/blob/master/LICENSE.txt)
+[![Build](https://img.shields.io/travis/Team-MCToolkit/MCToolkit?style=flat-square)](https://travis-ci.org/github/Team-MCToolkit/MCToolkit)
 [![Crowdin](https://badges.crowdin.net/mctoolkit/localized.svg)](https://crowdin.com/project/mctoolkit)
-[![Download](https://img.shields.io/badge/Download-release-%2393c54b)](https://mctoolkit.net/download)
+[![Download](https://img.shields.io/badge/Download-release-%2393c54b?style=flat-square)](https://mctoolkit.net/download)
 
 [![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/J3J72NOXK)
 # MCToolkit - Minecraft Modding Toolkit
@@ -14,7 +14,7 @@ https://mctoolkit.net/ - MCToolkit is a software used to make Minecraft Java Edi
 
 ## Download, community, and support
 
-This repository page is for people looking to contribute to MCToolkit. Visit https://mctoolkit.net/ to download MCToolkit distribution and to engage in the community. Check https://mcreator.net/support to find the support, forums, knowledge base, and more.
+This repository page is for people looking to contribute to MCToolkit. Visit https://mctoolkit.net/ to download MCToolkit distribution and to engage in the community. Check [https://mctoolkit.net/support/](https://mctoolkit.net/support/) to find the support, forums, knowledge base, and more.
 
 Download MCToolkit binary distributions on https://mctoolkit.net/download.
 
@@ -38,11 +38,17 @@ Big thanks to [all the people](https://github.com/Team-MCToolkit/MCToolkit/graph
   <img src="https://contrib.rocks/image?repo=Team-MCToolkit/MCToolkit" width="615"/>
 </a>
 
+### Translations
+
+If you would like to help us translate MCToolkit to your language, join us on [crowdin.com/project/mctoolkit](https://crowdin.com/project/mctoolkit)! If your language is not on the list yet, feel free to suggest us to add it.
+
 ## License and trademark
 
 MCToolkit is licensed under the GPL-3.0 license (with exceptions implemented as specified in section 7 of GPL-3.0) if not otherwise stated in source files or other files of this project. Copyright 2020 Pylo and [contributors](https://github.com/Team-MCToolkit/MCToolkit/graphs/contributors).
 
 MCToolkit is a project to continue MCreator. THis project is not affiliated with MCreator, Pylo, Minecraft or Mojang. Custom distributions of this software may not include Pylo, MCreator, MCToolkit trademarks (trademark name and logo) to not confuse the software with the official distribution of MCToolkit project.
+
+MCToolkit uses several third-party libraries and projects. License files, attributions, and credits for these projects are located in the `license` subdirectory.
 
 ## Notice
 

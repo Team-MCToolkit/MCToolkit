@@ -16,10 +16,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.mcreator.element;
+package net.mcreator.workspace.elements;
 
-public interface IItemWithTexture {
+public interface IElement {
 
-	String getTexture();
+	String getName();
 
 }

@@ -44,6 +44,10 @@ public static class CustomPortalBlock extends NetherPortalBlock {
 		</#if>
 	}
 
+	<#-- Prevent ZOMBIFIED_PIGLINs from spawning -->
+	@Override public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+	}
+
 	public void portalSpawn(World world, BlockPos pos) {
 		Optional<CustomPortalSize> optional = CustomPortalSize.func_242964_a(world, pos, Direction.Axis.X);
 		if (optional.isPresent()) {
@@ -107,6 +111,7 @@ public static class CustomPortalBlock extends NetherPortalBlock {
 
 public static class CustomPortalSize ${mcc.getClassBody("net.minecraft.block.PortalSize")
 	.replace("PortalSize", "CustomPortalSize")
+	.replace("blockstate, 18);", "blockstate, 18);\nif (this.world instanceof ServerWorld) ((ServerWorld) this.world).getPointOfInterestManager().add(pos, poi);")
 	.replace("blockstate.isIn(Blocks.NETHER_PORTAL)", "blockstate.getBlock() == portal")
 	.replace("state.isIn(BlockTags.FIRE) || state.isIn(Blocks.NETHER_PORTAL)", "state.getBlock() == portal")
 	.replace("Blocks.NETHER_PORTAL.getDefaultState()", "portal.getDefaultState()")

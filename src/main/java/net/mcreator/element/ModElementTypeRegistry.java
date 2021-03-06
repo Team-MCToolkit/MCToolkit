@@ -107,10 +107,10 @@ public final class ModElementTypeRegistry {
 		public boolean hasProcedureTriggers() {
 			return hasProcedureTriggers;
 		}
-	}
 
-	private interface ModElementGUIProvider<GE extends GeneratableElement> {
-		ModElementGUI<GE> get(MCreator mcreator, ModElement modElement, boolean editingMode);
-	}
+		private interface ModElementGUIProvider<GE extends GeneratableElement> {
+			ModElementGUI<GE> get(MCreator mcreator, ModElement modElement, boolean editingMode);
+		}
 
+	}
 }

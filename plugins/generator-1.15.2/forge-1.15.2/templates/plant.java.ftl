@@ -28,6 +28,7 @@
 -->
 
 <#-- @formatter:off -->
+<#include "boundingboxes.java.ftl">
 <#include "procedures.java.ftl">
 <#include "mcitems.ftl">
 
@@ -76,8 +77,12 @@ import net.minecraft.block.material.Material;
 				BiomeColors.getGrassColor(world, pos) : GrassColors.get(0.5D, 1.0D);
 			<#elseif data.tintType == "Foliage">
 				BiomeColors.getFoliageColor(world, pos) : FoliageColors.getDefault();
-			<#else>
+			<#elseif data.tintType == "Water">
 				BiomeColors.getWaterColor(world, pos) : -1;
+			<#elseif data.tintType == "Sky">
+				Minecraft.getInstance().world.getBiome(pos).getSkyColor() : 8562943;
+			<#else>
+				Minecraft.getInstance().world.getBiome(pos).getWaterFogColor() : 329011;
 			</#if>
 		}, block);
 	}
@@ -89,8 +94,12 @@ import net.minecraft.block.material.Material;
 					return GrassColors.get(0.5D, 1.0D);
 				<#elseif data.tintType == "Foliage">
 					return FoliageColors.getDefault();
-				<#else>
+				<#elseif data.tintType == "Water">
 					return 3694022;
+				<#elseif data.tintType == "Sky">
+					return 8562943;
+				<#else>
+					return 329011;
 				</#if>
 			}, block);
 		}
@@ -278,10 +287,27 @@ import net.minecraft.block.material.Material;
 					<#else>
 					.hardnessAndResistance(${data.hardness}f, ${data.resistance}f)
 					</#if>
+					<#if data.speedFactor != 1.0>
+					.speedFactor(${data.speedFactor}f)
+					</#if>
+					<#if data.jumpFactor != 1.0>
+					.jumpFactor(${data.jumpFactor}f)
+					</#if>
 					.lightValue(${data.luminance})
 			);
 			setRegistryName("${registryname}");
 		}
+
+		<#if data.customBoundingBox && data.boundingBoxes??>
+		@Override public VoxelShape getShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context) {
+			<#if data.isBoundingBoxEmpty()>
+				return VoxelShapes.empty();
+			<#else>
+				<#if !data.disableOffset> Vec3d offset = state.getOffset(world, pos); </#if>
+				<@makeBoundingBox data.positiveBoundingBoxes() data.negativeBoundingBoxes() data.disableOffset "north"/>
+			</#if>
+		}
+		</#if>
 
         <#if data.isReplaceable>
         @Override public boolean isReplaceable(BlockState state, BlockItemUseContext useContext) {

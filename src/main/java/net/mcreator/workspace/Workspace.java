@@ -19,7 +19,7 @@
 package net.mcreator.workspace;
 
 import net.mcreator.Launcher;
-import net.mcreator.element.ModElementType;
+import net.mcreator.element.BaseType;
 import net.mcreator.generator.Generator;
 import net.mcreator.generator.GeneratorConfiguration;
 import net.mcreator.generator.GeneratorFlavor;
@@ -47,18 +47,21 @@ import java.io.IOException;
 import java.util.List;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 public class Workspace implements Closeable, IGeneratorProvider {
 
 	private static final Logger LOG = LogManager.getLogger("Workspace");
 
-	private ConcurrentHashMap<ModElementType.BaseType, Integer> id_map = new ConcurrentHashMap<>();
+	private ConcurrentHashMap<BaseType, Integer> id_map = new ConcurrentHashMap<>();
 	private Set<ModElement> mod_elements = Collections.synchronizedSet(new LinkedHashSet<>(0));
 	private Set<VariableElement> variable_elements = Collections.synchronizedSet(new LinkedHashSet<>(0));
 	private Set<SoundElement> sound_elements = Collections.synchronizedSet(new LinkedHashSet<>(0));
 	private ConcurrentHashMap<String, ConcurrentHashMap<String, String>> language_map = new ConcurrentHashMap<String, ConcurrentHashMap<String, String>>() {{
 		put("en_us", new ConcurrentHashMap<>());
 	}};
+
+	protected FolderElement foldersRoot = FolderElement.ROOT;
 
 	private WorkspaceSettings workspaceSettings;
 	private long mcreatorVersion;
@@ -91,6 +94,11 @@ public class Workspace implements Closeable, IGeneratorProvider {
 		markDirty();
 	}
 
+	public void setFoldersRoot(FolderElement foldersRoot) {
+		this.foldersRoot = foldersRoot;
+		markDirty();
+	}
+
 	public Collection<ModElement> getModElements() {
 		return mod_elements;
 	}
@@ -107,8 +115,12 @@ public class Workspace implements Closeable, IGeneratorProvider {
 		return language_map;
 	}
 
-	public ConcurrentHashMap<ModElementType.BaseType, Integer> getIDMap() {
+	public ConcurrentHashMap<BaseType, Integer> getIDMap() {
 		return id_map;
+	}
+
+	public FolderElement getFoldersRoot() {
+		return foldersRoot;
 	}
 
 	@NotNull public WorkspaceInfo getWorkspaceInfo() {
@@ -259,7 +271,7 @@ public class Workspace implements Closeable, IGeneratorProvider {
 		markDirty();
 	}
 
-	public int getNextFreeIDAndIncrease(ModElementType.BaseType baseType) {
+	public int getNextFreeIDAndIncrease(BaseType baseType) {
 		if (id_map.get(baseType) == null) {
 			id_map.put(baseType, 1);
 			markDirty();
@@ -308,7 +320,7 @@ public class Workspace implements Closeable, IGeneratorProvider {
 		return workspaceSettings.getModID();
 	}
 
-	void markDirty() {
+	public void markDirty() {
 		changed = true;
 	}
 
@@ -324,6 +336,25 @@ public class Workspace implements Closeable, IGeneratorProvider {
 		for (ModElement modElement : mod_elements) {
 			modElement.setWorkspace(this);
 			modElement.reinit();
+		}
+	}
+
+	void reloadFolderStructure() {
+		this.foldersRoot.updateStructure();
+
+		Set<String> validPaths = foldersRoot.getRecursiveFolderChildren().stream().map(FolderElement::getPath)
+				.collect(Collectors.toSet());
+
+		for (ModElement modElement : mod_elements) {
+			if (modElement.getFolderPath() != null && !modElement.getFolderPath()
+					.equals(FolderElement.ROOT.getName())) {
+				if (!validPaths.contains(modElement.getFolderPath())) {
+					LOG.warn("Mod element: " + modElement.getName() + " has invalid path: " + modElement
+							.getFolderPath());
+					// reset orphaned elements to root
+					modElement.setParentFolder(null);
+				}
+			}
 		}
 	}
 
@@ -436,6 +467,7 @@ public class Workspace implements Closeable, IGeneratorProvider {
 			}
 
 			retval.reloadModElements(); // reload mod element icons and register reference to this workspace for all of them
+			retval.reloadFolderStructure(); // assign parents to the folders
 			LOG.info("Loaded workspace file " + workspaceFile);
 			return retval;
 		} else {
@@ -461,6 +493,7 @@ public class Workspace implements Closeable, IGeneratorProvider {
 		Workspace workspace_on_fs = WorkspaceFileManager.gson.fromJson(workspace_string, Workspace.class);
 		loadStoredDataFrom(workspace_on_fs);
 		reloadModElements();
+		reloadFolderStructure();
 		LOG.info("Reloaded current workspace from the workspace file");
 	}
 
@@ -470,6 +503,7 @@ public class Workspace implements Closeable, IGeneratorProvider {
 		this.variable_elements = other.variable_elements;
 		this.sound_elements = other.sound_elements;
 		this.language_map = other.language_map;
+		this.foldersRoot = other.foldersRoot;
 		this.mcreatorVersion = other.mcreatorVersion;
 		this.workspaceSettings = other.workspaceSettings;
 		this.workspaceSettings.setWorkspace(this);
@@ -491,6 +525,7 @@ public class Workspace implements Closeable, IGeneratorProvider {
 			this.generator.setGradleCache(this.generator.getGradleCache());
 			this.fileManager = original.getFileManager();
 			this.reloadModElements();
+			this.reloadFolderStructure();
 		}
 
 	}

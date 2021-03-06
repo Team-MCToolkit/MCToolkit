@@ -16,16 +16,33 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.mcreator.element;
+package net.mcreator.ui.component;
 
-import net.mcreator.workspace.resources.Model;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.Timer;
+import java.util.TimerTask;
 
-import java.util.Map;
+public abstract class MousePressListener extends MouseAdapter {
 
-@SuppressWarnings("unused") public interface IItemWithModel {
+	private int eventCnt = 0;
 
-	Model getItemModel();
+	Timer timer = new Timer("dbc", false);
 
-	Map<String, String> getTextureMap();
+	@Override public final void mousePressed(MouseEvent e) {
+		pressFiltered(e, 0);
+
+		eventCnt = e.getClickCount();
+		if (e.getClickCount() == 1) {
+			timer.schedule(new TimerTask() {
+				@Override public void run() {
+					pressFiltered(e, eventCnt);
+					eventCnt = 0;
+				}
+			}, 250);
+		}
+	}
+
+	public abstract void pressFiltered(MouseEvent e, int clicks);
 
 }

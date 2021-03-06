@@ -22,6 +22,7 @@ import net.mcreator.blockly.data.Dependency;
 import net.mcreator.element.parts.StepSound;
 import net.mcreator.element.parts.TabEntry;
 import net.mcreator.element.types.Plant;
+import net.mcreator.element.types.interfaces.IBlockWithBoundingBox;
 import net.mcreator.minecraft.DataListEntry;
 import net.mcreator.minecraft.ElementUtil;
 import net.mcreator.preferences.PreferencesManager;
@@ -72,6 +73,10 @@ public class PlantGUI extends ModElementGUI<Plant> {
 	private final JLabel dyn = new JLabel(TiledImageCache.plantGrowingNo);
 	private final JLabel dbl = new JLabel(TiledImageCache.plantDoubleNo);
 
+	private final JCheckBox customBoundingBox = L10N.checkbox("elementgui.common.enable");
+	private final JCheckBox disableOffset = L10N.checkbox("elementgui.common.enable");
+	private final JBoundingBoxList boundingBoxList = new JBoundingBoxList(mcreator);
+
 	private final JSpinner hardness = new JSpinner(new SpinnerNumberModel(0, -1, 64000, 0.1));
 	private final JSpinner luminance = new JSpinner(new SpinnerNumberModel(0, 0, 15, 1));
 	private final JSpinner resistance = new JSpinner(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 0.5));
@@ -120,7 +125,8 @@ public class PlantGUI extends ModElementGUI<Plant> {
 	private final JComboBox<String> offsetType = new JComboBox<>(new String[] { "XZ", "XYZ", "NONE" });
 	private final JComboBox<String> aiPathNodeType = new JComboBox<>();
 
-	private final JComboBox<String> tintType = new JComboBox<>(new String[] { "No tint", "Grass", "Foliage", "Water" });
+	private final JComboBox<String> tintType = new JComboBox<>(
+			new String[] { "No tint", "Grass", "Foliage", "Water", "Sky", "Fog", "Water fog" });
 	private final JCheckBox isItemTinted = L10N.checkbox("elementgui.common.enable");
 
 	private ProcedureSelector onBlockAdded;
@@ -143,6 +149,8 @@ public class PlantGUI extends ModElementGUI<Plant> {
 
 	private final JSpinner flammability = new JSpinner(new SpinnerNumberModel(100, 0, 1024, 1));
 	private final JSpinner fireSpreadSpeed = new JSpinner(new SpinnerNumberModel(60, 0, 1024, 1));
+	private final JSpinner speedFactor = new JSpinner(new SpinnerNumberModel(1.0, -1000, 1000, 0.1));
+	private final JSpinner jumpFactor = new JSpinner(new SpinnerNumberModel(1.0, -1000, 1000, 0.1));
 
 	private CollapsiblePanel tintPane;
 
@@ -197,10 +205,15 @@ public class PlantGUI extends ModElementGUI<Plant> {
 		ComponentUtils.deriveFont(specialInfo, 16);
 		ComponentUtils.deriveFont(onShiftInfo, 16);
 		ComponentUtils.deriveFont(onCommandInfo, 16);
+		ComponentUtils.deriveFont(tintType, 16);
+		ComponentUtils.deriveFont(growapableSpawnType, 16);
+		ComponentUtils.deriveFont(doublePlantGenerationType, 16);
+		ComponentUtils.deriveFont(staticPlantGenerationType, 16);
 
 		JPanel pane2 = new JPanel(new BorderLayout(10, 10));
 		JPanel pane3 = new JPanel(new BorderLayout(10, 10));
 		JPanel pane4 = new JPanel(new BorderLayout(10, 10));
+		JPanel bbPane = new JPanel(new BorderLayout(10, 10));
 
 		texture = new TextureHolder(new GeneralTextureSelector(mcreator, GeneralTextureSelector.TextureType.BLOCK));
 		textureBottom = new TextureHolder(new GeneralTextureSelector(mcreator, GeneralTextureSelector.TextureType.BLOCK));
@@ -392,8 +405,40 @@ public class PlantGUI extends ModElementGUI<Plant> {
 		pane2.setOpaque(false);
 		pane2.add("Center", PanelUtils.totalCenterInPanel(sbbp2));
 
-		JPanel selp = new JPanel(new GridLayout(10, 2, 25, 4));
-		JPanel selp2 = new JPanel(new GridLayout(11, 2, 25, 4));
+		JPanel northPanel = new JPanel(new GridLayout(2, 2, 10, 2));
+		northPanel.setOpaque(false);
+
+		northPanel.add(HelpUtils.wrapWithHelpButton(this.withEntry("block/custom_bounding_box"),
+				L10N.label("elementgui.common.custom_bounding_box")));
+		northPanel.add(customBoundingBox);
+		northPanel.add(HelpUtils.wrapWithHelpButton(this.withEntry("block/disable_offset"),
+				L10N.label("elementgui.common.disable_offset")));
+		northPanel.add(disableOffset);
+
+		customBoundingBox.setOpaque(false);
+		disableOffset.setOpaque(false);
+
+		bbPane.add(PanelUtils.northAndCenterElement(PanelUtils.join(FlowLayout.LEFT, northPanel), boundingBoxList));
+		bbPane.setOpaque(false);
+
+		bbPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+		customBoundingBox.addActionListener(e -> {
+			disableOffset.setEnabled(customBoundingBox.isSelected());
+			if (!customBoundingBox.isSelected()) {
+				disableOffset.setSelected(false);
+			}
+			boundingBoxList.setEnabled(customBoundingBox.isSelected());
+		});
+
+		if (!isEditingMode()) { // Add first bounding box, disable custom bounding box options
+			boundingBoxList.setBoundingBoxes(Collections.singletonList(new IBlockWithBoundingBox.BoxEntry()));
+			disableOffset.setEnabled(false);
+			boundingBoxList.setEnabled(false);
+		}
+
+		JPanel selp = new JPanel(new GridLayout(12, 2, 25, 2));
+		JPanel selp2 = new JPanel(new GridLayout(11, 2, 25, 2));
 
 		useLootTableForDrops.setOpaque(false);
 		unbreakable.setOpaque(false);
@@ -418,6 +463,10 @@ public class PlantGUI extends ModElementGUI<Plant> {
 		resistance.setOpaque(false);
 
 		selp.add(HelpUtils
+				.wrapWithHelpButton(this.withEntry("block/block_sound"), L10N.label("elementgui.common.block_sound")));
+		selp.add(soundOnStep);
+
+		selp.add(HelpUtils
 				.wrapWithHelpButton(this.withEntry("block/hardness"), L10N.label("elementgui.common.hardness")));
 		selp.add(hardness);
 
@@ -426,8 +475,12 @@ public class PlantGUI extends ModElementGUI<Plant> {
 		selp.add(resistance);
 
 		selp.add(HelpUtils
-				.wrapWithHelpButton(this.withEntry("block/block_sound"), L10N.label("elementgui.common.block_sound")));
-		selp.add(soundOnStep);
+				.wrapWithHelpButton(this.withEntry("block/jump_factor"), L10N.label("elementgui.block.jump_factor")));
+		selp.add(jumpFactor);
+
+		selp.add(HelpUtils
+				.wrapWithHelpButton(this.withEntry("block/speed_factor"), L10N.label("elementgui.block.speed_factor")));
+		selp.add(speedFactor);
 
 		selp.add(HelpUtils
 				.wrapWithHelpButton(this.withEntry("block/luminance"), L10N.label("elementgui.common.luminance")));
@@ -504,7 +557,7 @@ public class PlantGUI extends ModElementGUI<Plant> {
 
 		pane3.setOpaque(false);
 
-		JPanel events2 = new JPanel(new GridLayout(3, 4, 5, 8));
+		JPanel events2 = new JPanel(new GridLayout(3, 4, 5, 5));
 		events2.setOpaque(false);
 		events2.add(onRightClicked);
 		events2.add(onBlockAdded);
@@ -550,6 +603,7 @@ public class PlantGUI extends ModElementGUI<Plant> {
 		page2group.addValidationElement(name);
 
 		addPage(L10N.t("elementgui.plant.page_visual_and_type"), pane2);
+		addPage(L10N.t("elementgui.common.page_bounding_boxes"), bbPane);
 		addPage(L10N.t("elementgui.common.page_properties"), pane3);
 		addPage(L10N.t("elementgui.common.page_triggers"), PanelUtils.totalCenterInPanel(events2));
 		addPage(L10N.t("elementgui.common.page_generation"), PanelUtils.totalCenterInPanel(pane4));
@@ -656,7 +710,11 @@ public class PlantGUI extends ModElementGUI<Plant> {
 		creativePickItem.setBlock(plant.creativePickItem);
 		flammability.setValue(plant.flammability);
 		fireSpreadSpeed.setValue(plant.fireSpreadSpeed);
-		specialInfo.setText(plant.specialInfo.stream().map(info -> info.replace(",", "\\,")).collect(Collectors.joining(",")));
+		jumpFactor.setValue(plant.jumpFactor);
+		speedFactor.setValue(plant.speedFactor);
+
+		specialInfo.setText(
+				plant.specialInfo.stream().map(info -> info.replace(",", "\\,")).collect(Collectors.joining(",")));
 		try {
 			if (Plant.class.getField("onShiftInfo").get(plant) != null) {
 				onShiftInfo.setText(plant.onShiftInfo.stream().map(info -> info.replace(",", "\\,")).collect(Collectors.joining(",")));
@@ -672,6 +730,10 @@ public class PlantGUI extends ModElementGUI<Plant> {
 			e.printStackTrace();
 		}
 		generateCondition.setSelectedProcedure(plant.generateCondition);
+
+		customBoundingBox.setSelected(plant.customBoundingBox);
+		disableOffset.setSelected(plant.disableOffset);
+		boundingBoxList.setBoundingBoxes(plant.boundingBoxes);
 
 		Model model = plant.getItemModel();
 		if (model != null && model.getType() != null && model.getReadableName() != null)
@@ -703,6 +765,8 @@ public class PlantGUI extends ModElementGUI<Plant> {
 
 		customDrop.setEnabled(!useLootTableForDrops.isSelected());
 		dropAmount.setEnabled(!useLootTableForDrops.isSelected());
+		disableOffset.setEnabled(customBoundingBox.isSelected());
+		boundingBoxList.setEnabled(customBoundingBox.isSelected());
 
 		if (normalType.isSelected())
 			stl.setIcon(TiledImageCache.plantStaticYes);
@@ -776,11 +840,17 @@ public class PlantGUI extends ModElementGUI<Plant> {
 		plant.creativePickItem = creativePickItem.getBlock();
 		plant.flammability = (int) flammability.getValue();
 		plant.fireSpreadSpeed = (int) fireSpreadSpeed.getValue();
+		plant.speedFactor = (double) speedFactor.getValue();
+		plant.jumpFactor = (double) jumpFactor.getValue();
 		plant.specialInfo = StringUtils.splitCommaSeparatedStringListWithEscapes(specialInfo.getText());
 		plant.onShiftInfo = StringUtils.splitCommaSeparatedStringListWithEscapes(onShiftInfo.getText());
 		plant.onCommandInfo = StringUtils.splitCommaSeparatedStringListWithEscapes(onCommandInfo.getText());
 		plant.generateCondition = generateCondition.getSelectedProcedure();
 		plant.emissiveRendering = emissiveRendering.isSelected();
+
+		plant.customBoundingBox = customBoundingBox.isSelected();
+		plant.disableOffset = disableOffset.isSelected();
+		plant.boundingBoxes = boundingBoxList.getBoundingBoxes();
 
 		Model model = Objects.requireNonNull(renderType.getSelectedItem());
 		plant.renderType = 12;
