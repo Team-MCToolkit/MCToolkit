@@ -9,7 +9,7 @@
 }
 <#else>
 {
-    "parent": "${mappedDoubleTexture(data.texture, registryname, "blocks", modid)}",
+    "parent": "${modid}:block/${registryname}",
     "display": {
       "thirdperson": {
         "rotation": [
