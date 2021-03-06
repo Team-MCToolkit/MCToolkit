@@ -426,29 +426,7 @@ templates:
     writer: json
     name: "@MODASSETSROOT/models/block/@registryname.json"
 
-  # TX: Torch templates
-  - template: json/txblock/txblock_item.json.ftl
-    condition: "blockBase %= Torch"
-    writer: json
-    name: "@MODASSETSROOT/models/item/@registryname.json"
-  - template: json/txblock/torch_states.json.ftl
-    condition: "blockBase %= Torch"
-    writer: json
-    name: "@MODASSETSROOT/blockstates/@registryname.json"
-  - template: json/txblock/torch.json.ftl
-    condition: "blockBase %= Torch"
-    writer: json
-    name: "@MODASSETSROOT/models/block/@registryname.json"
-  - template: json/txblock/template_torch.json.ftl
-    condition: "blockBase %= Torch"
-    writer: json
-    name: "@MODASSETSROOT/models/block/template_@registryname.json"
-  - template: json/txblock/template_torch_wall.json.ftl
-    condition: "blockBase %= Torch"
-    writer: json
-    name: "@MODASSETSROOT/models/block/template_@registryname_wall.json"
-
-  # TX: End Rod template
+  # TX: EndRod template
   - template: json/block_item.json.ftl
     condition: "blockBase %= EndRod"
     writer: json

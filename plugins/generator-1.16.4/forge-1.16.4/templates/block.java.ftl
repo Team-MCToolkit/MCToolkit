@@ -28,6 +28,7 @@
 -->
 
 <#-- @formatter:off -->
+<#include "boundingboxes.java.ftl">
 <#include "mcitems.ftl">
 <#include "procedures.java.ftl">
 <#include "particles.java.ftl">
@@ -108,8 +109,14 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
 					BiomeColors.getGrassColor(world, pos) : GrassColors.get(0.5D, 1.0D);
 				<#elseif data.tintType == "Foliage">
 					BiomeColors.getFoliageColor(world, pos) : FoliageColors.getDefault();
-				<#else>
+				<#elseif data.tintType == "Water">
 					BiomeColors.getWaterColor(world, pos) : -1;
+				<#elseif data.tintType == "Sky">
+					Minecraft.getInstance().world.getBiome(pos).getSkyColor() : 8562943;
+				<#elseif data.tintType == "Fog">
+					Minecraft.getInstance().world.getBiome(pos).getFogColor() : 12638463;
+				<#else>
+					Minecraft.getInstance().world.getBiome(pos).getWaterFogColor() : 329011;
 				</#if>
 			}, block);
 		}
@@ -123,8 +130,14 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
 						return GrassColors.get(0.5D, 1.0D);
 					<#elseif data.tintType == "Foliage">
 						return FoliageColors.getDefault();
-					<#else>
+					<#elseif data.tintType == "Water">
 						return 3694022;
+					<#elseif data.tintType == "Sky">
+						return 8562943;
+					<#elseif data.tintType == "Fog">
+						return 12638463;
+					<#else>
+						return 329011;
 					</#if>
 				}, block);
 			}
@@ -147,13 +160,7 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
 		<#if data.rotationMode == 1 || data.rotationMode == 3>
 		public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
 		<#elseif data.rotationMode == 2 || data.rotationMode == 4 || data.rotationMode == 5>
-			<#if data.blockBase?has_content && data.blockBase == "Torch">
-				public static final DirectionProperty FACING = BlockStateProperties.FACING;
-				public static final DirectionProperty HORIZONTAL_FACING = HorizontalBlock.HORIZONTAL_FACING;
-				public static final IParticleData particleData = ParticleTypes.FLAME;
-			<#else>
-				public static final DirectionProperty FACING = DirectionalBlock.FACING;
-			</#if>
+		public static final DirectionProperty FACING = DirectionalBlock.FACING;
         </#if>
         <#if data.isWaterloggable>
         public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
@@ -184,8 +191,6 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
 			super(
 			<#elseif data.blockBase?has_content && data.blockBase == "Honey">
 			super(
-			<#elseif data.blockBase?has_content && data.blockBase == "Torch">
-			super(
 			<#elseif data.blockBase?has_content && data.blockBase == "EndRod">
 			super(
 			<#else>
@@ -211,12 +216,19 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
 					<#if data.destroyTool != "Not specified">
 					.harvestLevel(${data.breakHarvestLevel})
 					.harvestTool(ToolType.${data.destroyTool?upper_case})
+					.setRequiresTool()
 					</#if>
 					<#if data.isNotColidable>
 					.doesNotBlockMovement()
 					</#if>
 					<#if data.slipperiness != 0.6>
 					.slipperiness(${data.slipperiness}f)
+					</#if>
+					<#if data.speedFactor != 1.0>
+					.speedFactor(${data.speedFactor}f)
+					</#if>
+					<#if data.jumpFactor != 1.0>
+					.jumpFactor(${data.jumpFactor}f)
 					</#if>
 					<#if data.hasTransparency || (data.blockBase?has_content && data.blockBase == "Leaves")>
 					.notSolid()
@@ -230,9 +242,6 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
 					<#if data.hasTransparency>
 					.setOpaque((bs, br, bp) -> false)
 					</#if>
-					<#if data.blockBase?has_content && data.blockBase == "Torch">
-					, particleData
-					</#if>
 			);
 
             <#if data.rotationMode != 0 || data.isWaterloggable>
@@ -244,9 +253,6 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
                                      <#elseif data.rotationMode == 5>
                                      .with(FACING, Direction.SOUTH)
                                      </#if>
-									 <#if data.blockBase?has_content && data.blockBase == "Torch">
-									 .with(HORIZONTAL_FACING, Direction.NORTH)
-									 </#if>
                                      <#if data.isWaterloggable>
                                      .with(WATERLOGGED, false)
                                      </#if>
@@ -324,82 +330,21 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
 		}
 		</#if>
 
-		<#if data.mx != 0 || data.my != 0 || data.mz != 0 || data.Mx != 1 || data.My != 1 || data.Mz != 1>
+		<#if data.boundingBoxes?? && !data.blockBase?? && !data.isFullCube()>
 		@Override public VoxelShape getShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context) {
-			Vector3d offset = state.getOffset(world, pos);
-			<#if data.rotationMode == 1 || data.rotationMode == 3>
-			switch ((Direction) state.get(FACING)) {
-			case UP:
-			case DOWN:
-			case SOUTH:
-			default:
-				return VoxelShapes.create(${1-data.mx}D, ${data.my}D, ${1-data.mz}D, ${1-data.Mx}D, ${data.My}D,
-                            ${1-data.Mz}D).withOffset(offset.x, offset.y, offset.z);
-			case NORTH:
-				return VoxelShapes.create(${data.mx}D, ${data.my}D, ${data.mz}D, ${data.Mx}D, ${data.My}D, ${data.Mz}D)
-						.withOffset(offset.x, offset.y, offset.z);
-			case WEST:
-				return VoxelShapes.create(${data.mz}D, ${data.my}D, ${1-data.mx}D, ${data.Mz}D, ${data.My}D,
-                            ${1-data.Mx}D).withOffset(offset.x, offset.y, offset.z);
-			case EAST:
-				return VoxelShapes.create(${1-data.mz}D, ${data.my}D, ${data.mx}D, ${1-data.Mz}D, ${data.My}D,
-                            ${data.Mx}D).withOffset(offset.x, offset.y, offset.z);
-			}
-			<#elseif data.rotationMode == 2 || data.rotationMode == 4>
-			switch ((Direction) state.get(FACING)) {
-			case SOUTH:
-			default:
-				return VoxelShapes.create(${1-data.mx}D, ${data.my}D, ${1-data.mz}D, ${1-data.Mx}D, ${data.My}D,
-                            ${1-data.Mz}D).withOffset(offset.x, offset.y, offset.z);
-			case NORTH:
-				return VoxelShapes.create(${data.mx}D, ${data.my}D, ${data.mz}D, ${data.Mx}D, ${data.My}D, ${data.Mz}D)
-						.withOffset(offset.x, offset.y, offset.z);
-			case WEST:
-				return VoxelShapes.create(${data.mz}D, ${data.my}D, ${1-data.mx}D, ${data.Mz}D, ${data.My}D,
-                            ${1-data.Mx}D).withOffset(offset.x, offset.y, offset.z);
-			case EAST:
-				return VoxelShapes.create(${1-data.mz}D, ${data.my}D, ${data.mx}D, ${1-data.Mz}D, ${data.My}D,
-                            ${data.Mx}D).withOffset(offset.x, offset.y, offset.z);
-			case UP:
-				return VoxelShapes.create(${data.mx}D, ${1-data.mz}D, ${data.my}D, ${data.Mx}D, ${1-data.Mz}D,
-                            ${data.My}D).withOffset(offset.x, offset.y, offset.z);
-			case DOWN:
-				return VoxelShapes.create(${data.mx}D, ${data.mz}D, ${1-data.my}D, ${data.Mx}D, ${data.Mz}D,
-                            ${1-data.My}D).withOffset(offset.x, offset.y, offset.z);
-			}
-			<#elseif data.rotationMode == 5>
-			switch ((Direction) state.get(FACING)) {
-			case SOUTH:
-			case NORTH:
-			default:
-				return VoxelShapes.create(${data.mx}D, ${data.my}D, ${data.mz}D, ${data.Mx}D, ${data.My}D, ${data.Mz}D)
-						.withOffset(offset.x, offset.y, offset.z);
-			case EAST:
-			case WEST:
-				return VoxelShapes.create(${data.mx}D, ${1-data.mz}D, ${data.my}D, ${data.Mx}D, ${1-data.Mz}D,
-							${data.My}D).withOffset(offset.x, offset.y, offset.z);
-			case UP:
-			case DOWN:
-				return VoxelShapes.create(${data.my}D, ${1-data.mx}D, ${1-data.mz}D, ${data.My}D, ${1-data.Mx}D,
-							${1-data.Mz}D).withOffset(offset.x, offset.y, offset.z);
-			}
-            <#else>
-			return VoxelShapes.create(${data.mx}D, ${data.my}D, ${data.mz}D, ${data.Mx}D, ${data.My}D, ${data.Mz}D)
-					.withOffset(offset.x, offset.y, offset.z);
-            </#if>
+			<#if data.isBoundingBoxEmpty()>
+				return VoxelShapes.empty();
+			<#else>
+				<#if !data.disableOffset>Vector3d offset = state.getOffset(world, pos);</#if>
+				<@boundingBoxWithRotation data.positiveBoundingBoxes() data.negativeBoundingBoxes() data.disableOffset data.rotationMode/>
+			</#if>
 		}
-        </#if>
+		</#if>
 
 		<#if data.rotationMode != 0>
 		@Override protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-			<#if data.isWaterloggable>
-				<#if data.blockBase?has_content && data.blockBase == "Torch">
-					builder.add(FACING, HORIZONTAL_FACING, WATERLOGGED);
-				<#else>
-					builder.add(FACING, WATERLOGGED);
-				</#if>
-			<#elseif data.blockBase?has_content && data.blockBase == "Torch">
-				builder.add(FACING, HORIZONTAL_FACING);
+		    <#if data.isWaterloggable>
+      		    builder.add(FACING, WATERLOGGED);
       		<#else>
       		    builder.add(FACING);
       		</#if>
@@ -407,19 +352,11 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
 
 			<#if data.rotationMode != 5>
 			public BlockState rotate(BlockState state, Rotation rot) {
-				return state.with(FACING, rot.rotate(state.get(FACING)))
-				<#if data.blockBase?has_content && data.blockBase == "Torch">
-				.with(HORIZONTAL_FACING, rot.rotate(state.get(HORIZONTAL_FACING)))
-				</#if>
-				;
+      			return state.with(FACING, rot.rotate(state.get(FACING)));
    			}
 
    			public BlockState mirror(BlockState state, Mirror mirrorIn) {
-      			return state.rotate(mirrorIn.toRotation(state.get(FACING)))
-      			<#if data.blockBase?has_content && data.blockBase == "Torch">
-      			.rotate(mirrorIn.toRotation(state.get(HORIZONTAL_FACING)))
-      			</#if>
-      			;
+      			return state.rotate(mirrorIn.toRotation(state.get(FACING)));
    			}
    			<#else>
 			@Override public BlockState rotate(BlockState state, Rotation rot) {
@@ -451,24 +388,7 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
             <#if data.isWaterloggable>
             boolean flag = context.getWorld().getFluidState(context.getPos()).getFluid() == Fluids.WATER;
             </#if>;
-            <#if data.blockBase?has_content && data.blockBase == "Torch">
-            	BlockState blockstate = this.getDefaultState();
-            	IWorldReader iworldreader = context.getWorld();
-				BlockPos blockpos = context.getPos();
-				Direction[] adirection = context.getNearestLookingDirections();
-
-				for(Direction direction : adirection) {
-					if (direction.getAxis().isHorizontal()) {
-						Direction direction1 = direction.getOpposite();
-						blockstate = blockstate.with(HORIZONTAL_FACING, direction1);
-						if (blockstate.isValidPosition(iworldreader, blockpos)) {
-							return blockstate;
-						}
-					}
-				}
-
-				return null
-			<#elseif data.rotationMode != 3>
+			<#if data.rotationMode != 3>
 			return this.getDefaultState()
 			        <#if data.rotationMode == 1>
 			        .with(FACING, context.getPlacementHorizontalFacing().getOpposite())
@@ -511,32 +431,14 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
         @Override public FluidState getFluidState(BlockState state) {
             return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
         }
-
-		<#if data.isWaterloggable || (data.blockBase?has_content && data.blockBase == "Torch")>
+	
 		@Override public BlockState updatePostPlacement(BlockState state, Direction facing, BlockState facingState, IWorld world, BlockPos currentPos, BlockPos facingPos) {
-	        <#if data.isWaterloggable>
-				if (state.get(WATERLOGGED)) {
-					world.getPendingFluidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickRate(world));
-				}
-				return super.updatePostPlacement(state, facing, facingState, world, currentPos, facingPos);
-			<#else>
-				return facing == Direction.DOWN && !this.isValidPosition(state, world, currentPos) ? Blocks.AIR.getDefaultState() : super.updatePostPlacement(state, facing, facingState, world, currentPos, facingPos);
-			</#if>
+	        if (state.get(WATERLOGGED)) {
+		        world.getPendingFluidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+	        }
+	        return super.updatePostPlacement(state, facing, facingState, world, currentPos, facingPos);
         }
         </#if>
-
-		<#if data.blockBase?has_content && data.blockBase == "Torch">
-		public boolean isValidPosition(BlockState state, IWorldReader world, BlockPos pos) {
-			if (!hasEnoughSolidSide(world, pos.down(), Direction.UP)) {
-				return hasEnoughSolidSide(world, pos.down(), Direction.UP);
-			} else {
-				Direction direction = state.get(HORIZONTAL_FACING);
-				BlockPos blockpos = pos.offset(direction.getOpposite());
-				BlockState blockstate = world.getBlockState(blockpos);
-				return blockstate.isSolidSide(world, blockpos, direction);
-			}
-		}
-		</#if>
 
 		<#if data.enchantPowerBonus != 0>
 		@Override public float getEnchantPowerBonus(BlockState state, IWorldReader world, BlockPos pos) {

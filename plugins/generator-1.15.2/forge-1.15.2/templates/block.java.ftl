@@ -138,10 +138,6 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
         public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
         </#if>
 
-		<#if data.blockBase?has_content && data.blockBase == "Torch">
-			public static final IParticleData particleData = ParticleTypes.FLAME;
-		</#if>
-
 		public CustomBlock() {
 			<#if data.blockBase?has_content && data.blockBase == "Stairs">
 			super(new Block(Block.Properties.create(Material.ROCK)
@@ -166,8 +162,6 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
 			<#elseif data.blockBase?has_content && data.blockBase == "Slime">
 			super(
 			<#elseif data.blockBase?has_content && data.blockBase == "Honey">
-			super(
-			<#elseif data.blockBase?has_content && data.blockBase == "Torch">
 			super(
 			<#elseif data.blockBase?has_content && data.blockBase == "EndRod">
 			super(
@@ -206,9 +200,6 @@ public class ${name}Block extends ${JavaModName}Elements.ModElement {
 					</#if>
 					<#if data.tickRandomly>
 					.tickRandomly()
-					</#if>
-					<#if data.blockBase?has_content && data.blockBase == "Torch">
-					, particleData
 					</#if>
 			);
 
