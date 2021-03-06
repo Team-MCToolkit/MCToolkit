@@ -1,6 +1,6 @@
 <#-- @formatter:off -->
 {
-	"parent": "block/block",
+    "parent": "block/block",
     "display": {
         "head": {
             "rotation": [ -60, 0, 0 ],
@@ -16,8 +16,8 @@
     "ambientocclusion": false,
     "textures": {
         "end_rod": "${modid}:blocks${data.textureFront?has_content?then(data.textureFront, data.texture)}",
-    	 <#if data.particleTexture?has_content>"particle": "${modid}:blocks${data.particleTexture}"
-         <#else> "particle": "${modid}:blocks${data.textureFront?has_content?then(data.textureFront, data.texture)}"</#if>
+        <#if data.particleTexture?has_content>"particle": "${modid}:blocks${data.particleTexture}"
+        <#else> "particle": "${modid}:blocks${data.textureFront?has_content?then(data.textureFront, data.texture)}"</#if>
     },
     "elements": [
         {
